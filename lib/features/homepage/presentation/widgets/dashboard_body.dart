@@ -13,6 +13,7 @@ class _DashboardBodyState extends State<DashboardBody> {
   late Timer _timer;
   final textTheme = Get.textTheme;
   late ScrollController _scrollController;
+  final instance = DashboardController.instance;
 
   final List<String> _assets = [
     'Bitcoin',
@@ -66,7 +67,12 @@ class _DashboardBodyState extends State<DashboardBody> {
     return ScrollableWidget(
       physics: const BouncingScrollPhysics(),
       children: [
-        Text('Hello, World!', style: textTheme.titleLarge),
+        Obx(
+          () => Text(
+            'Hello, ${instance.currentUser.value.firstname}!',
+            style: textTheme.titleLarge,
+          ),
+        ),
         const SizedBox(height: TSizes.spaceBtwItems),
         const PortfolioSummary(),
         const SizedBox(height: TSizes.spaceBtwItems),

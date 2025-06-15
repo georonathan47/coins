@@ -22,7 +22,7 @@ class GeneralBindings extends Bindings {
       )
 
       //? Onboarding Controller
-      ..put(DashboardController())
+      ..put(DashboardController(retrieveUserUsecase: Get.find()))
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
   }
 }

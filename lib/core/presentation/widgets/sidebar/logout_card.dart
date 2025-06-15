@@ -28,7 +28,6 @@ class LogoutCardState extends State<LogoutCard> {
           horizontal: TSizes.spaceBtwInputFields / 4,
           vertical: TSizes.spaceBtwItems / 2,
         ),
-
         child: Row(
           children: [
             Container(
@@ -46,13 +45,13 @@ class LogoutCardState extends State<LogoutCard> {
                     fit: BoxFit.cover,
                     memCacheWidth: 120,
                     memCacheHeight: 120,
-                    imageUrl: 'https://picsum.photos/200/330',
+                    imageUrl: instance.currentUser.value.profilePicture ?? '',
                     placeholder: (ctx, url) => const CircularProgressIndicator(
                       strokeWidth: 2,
                       color: TColors.light,
                     ),
                     errorWidget: (ctx, url, error) =>
-                        const Icon(Iconsax.buy_crypto, color: TColors.light),
+                        Image.asset(TImages.logoWhite, fit: BoxFit.cover),
                   ),
                 ),
               ),
@@ -64,7 +63,7 @@ class LogoutCardState extends State<LogoutCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Jonathan George',
+                    instance.currentUser.value.fullName,
                     style: textTheme.titleMedium?.copyWith(
                       color: TColors.light,
                       fontWeight: FontWeight.bold,
@@ -73,9 +72,9 @@ class LogoutCardState extends State<LogoutCard> {
                   const SizedBox(height: TSizes.xs),
                   Center(
                     child: Text(
-                      'georonathan47@gmail.com'.replaceRange(
+                      instance.currentUser.value.email!.replaceRange(
                         3,
-                        'georonathan47@gmail.com'.indexOf('@'),
+                        instance.currentUser.value.email!.indexOf('@'),
                         '****',
                       ),
                       style: textTheme.bodyMedium?.copyWith(

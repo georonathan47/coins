@@ -44,7 +44,7 @@ class Routers {
 }
 
 class RouteManager {
-  static const initial = Routers.index;
+  static const initial = Routers.splash;
 
   static List<GetPage> getPages() {
     return [

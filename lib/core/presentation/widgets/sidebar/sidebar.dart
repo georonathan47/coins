@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
-
+import '../../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../../../flavors.dart';
-import '../../../auth/presentation/widgets/widgets.dart';
 import 'logout_card.dart';
 import 'sidebar_category.dart';
 import 'sidebar_header.dart';
@@ -12,7 +10,6 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final instance = DashboardController.instance;
     final size = MediaQuery.sizeOf(context);
     return ClipRRect(
       borderRadius: BorderRadius.zero,
