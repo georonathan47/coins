@@ -23,7 +23,7 @@ class TradeModalSheet extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections / 2),
             TradeTile(
               title: 'Buy',
-              onTap: () {},
+              onTap: () => Get.toNamed(Routers.buy),
               subtitle: 'Add to your portfolio with a buy order',
             ),
             const SizedBox(height: TSizes.spaceBtwItems / 3),

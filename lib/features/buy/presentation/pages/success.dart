@@ -33,7 +33,8 @@ class BuySuccessPage extends StatelessWidget {
               child: Text(
                 'Your buy order has been successfully created. Kindly await processing.',
                 textAlign: TextAlign.center,
-                style: textTheme.titleMedium?.copyWith(
+                style: textTheme.titleSmall?.copyWith(
+                  fontSize: 18,
                   letterSpacing: .5,
                   fontWeight: FontWeight.w400,
                 ),

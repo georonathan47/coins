@@ -44,7 +44,7 @@ class Routers {
 }
 
 class RouteManager {
-  static const initial = Routers.buySuccess;
+  static const initial = Routers.index;
 
   static List<GetPage> getPages() {
     return [
