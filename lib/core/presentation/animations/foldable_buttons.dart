@@ -38,7 +38,8 @@ class FoldableOptionsState extends State<FoldableOptions>
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: TColors.accent,
+          color: TColors.secondary,
+          // color: TColors.accent,
           borderRadius: BorderRadius.all(Radius.circular(40)),
         ),
         child: Icon(source, color: Colors.white.withOpacity(1.0), size: 25),
@@ -52,11 +53,13 @@ class FoldableOptionsState extends State<FoldableOptions>
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: TColors.accent,
+        color: TColors.secondary,
+        // color: TColors.accent,
         borderRadius: BorderRadius.all(Radius.circular(40)),
         boxShadow: [
           BoxShadow(
-            color: TColors.accent.withOpacity(0.8),
+            color: TColors.secondary.withOpacity(0.8),
+            // color: TColors.accent.withOpacity(0.8),
             blurRadius: verticalPadding!.value,
           ),
         ],
