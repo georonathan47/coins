@@ -1,0 +1,23 @@
+export 'package:flutter/material.dart';
+export 'package:get/get.dart';
+export 'package:flutter/foundation.dart';
+export 'package:flutter/cupertino.dart' hide RefreshCallback;
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart' hide IndexedWidgetBuilder;
+
+export '../../../../core/auth/presentation/widgets/widgets.dart';
+export '../../../../core/constants/colors.dart';
+export '../../../../core/data/currency_format.dart';
+export '../../../../core/data/routes.dart';
+export '../../../../core/presentation/animations/animated_coloring.dart';
+export '../../../../core/presentation/animations/animated_gradient_coloring.dart';
+export '../../../../core/presentation/animations/foldable_buttons.dart';
+export '../controller/dashboard_controller.dart';
+export '../pages/dashboard.dart';
+export 'dashboard_body.dart';
+export 'dashboard/assets_tile.dart';
+export 'dashboard/action_buttons.dart';
+export 'dashboard/trending_assets.dart';
+export 'dashboard/portfolio_summary.dart';
+export 'trade_modal_sheet.dart';
+export 'trade_tile.dart';

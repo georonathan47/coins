@@ -1,0 +1,38 @@
+flavors:
+  dev:
+    app:
+      name: "eBitcoinics - Dev"
+      icon: "assets/images/logo.png"
+      bundleId: "org.nics.ebitcoinics.dev"
+    android:
+      applicationId: "org.nics.ebitcoinics.dev"
+    ios:
+      bundleId: "org.nics.ebitcoinics.dev"
+      configurations:
+        - Debug
+        - Release
+  qa:
+    app:
+      name: "eBitcoinics - QA"
+      icon: "assets/images/logo.png"
+      bundleId: "org.nics.ebitcoinics"
+    android:
+      applicationId: "org.nics.ebitcoinics"
+    ios:
+      bundleId: "org.nics.ebitcoinics"
+      configurations:
+        - Debug
+        - Profile
+        - Release
+  prod:
+    app:
+      name: "eBitcoinics"
+      icon: "assets/images/logo.png"
+      bundleId: "org.nics.ebitcoinics"
+    android:
+      applicationId: "org.nics.ebitcoinics"
+    ios:
+      bundleId: "org.nics.ebitcoinics"
+      configurations:
+        - Debug
+        - Release
