@@ -44,5 +44,7 @@ abstract class Env {
   static const String googleLoginUrl = _Env.googleLoginUrl;
   @EnviedField(varName: 'MFA')
   static const String mfaUrl = _Env.mfaUrl;
+  @EnviedField(varName: 'ACTIVATE_COUNTRIES')
+  static const String activateCountriesUrl = _Env.activateCountriesUrl;
 
 }

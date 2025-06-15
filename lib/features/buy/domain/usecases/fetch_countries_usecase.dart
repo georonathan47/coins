@@ -5,8 +5,8 @@ import '../../../../core/usecase/usecase.dart';
 import '../entities/country.dart';
 import '../repositories/buy_repository.dart';
 
-class FetchCountries extends UseCase<List<Country>, NoParams> {
-  FetchCountries(this.repository);
+class FetchCountriesUsecase extends UseCase<List<Country>, NoParams> {
+  FetchCountriesUsecase(this.repository);
   final BuyRepository repository;
 
   @override

@@ -13,7 +13,7 @@ class _DashboardBodyState extends State<DashboardBody> {
   late Timer _timer;
   final textTheme = Get.textTheme;
   late ScrollController _scrollController;
-  final instance = DashboardController.instance;
+  final instance = AuthController.instance;
 
   final List<String> _assets = [
     'Bitcoin',

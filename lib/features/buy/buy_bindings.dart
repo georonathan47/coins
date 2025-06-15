@@ -1,0 +1,25 @@
+import 'data/datasources/buy_remote_database.dart';
+import 'data/repositories/buy_repo_impl.dart';
+import 'domain/repositories/buy_repository.dart';
+import 'domain/usecases/fetch_countries_usecase.dart';
+import 'presentation/widgets/widgets.dart';
+
+class BuyBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get
+      ..lazyPut<BuyRemoteDatabase>(
+        () => BuyRemoteDatabaseImpl(Get.find()),
+      )
+      // ? Repository
+      ..lazyPut<BuyRepository>(
+        () => BuyRepositoryImpl(
+          networkInfo: Get.find(),
+          localDatabase: Get.find(),
+          remoteDatabase: Get.find(),
+        ),
+      )
+      ..lazyPut(() => FetchCountriesUsecase(Get.find()))
+      ;
+  }
+}

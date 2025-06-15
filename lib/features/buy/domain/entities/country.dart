@@ -52,4 +52,12 @@ class Country {
     "countryFlag": countryFlag,
     "bankList": bankList,
   };
+
+  factory Country.empty() => Country(
+    id: 0,
+    countryName: '',
+    countryCurrency: '',
+    countryFlag: '',
+    bankList: '',
+  );
 }

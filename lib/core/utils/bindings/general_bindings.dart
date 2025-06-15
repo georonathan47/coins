@@ -17,12 +17,15 @@ class GeneralBindings extends Bindings {
           sendLoginOtpUseCase: Get.find(),
           fetchUserInfoUsecase: Get.find(),
           resetPasswordUsecase: Get.find(),
+          fetchCountriesUsecase: Get.find(),
           verifyLoginOtpUsecase: Get.find(),
         ),
       )
-
-      //? Onboarding Controller
+      // ..put(
+      //   BuyController(buyRepository: Get.find(), buyRemoteDatabase: Get.find()),
+      // )
       ..put(DashboardController(retrieveUserUsecase: Get.find()))
+      //? Onboarding Controller
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
   }
 }

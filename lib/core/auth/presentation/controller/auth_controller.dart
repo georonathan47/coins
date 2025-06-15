@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../../features/buy/domain/entities/country.dart';
+import '../../../../features/buy/domain/usecases/fetch_countries_usecase.dart';
 import '../../data/models/verify_otp_model.dart';
 import '../../domain/usecases/fetch_user_info_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
@@ -37,6 +39,7 @@ class AuthController extends GetxController {
   final SendLoginOtpUseCase sendLoginOtpUseCase;
   final FetchUserInfoUsecase fetchUserInfoUsecase;
   final ResetPasswordUsecase resetPasswordUsecase;
+  final FetchCountriesUsecase fetchCountriesUsecase;
   final VerifyLoginOtpUsecase verifyLoginOtpUsecase;
 
   AuthController({
@@ -48,6 +51,7 @@ class AuthController extends GetxController {
     required this.sendLoginOtpUseCase,
     required this.fetchUserInfoUsecase,
     required this.resetPasswordUsecase,
+    required this.fetchCountriesUsecase,
     required this.verifyLoginOtpUsecase,
   });
 
@@ -126,8 +130,16 @@ class AuthController extends GetxController {
 
   Future<User> fetchUserDetails() async {
     final result = await fetchUserInfoUsecase(NoParams());
-    return result.fold((failure) => User.empty(), (success) {
-      currentUser.value = success;
+    return result.fold((failure) => Future.error(failure.message), (
+      success,
+    ) async {
+      final country = await countries().then(
+        (countries) => countries.firstWhere(
+          (country) => country.id == success.countryId,
+          orElse: () => Country.empty(),
+        ),
+      );
+      currentUser.value = success.copyWith(country: country.countryName);
       update();
       return success;
     });
@@ -335,6 +347,14 @@ class AuthController extends GetxController {
           ],
         );
       },
+    );
+  }
+
+  Future<List<Country>> countries() async {
+    final countries = await fetchCountriesUsecase(NoParams());
+    return countries.fold(
+      (failure) => Future.error(failure.message),
+      (success) => success,
     );
   }
 }
