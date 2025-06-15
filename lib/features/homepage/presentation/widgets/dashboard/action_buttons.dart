@@ -29,41 +29,25 @@ class ActionButtonsState extends State<ActionButtons> {
 
   @override
   Widget build(BuildContext context) {
-    // return InkWell(
-    //   onTap: () {},
-    //   child: Column(
-    //     children: [
-    //       Container(
-    //         width: 55,
-    //         height: 55,
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.circular(8),
-    //           border: Border.all(
-    //             width: 1.5,
-    //             color: isDark ? Colors.white54 : TColors.primary,
-    //           ),
-    //         ),
-    //         child: Center(
-    //           child: Icon(
-    //             checkIcon(text),
-    //             color: isDark ? Colors.white : TColors.primary,
-    //           ),
-    //         ),
-    //       ),
-    //       const SizedBox(height: TSizes.spaceBtwInputFields),
-    //       Text(text, style: textTheme.bodyLarge),
-    //     ],
-    //   ),
-    // );
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: ['Buy', 'Sell', 'PayAccount', 'More']
           .map(
             (status) => InkWell(
-              // customBorder: const CircleBorder(),
               borderRadius: BorderRadius.circular(25),
               splashColor: isDark ? TColors.darkerGrey : TColors.grey,
-              onTap: () {},
+              onTap: () {
+                switch (status) {
+                  case 'Buy':
+                    Get.toNamed(Routers.buy);
+                  case 'Sell':
+                    break;
+                  case 'PayAccount':
+                    break;
+                  case 'More':
+                    break;
+                }
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 8.0,
