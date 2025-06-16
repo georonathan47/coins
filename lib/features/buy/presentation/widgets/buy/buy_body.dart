@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
 
+import '../../../../../core/utils/logger.dart';
+import '../../controller/buy_controller.dart';
 import '../widgets.dart';
 
 class BuyBody extends StatefulWidget {
@@ -12,6 +14,7 @@ class BuyBody extends StatefulWidget {
 class _BuyBodyState extends State<BuyBody> {
   final textTheme = Get.textTheme;
   final formKey = GlobalKey<FormState>();
+  final instance = BuyController.instance;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -21,16 +24,25 @@ class _BuyBodyState extends State<BuyBody> {
         physics: const BouncingScrollPhysics(),
         children: [
           DropdownButtonFormField(
+            // value: instance.network.value,
             items: [
               DropdownMenuItem(value: 'REGULAR', child: Text('Regular')),
               DropdownMenuItem(value: 'PRIORITY', child: Text('Priority')),
             ],
-            onChanged: (value) {},
+            onChanged: (value) {
+              instance.network.value = value!;
+              TLoggerHelper.logEvent(
+                instance.network.value,
+                eventName: 'Network Fee Type',
+              );
+            },
             isDense: true,
             decoration: InputDecoration(
               filled: true,
               isDense: true,
               labelText: 'Network Fee Type',
+              hintStyle: textTheme.bodyLarge,
+              labelStyle: textTheme.bodyLarge,
               hintText: 'Select Network Fee Type',
               prefixIcon: const Icon(Iconsax.money),
               border: OutlineInputBorder(

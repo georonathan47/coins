@@ -46,5 +46,9 @@ abstract class Env {
   static const String mfaUrl = _Env.mfaUrl;
   @EnviedField(varName: 'ACTIVATE_COUNTRIES')
   static const String activateCountriesUrl = _Env.activateCountriesUrl;
+  @EnviedField(varName: 'BUY_URL')
+  static const String buyUrl = _Env.buyUrl;
+  @EnviedField(varName: 'SPECIFIC_CURRENCY')
+  static const String specificCurrencyUrl = _Env.specificCurrencyUrl;
 
 }

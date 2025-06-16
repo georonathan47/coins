@@ -1,3 +1,4 @@
+import '../../controller/buy_controller.dart';
 import '../widgets.dart';
 
 class LocalRate extends StatefulWidget {
@@ -10,6 +11,7 @@ class LocalRate extends StatefulWidget {
 class _LocalRateState extends State<LocalRate> {
   final isDark = Get.isDarkMode;
   final textTheme = Get.textTheme;
+  final instance = BuyController.instance;
   final amountController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,6 @@ class _LocalRateState extends State<LocalRate> {
                         focusNode: FocusNode(),
                         controller: amountController,
                         cursorColor: TColors.light,
-                        onChanged: TValidator.validateAmount,
                         backgroundCursorColor: TColors.secondary,
                         keyboardType: TextInputType.numberWithOptions(
                           decimal: true,
@@ -64,6 +65,17 @@ class _LocalRateState extends State<LocalRate> {
                           letterSpacing: 1.75,
                           color: Colors.white,
                         ),
+                        onChanged: (amount) {
+                          THelperFunctions.debounce(() async {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                            await instance.calculate();
+                          });
+                        },
                       ),
                     ),
                   ),

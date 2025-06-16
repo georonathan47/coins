@@ -1,3 +1,5 @@
+import 'dart:async' show Timer;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -134,5 +136,16 @@ class THelperFunctions {
       wrappedList.add(Row(children: rowChildren));
     }
     return wrappedList;
+  }
+
+  static Timer? debouncer;
+  static void debounce(
+    VoidCallback callback, {
+    Duration duration = const Duration(milliseconds: 750),
+  }) {
+    if (debouncer != null) {
+      debouncer!.cancel();
+    }
+    debouncer = Timer(duration, callback);
   }
 }

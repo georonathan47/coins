@@ -1,3 +1,4 @@
+import '../../../features/buy/presentation/controller/buy_controller.dart';
 import '../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../onboarding/presentation/controller/onboarding_controller.dart';
 
@@ -21,9 +22,12 @@ class GeneralBindings extends Bindings {
           verifyLoginOtpUsecase: Get.find(),
         ),
       )
-      // ..put(
-      //   BuyController(buyRepository: Get.find(), buyRemoteDatabase: Get.find()),
-      // )
+      ..put(
+        BuyController(
+          calculateFeeUsecase: Get.find(),
+          fetchCountriesUsecase: Get.find(),
+        ),
+      )
       ..put(DashboardController(retrieveUserUsecase: Get.find()))
       //? Onboarding Controller
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));

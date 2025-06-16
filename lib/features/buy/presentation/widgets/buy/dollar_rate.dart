@@ -1,3 +1,4 @@
+import '../../controller/buy_controller.dart';
 import '../widgets.dart';
 
 class DollarRate extends StatefulWidget {
@@ -10,7 +11,7 @@ class DollarRate extends StatefulWidget {
 class _DollarRateState extends State<DollarRate> {
   final isDark = Get.isDarkMode;
   final textTheme = Get.textTheme;
-  final amountController = TextEditingController();
+  final instance = BuyController.instance;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -25,11 +26,11 @@ class _DollarRateState extends State<DollarRate> {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
           child: Container(
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
               image: const DecorationImage(
                 fit: BoxFit.cover,
                 image: AssetImage(TImages.overlay),
               ),
-              borderRadius: BorderRadius.circular(8),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -53,9 +54,8 @@ class _DollarRateState extends State<DollarRate> {
                       width: size.width * 0.6,
                       child: EditableText(
                         focusNode: FocusNode(),
-                        controller: amountController,
                         cursorColor: TColors.light,
-                        onChanged: TValidator.validateAmount,
+                        controller: instance.dollar.value,
                         backgroundCursorColor: TColors.secondary,
                         keyboardType: TextInputType.numberWithOptions(
                           decimal: true,
@@ -64,6 +64,17 @@ class _DollarRateState extends State<DollarRate> {
                           letterSpacing: 1.75,
                           color: Colors.white,
                         ),
+                        onChanged: (amount) {
+                          THelperFunctions.debounce(() async {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                            await instance.calculate();
+                          });
+                        },
                       ),
                     ),
                   ),
