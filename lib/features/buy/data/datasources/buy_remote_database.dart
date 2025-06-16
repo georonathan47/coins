@@ -4,6 +4,8 @@ import 'package:get/get_connect.dart';
 
 import '../../../../core/constants/env.dart';
 import '../../../../core/error/exception.dart';
+import '../../../../core/utils/logger.dart';
+import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../models/currency.dart';
@@ -11,6 +13,7 @@ import '../models/ree_calc_response.dart';
 
 abstract class BuyRemoteDatabase {
   Future<List<Country>> fetchCountries(Map tokens);
+  Future<List<CoinData>> fetchListings(Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<FeeCalcResponse> calculateFees(FeeCalculation request, Map tokens);
 }
@@ -30,6 +33,28 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         final List<dynamic> responseData = jsonDecode(result.bodyString!);
         List<Country> countries = responseData
             .map((country) => countryFromJson(jsonEncode(country)))
+            .toSet()
+            .toList();
+        return countries;
+      } else {
+        throw ServerException();
+      }
+    } catch (e) {
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<CoinData>> fetchListings(Map tokens) async {
+    try {
+      final result = await client.get(
+        Env.listingsUrl,
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = jsonDecode(result.bodyString!);
+        List<CoinData> countries = responseData
+            .map((country) => coinDataFromJson(jsonEncode(country)))
             .toSet()
             .toList();
         return countries;
@@ -80,6 +105,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
             .map((currency) => currencyFromJson(jsonEncode(currency)))
             .toSet()
             .toList();
+        TLoggerHelper.logApiResult(
+          code: result.statusCode!,
+          message: currencies.toString(),
+        );
         return currencies;
       } else {
         throw ServerException();

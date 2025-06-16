@@ -3,6 +3,7 @@ import '../../data/models/ree_calc_response.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/usecases/fee_calculation_usecase.dart';
+import '../../domain/usecases/fetch_listings_usecase.dart';
 import '../../domain/usecases/fetch_countries_usecase.dart';
 import '../widgets/widgets.dart';
 
@@ -16,10 +17,12 @@ class BuyController extends GetxController {
   static BuyController get instance => Get.find();
 
   final CalculateFeeUsecase calculateFeeUsecase;
+  final FetchListingsUsecase fetchListingsUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
 
   BuyController({
     required this.calculateFeeUsecase,
+    required this.fetchListingsUsecase,
     required this.fetchCountriesUsecase,
   });
 

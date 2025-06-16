@@ -10,6 +10,7 @@ import '../../domain/usecases/refresh_token_usecase.dart';
 import '../../domain/usecases/reset_password_usecase.dart';
 import '../../domain/usecases/retrieve_user.dart';
 import '../../../usecase/usecase.dart';
+import '../../domain/usecases/save_user_usecase.dart';
 import '../../domain/usecases/send_login_otp_usecase.dart';
 import '../../domain/usecases/signup_usecase.dart';
 import '../../domain/usecases/verify_login_otp_usecase.dart';
@@ -36,6 +37,7 @@ class AuthController extends GetxController {
   final RefreshTokenUsecase refreshTokenUsecase;
   final RegisterUserUsecase registerUserUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
+  final SaveUserInfoUsecase saveUserInfoUsecase;
   final SendLoginOtpUseCase sendLoginOtpUseCase;
   final FetchUserInfoUsecase fetchUserInfoUsecase;
   final ResetPasswordUsecase resetPasswordUsecase;
@@ -48,6 +50,7 @@ class AuthController extends GetxController {
     required this.refreshTokenUsecase,
     required this.registerUserUsecase,
     required this.retrieveUserUsecase,
+    required this.saveUserInfoUsecase,
     required this.sendLoginOtpUseCase,
     required this.fetchUserInfoUsecase,
     required this.resetPasswordUsecase,
@@ -135,12 +138,16 @@ class AuthController extends GetxController {
     ) async {
       final country = await countries().then(
         (countries) => countries.firstWhere(
-          (country) => country.id == success.countryId,
+          (country) => country.countryName == success.country,
           orElse: () => Country.empty(),
         ),
       );
-      currentUser.value = success.copyWith(country: country.countryName);
+      currentUser.value = success.copyWith(
+        country: country.countryName,
+        countryId: country.id,
+      );
       update();
+      await saveUserInfo(currentUser.value);
       return success;
     });
   }
@@ -355,6 +362,23 @@ class AuthController extends GetxController {
     return countries.fold(
       (failure) => Future.error(failure.message),
       (success) => success,
+    );
+  }
+
+  Future<void> saveUserInfo(User user) async {
+    final result = await saveUserInfoUsecase(ObjectParams(user));
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+      },
+      (success) {
+        currentUser.value = user;
+        update();
+      },
     );
   }
 }

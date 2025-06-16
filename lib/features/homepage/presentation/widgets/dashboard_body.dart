@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import '../../../buy/presentation/widgets/currency/currency_card.dart';
+import '../../../buy/presentation/widgets/history_card_shimmer.dart';
 import 'widgets.dart';
 
 class DashboardBody extends StatefulWidget {
@@ -13,7 +15,7 @@ class _DashboardBodyState extends State<DashboardBody> {
   late Timer _timer;
   final textTheme = Get.textTheme;
   late ScrollController _scrollController;
-  final instance = AuthController.instance;
+  final instance = DashboardController.instance;
 
   final List<String> _assets = [
     'Bitcoin',
@@ -28,6 +30,7 @@ class _DashboardBodyState extends State<DashboardBody> {
   @override
   void initState() {
     super.initState();
+    instance.onInit();
     _scrollController = ScrollController();
     _startAutoScroll();
   }
@@ -105,13 +108,59 @@ class _DashboardBodyState extends State<DashboardBody> {
         const SizedBox(height: TSizes.spaceBtwItems),
         SizedBox(
           height: MediaQuery.sizeOf(context).height / 3,
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return AssetTile(
-                title: 'Bitcoin ${index + 1}',
-                subtitle: 'BTC',
-                onTap: () {},
+          child: FutureBuilder(
+            future: instance.fetchCurrencies(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return ListView.builder(
+                  itemCount: 5,
+                  padding: const EdgeInsets.all(16),
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return HistoryCardShimmer();
+                  },
+                );
+              }
+
+              if (snapshot.hasError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error_outline, size: 40),
+                      const SizedBox(height: 8),
+                      Text('Error: ${snapshot.error}'),
+                    ],
+                  ),
+                );
+              }
+
+              if (!snapshot.hasData || snapshot.requireData.isEmpty) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.task_outlined, size: 40),
+                      SizedBox(height: 8),
+                      Text('No currencies found'),
+                    ],
+                  ),
+                );
+              }
+              // final filteredList = snapshot.data!.where((chore) {
+              //   final currentFilter = instance.filterStatus.value.toUpperCase();
+              //   return chore.status?.toUpperCase() == currentFilter ||
+              //       currentFilter.isEmpty;
+              // }).toList();
+
+              return ListView.builder(
+                padding: const EdgeInsets.all(16),
+                physics: const BouncingScrollPhysics(),
+                itemCount: snapshot.requireData.length,
+                itemBuilder: (context, index) {
+                  final currency = snapshot.requireData[index];
+                  return InkWell(child: CurrencyCard(currency: currency));
+                },
               );
             },
           ),

@@ -8,10 +8,10 @@ class BuyBody extends StatefulWidget {
   const BuyBody({super.key});
 
   @override
-  State<BuyBody> createState() => _BuyBodyState();
+  State<BuyBody> createState() => BuyBodyState();
 }
 
-class _BuyBodyState extends State<BuyBody> {
+class BuyBodyState extends State<BuyBody> {
   final textTheme = Get.textTheme;
   final formKey = GlobalKey<FormState>();
   final instance = BuyController.instance;
@@ -24,7 +24,7 @@ class _BuyBodyState extends State<BuyBody> {
         physics: const BouncingScrollPhysics(),
         children: [
           DropdownButtonFormField(
-            // value: instance.network.value,
+            isDense: true,
             items: [
               DropdownMenuItem(value: 'REGULAR', child: Text('Regular')),
               DropdownMenuItem(value: 'PRIORITY', child: Text('Priority')),
@@ -36,7 +36,6 @@ class _BuyBodyState extends State<BuyBody> {
                 eventName: 'Network Fee Type',
               );
             },
-            isDense: true,
             decoration: InputDecoration(
               filled: true,
               isDense: true,
@@ -45,13 +44,10 @@ class _BuyBodyState extends State<BuyBody> {
               labelStyle: textTheme.bodyLarge,
               hintText: 'Select Network Fee Type',
               prefixIcon: const Icon(Iconsax.money),
+              contentPadding: const EdgeInsets.all(16),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 16,
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,

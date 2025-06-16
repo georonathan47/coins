@@ -50,5 +50,7 @@ abstract class Env {
   static const String buyUrl = _Env.buyUrl;
   @EnviedField(varName: 'SPECIFIC_CURRENCY')
   static const String specificCurrencyUrl = _Env.specificCurrencyUrl;
+  @EnviedField(varName: 'COIN_DATA')
+  static const String listingsUrl = _Env.listingsUrl;
 
 }

@@ -15,6 +15,7 @@ class GeneralBindings extends Bindings {
           refreshTokenUsecase: Get.find(),
           registerUserUsecase: Get.find(),
           retrieveUserUsecase: Get.find(),
+          saveUserInfoUsecase: Get.find(),
           sendLoginOtpUseCase: Get.find(),
           fetchUserInfoUsecase: Get.find(),
           resetPasswordUsecase: Get.find(),
@@ -25,10 +26,19 @@ class GeneralBindings extends Bindings {
       ..put(
         BuyController(
           calculateFeeUsecase: Get.find(),
+          fetchListingsUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
         ),
       )
-      ..put(DashboardController(retrieveUserUsecase: Get.find()))
+      ..put(
+        DashboardController(
+          retrieveUserUsecase: Get.find(),
+          saveUserInfoUsecase: Get.find(),
+          fetchUserInfoUsecase: Get.find(),
+          fetchCountriesUsecase: Get.find(),
+          fetchCurrenciesUsecase: Get.find(),
+        ),
+      )
       //? Onboarding Controller
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
   }

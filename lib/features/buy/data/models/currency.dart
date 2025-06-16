@@ -10,7 +10,7 @@ class Currency {
   String address;
   bool buyStatus;
   bool sellStatus;
-  List<String> imageFile;
+  String imageFile;
   String note;
 
   Currency({
@@ -29,7 +29,7 @@ class Currency {
     String? address,
     bool? buyStatus,
     bool? sellStatus,
-    List<String>? imageFile,
+    String? imageFile,
     String? note,
   }) => Currency(
     id: id ?? this.id,
@@ -47,7 +47,7 @@ class Currency {
     address: json["address"],
     buyStatus: json["buyStatus"],
     sellStatus: json["sellStatus"],
-    imageFile: List<String>.from(json["imageFile"].map((x) => x)),
+    imageFile: json["imageFile"],
     note: json["note"],
   );
 
@@ -57,7 +57,7 @@ class Currency {
     "address": address,
     "buyStatus": buyStatus,
     "sellStatus": sellStatus,
-    "imageFile": List<dynamic>.from(imageFile.map((x) => x)),
+    "imageFile": imageFile,
     "note": note,
   };
 }

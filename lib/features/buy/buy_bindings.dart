@@ -4,6 +4,7 @@ import 'domain/repositories/buy_repository.dart';
 import 'domain/usecases/fee_calculation_usecase.dart';
 import 'domain/usecases/fetch_countries_usecase.dart';
 import 'domain/usecases/fetch_currencies_usecase.dart';
+import 'domain/usecases/fetch_listings_usecase.dart';
 import 'presentation/widgets/widgets.dart';
 
 class BuyBindings extends Bindings {
@@ -20,6 +21,7 @@ class BuyBindings extends Bindings {
         ),
       )
       ..lazyPut(() => CalculateFeeUsecase(Get.find()))
+      ..lazyPut(() => FetchListingsUsecase(Get.find()))
       ..lazyPut(() => FetchCountriesUsecase(Get.find()))
       ..lazyPut(() => FetchCurrenciesUsecase(Get.find()));
   }
