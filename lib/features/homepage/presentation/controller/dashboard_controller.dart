@@ -3,12 +3,12 @@ import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/auth/domain/usecases/save_user_usecase.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../buy/data/models/currency.dart';
-import '../../../buy/domain/entities/coin_data.dart';
 import '../../../buy/domain/entities/country.dart';
 import '../../../buy/domain/usecases/fetch_countries_usecase.dart';
 import '../../../buy/domain/usecases/fetch_currencies_usecase.dart';
 import '../../../buy/domain/usecases/fetch_listings_usecase.dart';
 import '../../../buy/domain/usecases/fetch_tradable_usecase.dart';
+import '../../../buy/presentation/widgets/widgets.dart';
 import '../widgets/widgets.dart';
 
 class DashboardController extends GetxController {
@@ -124,11 +124,106 @@ class DashboardController extends GetxController {
 
   Future<List<CoinData>> fetchTradables() async {
     final result = await fetchTradableCoinsUsecase(
-      ObjectParams(currentUser.value.countryId!),
+      ObjectParams(currentUser.value.countryId ?? 0),
     );
     return result.fold(
       (failure) => Future.error(failure.message),
       (success) => success,
+    );
+  }
+
+  Future<void> showListingInfo(CoinData currency) async {
+    final textTheme = Get.textTheme;
+    showModalBottomSheet(
+      context: Get.context!,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  currency.name,
+                  style: textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                ClipOval(
+                  child: CircleAvatar(
+                    child: currency.icon.contains('.svg')
+                        ? SvgPicture.network(
+                            currency.icon,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          )
+                        : CachedNetworkImage(
+                            imageUrl: currency.icon,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      TFormatter.formatDollar(double.parse(currency.price)),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      '${currency.percentageChange}%',
+                      style: TextStyle(
+                        color: currency.percentageChange.contains('+')
+                            ? Colors.green
+                            : TColors.error,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Sparkline(
+              averageLine: true,
+              averageLabel: true,
+              useCubicSmoothing: true,
+              fillMode: FillMode.below,
+              data: currency.sparkline,
+              cubicSmoothingFactor: 0.2,
+              averageLineColor: TColors.accent,
+              lineColor: Get.isDarkMode ? Colors.white : TColors.primary,
+              fillGradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(int.parse(currency.color.replaceAll('#', '0xFF'))),
+                  Color(int.parse(currency.color.replaceAll('#', '0xCF'))),
+                  Color(int.parse(currency.color.replaceAll('#', '0xAF'))),
+                  Color(int.parse(currency.color.replaceAll('#', '0x26'))),
+                  Color(int.parse(currency.color.replaceAll('#', '0x1A'))),
+                  Color(int.parse(currency.color.replaceAll('#', '0x0D'))),
+                ],
+              ),
+              gridLineColor: Colors.black.withOpacity(0.1),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

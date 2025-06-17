@@ -61,7 +61,7 @@ class Sidebar extends StatelessWidget {
                       ),
 
                       // Transactions
-                      const SizedBox(height: TSizes.spaceBtwSections),
+                      const SizedBox(height: TSizes.spaceBtwSections / 2),
                       SidebarCategory(
                         title: 'Transactions',
                         icon: Iconsax.transaction_minus,
@@ -84,7 +84,7 @@ class Sidebar extends StatelessWidget {
                       ),
 
                       // Communication
-                      const SizedBox(height: TSizes.spaceBtwSections),
+                      const SizedBox(height: TSizes.spaceBtwSections / 2),
                       SidebarCategory(
                         title: 'Communication',
                         icon: Iconsax.message_notif,
@@ -107,7 +107,7 @@ class Sidebar extends StatelessWidget {
                       ),
 
                       // Help & Support
-                      const SizedBox(height: TSizes.spaceBtwSections),
+                      const SizedBox(height: TSizes.spaceBtwSections / 2),
                       SidebarCategory(
                         title: 'Help & Support',
                         icon: Iconsax.message_question,

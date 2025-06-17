@@ -57,22 +57,27 @@ class BuyBodyState extends State<BuyBody> {
           Stack(
             fit: StackFit.loose,
             children: [
-              const LocalRate(),
-              Positioned.fill(
+              LocalRate(coinData: currency),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
                 child: Align(
                   alignment: Alignment.center,
                   child: SizedBox(
                     width: 50,
                     height: 50,
-                    child: currency.icon.contains('.svg')
-                      ? SvgPicture.network(
-                          currency.icon,
-                          fit: BoxFit.contain,
-                        )
-                      : CachedNetworkImage(
-                          imageUrl: currency.icon,
-                          fit: BoxFit.contain,
-                        ),
+                    child: ClipOval(
+                      child: currency.icon.contains('.svg')
+                          ? SvgPicture.network(
+                              currency.icon,
+                              fit: BoxFit.contain,
+                            )
+                          : CachedNetworkImage(
+                              imageUrl: currency.icon,
+                              fit: BoxFit.contain,
+                            ),
+                    ),
                   ),
                 ),
               ),

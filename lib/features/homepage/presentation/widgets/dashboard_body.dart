@@ -76,7 +76,7 @@ class _DashboardBodyState extends State<DashboardBody> {
         ),
         const SizedBox(height: TSizes.spaceBtwItems),
         SizedBox(
-          height: MediaQuery.sizeOf(context).height / 15,
+          height: MediaQuery.sizeOf(context).height / 14,
           child: FutureBuilder(
             future: instance.fetchListings(),
             builder: (context, snapshot) {
@@ -135,9 +135,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                 child: Row(
                   children: snapshot.requireData.map((currency) {
                     return InkWell(
-                      onTap: () {
-                        Get.toNamed(Routers.buy, arguments: currency);
-                      },
+                      onTap: () => instance.showListingInfo(currency),
                       child: TrendingAsset(asset: currency),
                     );
                   }).toList(),
@@ -199,12 +197,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                 itemCount: snapshot.requireData.length,
                 itemBuilder: (context, index) {
                   final currency = snapshot.requireData[index];
-                  return InkWell(
-                    onTap: () {
-                      Get.toNamed(Routers.buy, arguments: currency);
-                    },
-                    child: CurrencyCard(currency: currency),
-                  );
+                  return CurrencyCard(currency: currency);
                 },
               );
             },

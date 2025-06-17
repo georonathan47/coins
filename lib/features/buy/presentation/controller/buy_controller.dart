@@ -1,15 +1,22 @@
+import '../../../../core/auth/domain/entities/user.dart';
+import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../../data/models/currency.dart';
 import '../../data/models/ree_calc_response.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/usecases/fee_calculation_usecase.dart';
+import '../../domain/usecases/fetch_currencies_usecase.dart';
 import '../../domain/usecases/fetch_listings_usecase.dart';
 import '../../domain/usecases/fetch_countries_usecase.dart';
 import '../widgets/widgets.dart';
 
 class BuyController extends GetxController {
   final currencyId = 0.obs;
+  final countries = <Country>[].obs;
   final network = 'MOBILE_MONEY'.obs;
+  final currencies = <Currency>[].obs;
+  final currentUser = User.empty().obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final local = TextEditingController().obs;
   final dollar = TextEditingController().obs;
@@ -17,18 +24,55 @@ class BuyController extends GetxController {
   static BuyController get instance => Get.find();
 
   final CalculateFeeUsecase calculateFeeUsecase;
+  final RetrieveUserUsecase retrieveUserUsecase;
   final FetchListingsUsecase fetchListingsUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
+  final FetchCurrenciesUsecase fetchCurrenciesUsecase;
 
   BuyController({
     required this.calculateFeeUsecase,
+    required this.retrieveUserUsecase,
     required this.fetchListingsUsecase,
     required this.fetchCountriesUsecase,
+    required this.fetchCurrenciesUsecase,
   });
 
+  Future<User> retrieveUser() async {
+    final result = await retrieveUserUsecase(NoParams());
+    return result.fold((failure) => User.empty(), (success) {
+      currentUser.value = success;
+      update();
+      return success;
+    });
+  }
+
+  Future<List<Country>> fetchCountries() async {
+    final result = await fetchCountriesUsecase(NoParams());
+    return result.fold((failure) => Future.error(failure.message), (success) {
+      countries.value = success;
+      update();
+      return success;
+    });
+  }
+
+  Future<List<Currency>> fetchCurrencies() async {
+    final user = await retrieveUser();
+    final result = await fetchCurrenciesUsecase(ObjectParams(user.countryId!));
+    return result.fold((failure) => Future.error(failure.message), (success) {
+      currencies.value = success;
+      update();
+      return success;
+    });
+  }
+
   Future<FeeCalcResponse> calculate() async {
+    final countries = await fetchCountries();
+    final country = countries.firstWhere(
+      (country) => country.id == currentUser.value.countryId,
+      orElse: () => countries.first,
+    );
     final request = FeeCalculation(
-      country: Country.empty(),
+      country: country,
       currencyId: currencyId.value,
       networkFeeType: network.value,
       paymentMode: paymentMode.value,

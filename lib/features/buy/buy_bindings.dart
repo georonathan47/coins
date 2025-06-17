@@ -1,3 +1,4 @@
+import 'data/datasources/buy_local_database.dart';
 import 'data/datasources/buy_remote_database.dart';
 import 'data/repositories/buy_repo_impl.dart';
 import 'domain/repositories/buy_repository.dart';
@@ -12,6 +13,7 @@ class BuyBindings extends Bindings {
   @override
   void dependencies() {
     Get
+      ..lazyPut<BuyLocalDatabase>(() => BuyLocalDatabaseImpl(Get.find()))
       ..lazyPut<BuyRemoteDatabase>(() => BuyRemoteDatabaseImpl(Get.find()))
       // ? Repository
       ..lazyPut<BuyRepository>(
@@ -19,6 +21,7 @@ class BuyBindings extends Bindings {
           networkInfo: Get.find(),
           localDatabase: Get.find(),
           remoteDatabase: Get.find(),
+          authLocalDatabase: Get.find(),
         ),
       )
       ..lazyPut(() => CalculateFeeUsecase(Get.find()))

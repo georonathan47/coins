@@ -77,6 +77,8 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
     }
   }
 
+  
+
   @override
   Future<FeeCalcResponse> calculateFees(
     FeeCalculation request,
@@ -88,6 +90,13 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
       final result = await client.get(
         url,
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+      TLoggerHelper.logApiResult(
+        httpMethod: 'GET',
+        code: result.statusCode!,
+        method: 'calculateFees',
+        message:
+            'Calculated fees for ${request.amount} worth of ${request.currencyId} in ${request.country.countryName} with ${request.networkFeeType} network fee type and ${request.paymentMode} payment mode',
       );
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         return feeCalcResponseFromJson(result.bodyString!);

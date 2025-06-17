@@ -1,59 +1,31 @@
-// To parse this JSON data, do
-//
-//     final country = countryFromJson(jsonString);
-
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_ce/hive.dart';
 import 'dart:convert';
+
+import '../../../../core/data/hive_adapters.dart';
+
+part 'country.freezed.dart';
+part 'country.g.dart';
 
 Country countryFromJson(String str) => Country.fromJson(json.decode(str));
 
 String countryToJson(Country data) => json.encode(data.toJson());
 
-class Country {
-  int id;
-  String countryName;
-  String countryCurrency;
-  String countryFlag;
-  String bankList;
+@freezed
+@HiveType(typeId: HiveAdapters.countries)
+abstract class Country with _$Country {
+  const factory Country({
+    @HiveField(0) required int id,
+    @HiveField(1) required String countryName,
+    @HiveField(2) required String countryCurrency,
+    @HiveField(3) required String countryFlag,
+    @HiveField(4) required String bankList,
+  }) = _Country;
 
-  Country({
-    required this.id,
-    required this.countryName,
-    required this.countryCurrency,
-    required this.countryFlag,
-    required this.bankList,
-  });
+  factory Country.fromJson(Map<String, dynamic> json) =>
+      _$CountryFromJson(json);
 
-  Country copyWith({
-    int? id,
-    String? countryName,
-    String? countryCurrency,
-    String? countryFlag,
-    String? bankList,
-  }) => Country(
-    id: id ?? this.id,
-    countryName: countryName ?? this.countryName,
-    countryCurrency: countryCurrency ?? this.countryCurrency,
-    countryFlag: countryFlag ?? this.countryFlag,
-    bankList: bankList ?? this.bankList,
-  );
-
-  factory Country.fromJson(Map<String, dynamic> json) => Country(
-    id: json["id"],
-    countryName: json["countryName"],
-    countryCurrency: json["countryCurrency"],
-    countryFlag: json["countryFlag"],
-    bankList: json["bankList"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "countryName": countryName,
-    "countryCurrency": countryCurrency,
-    "countryFlag": countryFlag,
-    "bankList": bankList,
-  };
-
-  factory Country.empty() => Country(
+  factory Country.empty() => const Country(
     id: 0,
     countryName: '',
     countryCurrency: '',
