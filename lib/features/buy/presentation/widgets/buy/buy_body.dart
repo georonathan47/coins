@@ -34,6 +34,7 @@ class BuyBodyState extends State<BuyBody> {
             ],
             onChanged: (value) {
               instance.network.value = value!;
+              instance.eCurrency.value = widget.coinData.name;
               TLoggerHelper.logEvent(
                 instance.network.value,
                 eventName: 'Network Fee Type',

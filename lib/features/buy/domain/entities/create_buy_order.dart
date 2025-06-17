@@ -8,15 +8,15 @@ String createBuyOrderToJson(CreateBuyOrder data) => jsonEncode(data.toJson());
 class CreateBuyOrder {
   int? userId;
   double? buyAmount;
-  int? networkFee;
+  double? networkFee;
   double? total;
-  int? localCurrencyTotal;
+  double? localCurrencyTotal;
   String? walletAddress;
   String? transactionDetails;
   DateTime? depositDate;
   String? bankName;
   String? paymentMode;
-  int? depositAmount;
+  double? depositAmount;
   String? accountNumber;
   String? nameOnAccount;
   String? eCurrency;
@@ -41,15 +41,15 @@ class CreateBuyOrder {
   CreateBuyOrder copyWith({
     int? userId,
     double? buyAmount,
-    int? networkFee,
+    double? networkFee,
     double? total,
-    int? localCurrencyTotal,
+    double? localCurrencyTotal,
     String? walletAddress,
     String? transactionDetails,
     DateTime? depositDate,
     String? bankName,
     String? paymentMode,
-    int? depositAmount,
+    double? depositAmount,
     String? accountNumber,
     String? nameOnAccount,
     String? eCurrency,

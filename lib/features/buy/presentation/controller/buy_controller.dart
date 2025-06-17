@@ -1,9 +1,11 @@
 import '../../../../core/auth/domain/entities/user.dart';
 import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../../../../core/utils/logger.dart';
 import '../../data/models/currency.dart';
 import '../../data/models/ree_calc_response.dart';
 import '../../domain/entities/country.dart';
+import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/usecases/fee_calculation_usecase.dart';
 import '../../domain/usecases/fetch_currencies_usecase.dart';
@@ -13,11 +15,13 @@ import '../widgets/widgets.dart';
 
 class BuyController extends GetxController {
   final network = ''.obs;
+  final eCurrency = ''.obs;
   final currencyId = 0.obs;
   final countries = <Country>[].obs;
   final currencies = <Currency>[].obs;
   final currentUser = User.empty().obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
+  final order = CreateBuyOrder.empty().obs;
   final local = TextEditingController().obs;
   final wallet = TextEditingController().obs;
   final dollar = TextEditingController().obs;
@@ -46,9 +50,9 @@ class BuyController extends GetxController {
 
   void clearControllers() {
     network.value = '';
+    local.value.clear();
+    dollar.value.clear();
     currencyId.value = 0;
-    local.value.dispose();
-    dollar.value.dispose();
     calcResponse.value = FeeCalcResponse.empty();
   }
 
@@ -109,6 +113,25 @@ class BuyController extends GetxController {
         calcResponse.value = success;
         local.value.text = success.amountLocalCurrency!.toStringAsFixed(2);
         dollar.value.text = success.amountStandardCurrency!.toStringAsFixed(2);
+        order.value = order.value.copyWith(
+          eCurrency: eCurrency.value,
+          paymentMode: paymentMode.value,
+          walletAddress: wallet.value.text.trim(),
+          total: double.parse(success.usdTotal!.toStringAsFixed(2)),
+          buyAmount: double.parse(
+            success.amountStandardCurrency!.toStringAsFixed(2),
+          ),
+          localCurrencyTotal: double.parse(
+            success.amountLocalCurrency!.toStringAsFixed(2),
+          ),
+          networkFee: network.value == 'REGULAR'
+              ? double.parse(success.regularNetworkFee!.toStringAsFixed(2))
+              : double.parse(success.priorityNetworkFee!.toStringAsFixed(2)),
+        );
+        TLoggerHelper.logEvent(
+          order.value.toJson(),
+          eventName: 'Buy Order Request',
+        );
         update();
         return success;
       },

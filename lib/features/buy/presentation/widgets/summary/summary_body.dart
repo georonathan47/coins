@@ -1,4 +1,3 @@
-
 import '../widgets.dart';
 
 class BuySummaryBody extends StatelessWidget {
@@ -7,6 +6,7 @@ class BuySummaryBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Get.textTheme;
+    final instance = BuyController.instance;
     final size = MediaQuery.of(context).size;
     return ScrollableWidget(
       children: [
@@ -39,148 +39,186 @@ class BuySummaryBody extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(12)),
             ),
             height: size.height / 2,
-            child: ScrollableWidget(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Order Type',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      'BUY ORDER'.capitalize!,
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
+            child: Obx(
+              () => ScrollableWidget(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Order Type',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'eCurrency',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      'Bitcoin',
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
+                      Text(
+                        'BUY ORDER'.capitalize!,
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Network Fee (USD)',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      '\$2.00',
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
+                    ],
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'eCurrency',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Network Fee (GHS)',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      'GHS 25.00',
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
+                      Text(
+                        instance.eCurrency.value.capitalize!,
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Date Created',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      THelperFunctions.getFormattedDate(DateTime.now()),
-                      style: textTheme.bodyLarge?.copyWith(
-                        height: 1.5,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    ],
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Network Fee (USD)',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Order Status',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      'Payment Pending'.capitalize!,
-                      style: textTheme.bodyLarge?.copyWith(
-                        height: 1.5,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      Text(
+                        instance.network.value == 'REGULAR'
+                            ? TFormatter.formatDollar(
+                                instance.calcResponse.value.regularNetworkFee ??
+                                    0,
+                              )
+                            : TFormatter.formatDollar(
+                                instance
+                                        .calcResponse
+                                        .value
+                                        .priorityNetworkFee ??
+                                    0,
+                              ),
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                const Divider(thickness: 2),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Text(
-                  'Totals (Includes all fees)',
-                  style: textTheme.titleMedium,
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Amount To Pay (USD)',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      '\$5,675.10',
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
+                    ],
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Date Created',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Amount To Pay (GHS)',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      'GHS 56,750.98',
-                      style: textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w500,
+                      Text(
+                        THelperFunctions.getFormattedDate(DateTime.now()),
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Order Status',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                      ),
+                      Text(
+                        'Payment Pending'.capitalize!,
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount To Buy (USD)',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                      ),
+                      Text(
+                        TFormatter.formatDollar(
+                          instance.calcResponse.value.amountStandardCurrency ??
+                              0,
+                        ),
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  const Divider(thickness: 2),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Text(
+                    'Totals (Includes all fees)',
+                    style: textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount To Pay (USD)',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                      ),
+                      Text(
+                        TFormatter.formatDollar(
+                          instance.calcResponse.value.usdTotal ?? 0,
+                        ),
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Amount To Pay (GHS)',
+                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                      ),
+                      Text(
+                        TFormatter.formatCurrency(
+                          instance
+                                  .calcResponse
+                                  .value
+                                  .totalAmountLocalCurrency ??
+                              0,
+                        ),
+                        style: textTheme.bodyLarge?.copyWith(
+                          height: 1.5,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
