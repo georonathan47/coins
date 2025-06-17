@@ -38,6 +38,7 @@ class GeneralBindings extends Bindings {
           fetchUserInfoUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),
+          fetchTradableCoinsUsecase: Get.find(),
         ),
       )
       //? Onboarding Controller

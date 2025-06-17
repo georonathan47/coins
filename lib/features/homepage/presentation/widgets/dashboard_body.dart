@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import '../../../buy/presentation/widgets/currency/currency_card.dart';
-import '../../../buy/presentation/widgets/history_card_shimmer.dart';
 import 'widgets.dart';
 
 class DashboardBody extends StatefulWidget {
@@ -109,7 +107,7 @@ class _DashboardBodyState extends State<DashboardBody> {
         SizedBox(
           height: MediaQuery.sizeOf(context).height / 3,
           child: FutureBuilder(
-            future: instance.fetchListings(),
+            future: instance.fetchTradables(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return ListView.builder(
@@ -117,7 +115,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                   padding: const EdgeInsets.all(16),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return HistoryCardShimmer();
+                    return CurrencyCardShimmer();
                   },
                 );
               }
@@ -147,19 +145,17 @@ class _DashboardBodyState extends State<DashboardBody> {
                   ),
                 );
               }
-              // final filteredList = snapshot.data!.where((chore) {
-              //   final currentFilter = instance.filterStatus.value.toUpperCase();
-              //   return chore.status?.toUpperCase() == currentFilter ||
-              //       currentFilter.isEmpty;
-              // }).toList();
 
               return ListView.builder(
-                padding: const EdgeInsets.all(16),
                 physics: const BouncingScrollPhysics(),
                 itemCount: snapshot.requireData.length,
                 itemBuilder: (context, index) {
                   final currency = snapshot.requireData[index];
-                  return InkWell(child: CurrencyCard(currency: currency));
+                  return InkWell(
+                    onTap: () {
+                      Get.toNamed(Routers.buy, arguments: currency);
+                    },
+                    child: CurrencyCard(currency: currency));
                 },
               );
             },

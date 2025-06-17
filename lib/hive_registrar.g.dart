@@ -3,8 +3,8 @@
 // Check in to version control
 
 import 'package:hive_ce/hive.dart';
-import 'package:bitcoins/core/auth/domain/entities/user.dart';
-import 'package:bitcoins/core/onboarding/domain/entities/onboarding.dart';
+import 'core/auth/domain/entities/user.dart';
+import 'core/onboarding/domain/entities/onboarding.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {

@@ -15,6 +15,7 @@ abstract class BuyRemoteDatabase {
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
+  Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
   Future<FeeCalcResponse> calculateFees(FeeCalculation request, Map tokens);
 }
 
@@ -124,6 +125,37 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         throw ServerException();
       }
     } catch (e) {
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens) async {
+    try {
+      final result = await client.get(
+        '${Env.tradableCurrenciesUrl}=$countryId',
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+      TLoggerHelper.logApiResult(
+        code: result.statusCode!,
+        message: result.bodyString!,
+      );
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<CoinData> coinData = responseData
+            .map((coin) => coinDataFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logEvent(coinData, eventName: 'Tradables Available');
+        return coinData;
+      } else {
+        throw ServerException();
+      }
+    } catch (e, s) {
+      TLoggerHelper.logEvent(
+        e,
+        stackTrace: s,
+        eventName: 'Error Fetching Tradables',
+      );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }
   }

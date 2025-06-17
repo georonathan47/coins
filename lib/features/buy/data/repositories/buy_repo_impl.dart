@@ -102,4 +102,23 @@ class BuyRepositoryImpl implements BuyRepository {
       return Left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<CoinData>>> fetchTradableCoins(int countryId) async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await localDatabase.fetchTokens();
+        final response = await remoteDatabase.fetchTradableCoins(countryId, tokens);
+        return Right(response);
+      } else {
+        return Left(
+          Failure(
+            'No internet connection. Please check your internet connection and try again!',
+          ),
+        );
+      }
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
 }

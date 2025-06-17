@@ -1,4 +1,3 @@
-import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/constants/svg_assets.dart';
 import '../widgets/widgets.dart';

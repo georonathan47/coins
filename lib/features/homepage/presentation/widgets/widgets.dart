@@ -12,6 +12,8 @@ export '../../../../core/data/routes.dart';
 export '../../../../core/presentation/animations/animated_coloring.dart';
 export '../../../../core/presentation/animations/animated_gradient_coloring.dart';
 export '../../../../core/presentation/animations/foldable_buttons.dart';
+export '../../../buy/presentation/widgets/currency/currency_card.dart';
+export '../../../buy/presentation/widgets/currency/currency_card_shimmer.dart';
 export '../controller/dashboard_controller.dart';
 export '../pages/dashboard.dart';
 export 'dashboard_body.dart';

@@ -11,6 +11,7 @@ abstract class BuyRepository {
   /// Fetch all countries
   Future<Either<Failure, List<Country>>> fetchCountries();
   Future<Either<Failure, List<CoinData>>> fetchListings();
+  Future<Either<Failure, List<CoinData>>> fetchTradableCoins(int countryId);
 
   /// Fetch all currencies
   Future<Either<Failure, List<Currency>>> fetchCurrencies(int countryId);

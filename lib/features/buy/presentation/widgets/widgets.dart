@@ -4,6 +4,8 @@ export 'package:iconsax/iconsax.dart';
 export 'package:lottie/lottie.dart';
 export 'package:pinput/pinput.dart';
 export 'package:chart_sparkline/chart_sparkline.dart';
+export 'package:cached_network_image/cached_network_image.dart';
+export 'package:flutter_svg/svg.dart';
 
 export '../../../../banner.dart';
 export '../../../../core/constants/colors.dart';

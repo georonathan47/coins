@@ -8,6 +8,7 @@ import '../../../buy/domain/entities/country.dart';
 import '../../../buy/domain/usecases/fetch_countries_usecase.dart';
 import '../../../buy/domain/usecases/fetch_currencies_usecase.dart';
 import '../../../buy/domain/usecases/fetch_listings_usecase.dart';
+import '../../../buy/domain/usecases/fetch_tradable_usecase.dart';
 import '../widgets/widgets.dart';
 
 class DashboardController extends GetxController {
@@ -19,6 +20,7 @@ class DashboardController extends GetxController {
   final FetchListingsUsecase fetchListingsUsecase;
   final FetchUserInfoUsecase fetchUserInfoUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
+  final FetchTradableCoinsUsecase fetchTradableCoinsUsecase;
 
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   DashboardController({
@@ -28,13 +30,14 @@ class DashboardController extends GetxController {
     required this.fetchUserInfoUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
+    required this.fetchTradableCoinsUsecase,
   });
 
   @override
   void onInit() {
     super.onInit();
-    // retrieveUser();
     fetchUserDetails();
+    fetchTradables();
   }
 
   Future<User> retrieveUser() async {
@@ -113,6 +116,16 @@ class DashboardController extends GetxController {
 
   Future<List<CoinData>> fetchListings() async {
     final result = await fetchListingsUsecase(NoParams());
+    return result.fold(
+      (failure) => Future.error(failure.message),
+      (success) => success,
+    );
+  }
+
+  Future<List<CoinData>> fetchTradables() async {
+    final result = await fetchTradableCoinsUsecase(
+      ObjectParams(currentUser.value.countryId!),
+    );
     return result.fold(
       (failure) => Future.error(failure.message),
       (success) => success,

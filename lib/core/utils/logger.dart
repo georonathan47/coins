@@ -5,14 +5,15 @@ class TLoggerHelper {
   static void logEvent(
     dynamic message, {
     String? eventName,
+
     StackTrace? stackTrace,
   }) {
     log(
       message.toString(),
-      name: eventName ?? 'EVENT',
       time: DateTime.now(),
-      stackTrace: stackTrace ?? StackTrace.current,
       zone: Zone.current,
+      name: eventName ?? 'EVENT',
+      stackTrace: stackTrace,
     );
   }
 

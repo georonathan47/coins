@@ -15,6 +15,7 @@ class BuyBodyState extends State<BuyBody> {
   final textTheme = Get.textTheme;
   final formKey = GlobalKey<FormState>();
   final instance = BuyController.instance;
+  final currency = Get.arguments as CoinData;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,7 +54,30 @@ class BuyBodyState extends State<BuyBody> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
           const SizedBox(height: TSizes.spaceBtwItems),
-          const LocalRate(),
+          Stack(
+            fit: StackFit.loose,
+            children: [
+              const LocalRate(),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: currency.icon.contains('.svg')
+                      ? SvgPicture.network(
+                          currency.icon,
+                          fit: BoxFit.contain,
+                        )
+                      : CachedNetworkImage(
+                          imageUrl: currency.icon,
+                          fit: BoxFit.contain,
+                        ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           Icon(
             Icons.swap_horiz,
             color: TColors.accent,

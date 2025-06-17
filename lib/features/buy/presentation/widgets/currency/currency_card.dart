@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-
 import '../widgets.dart';
 
 class CurrencyCard extends StatelessWidget {
@@ -18,12 +16,19 @@ class CurrencyCard extends StatelessWidget {
           children: [
             ClipOval(
               child: CircleAvatar(
-                child: CachedNetworkImage(
-                  imageUrl: currency.icon,
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                ),
+                child: currency.icon.contains('.svg')
+                    ? SvgPicture.network(
+                        currency.icon,
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: currency.icon,
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
             const SizedBox(width: TSizes.spaceBtwItems),
@@ -31,78 +36,31 @@ class CurrencyCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(currency.name, style: textTheme.titleLarge),
-                  const SizedBox(height: TSizes.spaceBtwItems / 2),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(currency.symbol, style: textTheme.titleSmall),
+                      Text(currency.name, style: textTheme.titleMedium),
                       Text(
-                        currency.percentageChange,
+                        TFormatter.formatDollar(double.parse(currency.price)),
                         style: textTheme.titleMedium?.copyWith(
-                          color: double.parse(currency.percentageChange) >= 0
-                              ? Colors.green
-                              : Colors.red,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems / 2),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Text(currency.symbol, style: textTheme.titleSmall),
                       Text(
-                        TFormatter.formatDollar(double.parse(currency.price)),
-                        style: textTheme.titleMedium,
-                      ),
-                      const SizedBox(width: TSizes.spaceBtwItems),
-                      Expanded(
-                        child: SizedBox(
-                          height: 30,
-                          child: Sparkline(
-                            useCubicSmoothing: true,
-                            fillMode: FillMode.below,
-                            cubicSmoothingFactor: 0.2,
-                            data: currency.sparkline,
-                            lineColor: Get.isDarkMode
-                                ? Colors.white
-                                : TColors.primary,
-                            fillGradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Color(
-                                  int.parse(
-                                    currency.color.replaceAll('#', '0xFF'),
-                                  ),
-                                ),
-                                Color(
-                                  int.parse(
-                                    currency.color.replaceAll('#', '0xCF'),
-                                  ),
-                                ),
-                                Color(
-                                  int.parse(
-                                    currency.color.replaceAll('#', '0xAF'),
-                                  ),
-                                ),
-                                Color(
-                                  int.parse(
-                                    currency.color.replaceAll('#', '0x26'),
-                                  ),
-                                ),
-                                Color(
-                                  int.parse(
-                                    currency.color.replaceAll('#', '0x1A'),
-                                  ),
-                                ),
-                                Color(
-                                  int.parse(
-                                    currency.color.replaceAll('#', '0x0D'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            gridLineColor: Colors.black.withOpacity(0.1),
-                          ),
+                        currency.percentageChange,
+                        style: textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: currency.percentageChange.startsWith('-')
+                              ? TColors.error
+                              : TColors.secondary,
                         ),
                       ),
                     ],
