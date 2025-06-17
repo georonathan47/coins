@@ -141,7 +141,7 @@ class THelperFunctions {
   static Timer? debouncer;
   static void debounce(
     VoidCallback callback, {
-    Duration duration = const Duration(milliseconds: 750),
+    Duration duration = const Duration(milliseconds: 1000),
   }) {
     if (debouncer != null) {
       debouncer!.cancel();

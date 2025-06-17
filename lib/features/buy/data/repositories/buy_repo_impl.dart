@@ -10,6 +10,7 @@ import '../../domain/entities/fee_calculation.dart';
 import '../../domain/repositories/buy_repository.dart';
 import '../datasources/buy_local_database.dart';
 import '../datasources/buy_remote_database.dart';
+import '../datasources/currency_local_database.dart';
 import '../models/currency.dart';
 import '../models/ree_calc_response.dart';
 
@@ -18,12 +19,14 @@ class BuyRepositoryImpl implements BuyRepository {
   final BuyLocalDatabase localDatabase;
   final BuyRemoteDatabase remoteDatabase;
   final AuthLocalDatabase authLocalDatabase;
+  final CurrencyLocalDatabase currencyLocalDatabase;
 
   BuyRepositoryImpl({
     required this.networkInfo,
     required this.localDatabase,
     required this.remoteDatabase,
     required this.authLocalDatabase,
+    required this.currencyLocalDatabase,
   });
 
   @override
@@ -81,23 +84,34 @@ class BuyRepositoryImpl implements BuyRepository {
 
   @override
   Future<Either<Failure, List<Currency>>> fetchCurrencies(int countryId) async {
-    try {
-      if (await networkInfo.hasInternet()) {
+    final isConnected = await networkInfo.hasInternet();
+    if (isConnected) {
+      try {
         final tokens = await authLocalDatabase.fetchTokens();
         final response = await remoteDatabase.fetchCurrencies(
           countryId,
           tokens,
         );
+        await currencyLocalDatabase.saveActualCurrencies(response);
         return Right(response);
-      } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+      } catch (e) {
+        return Left(Failure(e.toString()));
       }
-    } catch (e) {
-      return Left(Failure(e.toString()));
+    } else {
+      try {
+        final cachedCurrencies = await currencyLocalDatabase.retrieve();
+        if (cachedCurrencies.isNotEmpty) {
+          return Right(cachedCurrencies);
+        } else {
+          return Left(
+            Failure(
+              'No internet connection and no cached data available. Please check your internet connection and try again!',
+            ),
+          );
+        }
+      } on CacheException catch (e) {
+        return Left(Failure(e.toString()));
+      }
     }
   }
 

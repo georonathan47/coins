@@ -12,15 +12,15 @@ import '../../domain/usecases/fetch_countries_usecase.dart';
 import '../widgets/widgets.dart';
 
 class BuyController extends GetxController {
+  final network = ''.obs;
   final currencyId = 0.obs;
   final countries = <Country>[].obs;
-  final network = 'MOBILE_MONEY'.obs;
   final currencies = <Currency>[].obs;
   final currentUser = User.empty().obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final local = TextEditingController().obs;
   final dollar = TextEditingController().obs;
-  final calcResponse = FeeCalcResponse().obs;
+  final calcResponse = FeeCalcResponse.empty().obs;
   static BuyController get instance => Get.find();
 
   final CalculateFeeUsecase calculateFeeUsecase;
@@ -36,6 +36,21 @@ class BuyController extends GetxController {
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
   });
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchCurrencies();
+  }
+
+  @override
+  void dispose() {
+    currencyId.value = 0;
+    local.value.dispose();
+    dollar.value.dispose();
+    calcResponse.value = FeeCalcResponse.empty();
+    super.dispose();
+  }
 
   Future<User> retrieveUser() async {
     final result = await retrieveUserUsecase(NoParams());

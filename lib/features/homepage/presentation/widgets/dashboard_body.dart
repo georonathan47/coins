@@ -196,8 +196,16 @@ class _DashboardBodyState extends State<DashboardBody> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: snapshot.requireData.length,
                 itemBuilder: (context, index) {
-                  final currency = snapshot.requireData[index];
-                  return CurrencyCard(currency: currency);
+                  final coinData = snapshot.requireData[index];
+                  return InkWell(
+                    onTap: () async{
+                      final result = await instance.fetchCurrencies();
+                      final currency = result.firstWhere(
+                        (element) => element.currencyName == coinData.name,);
+                      Get.toNamed(Routers.buy, arguments: {'coinData': coinData, 'currency': currency});
+                    },
+                    child: CurrencyCard(currency: coinData),
+                  );
                 },
               );
             },

@@ -1,16 +1,30 @@
 import 'dart:convert';
 
+import 'package:hive_ce/hive.dart';
+
+import '../../../../core/data/hive_adapters.dart';
+
+part 'currency.g.dart';
+
 Currency currencyFromJson(String str) => Currency.fromJson(json.decode(str));
 
 String currencyToJson(Currency data) => json.encode(data.toJson());
 
+@HiveType(typeId: HiveAdapters.currencies)
 class Currency {
+  @HiveField(0)
   int id;
+  @HiveField(1)
   String currencyName;
+  @HiveField(2)
   String address;
+  @HiveField(3)
   bool buyStatus;
+  @HiveField(4)
   bool sellStatus;
+  @HiveField(5)
   String imageFile;
+  @HiveField(6)
   String note;
 
   Currency({
@@ -60,4 +74,14 @@ class Currency {
     "imageFile": imageFile,
     "note": note,
   };
+
+  factory Currency.empty() => Currency(
+    id: 0,
+    currencyName: '',
+    address: '',
+    buyStatus: false,
+    sellStatus: false,
+    imageFile: '',
+    note: '',
+  );
 }

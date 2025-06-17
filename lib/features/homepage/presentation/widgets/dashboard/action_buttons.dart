@@ -39,7 +39,7 @@ class ActionButtonsState extends State<ActionButtons> {
               onTap: () {
                 switch (status) {
                   case 'Buy':
-                    Get.toNamed(Routers.buy);
+                    Get.toNamed(Routers.buyableAssets);
                   case 'Sell':
                     break;
                   case 'PayAccount':

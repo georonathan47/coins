@@ -1,9 +1,10 @@
-import '../../controller/buy_controller.dart';
+import '../../../data/models/currency.dart';
 import '../widgets.dart';
 
 class LocalRate extends StatefulWidget {
-  const LocalRate({super.key, required this.coinData});
+  const LocalRate({super.key, required this.coinData, required this.currency});
   final CoinData coinData;
+  final Currency currency;
 
   @override
   State<LocalRate> createState() => _LocalRateState();
@@ -13,6 +14,12 @@ class _LocalRateState extends State<LocalRate> {
   final isDark = Get.isDarkMode;
   final textTheme = Get.textTheme;
   final instance = BuyController.instance;
+  
+  @override
+  void dispose() {
+    instance.network.value = '';
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class _LocalRateState extends State<LocalRate> {
         Card(
           elevation: 4,
           child: AnimatedGradientColoring(
-            padding: 0,
+            padding: 8,
             endColor: Color(0xFF2C627A),
             startColor: Color(0xFF285062),
             child: Container(
@@ -56,7 +63,7 @@ class _LocalRateState extends State<LocalRate> {
                       SizedBox(height: TSizes.spaceBtwItems),
                       Center(
                         child: SizedBox(
-                          width: size.width * 0.6,
+                          width: size.width / 2,
                           child: EditableText(
                             focusNode: FocusNode(),
                             cursorColor: TColors.light,
@@ -70,18 +77,41 @@ class _LocalRateState extends State<LocalRate> {
                               color: Colors.white,
                             ),
                             onChanged: (amount) {
-                              if (amount.isNotEmpty) {
+                              if (instance.network.value.isEmpty) {
+                                THelperFunctions.showSnackBar(
+                                  bgColor: TColors.error,
+                                  title: 'Validation Error!',
+                                  message: 'Please select network fee type.',
+                                );
+                                return;
+                              }
+
+                              final amount = instance.local.value.text.trim();
+                              final amountIsValid =
+                                  amount.isNotEmpty &&
+                                  double.tryParse(amount) != null &&
+                                  double.parse(amount) >= 10.0;
+
+                              if (amountIsValid) {
                                 THelperFunctions.debounce(() async {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => const Center(
+                                    builder: (_) => const Center(
                                       child: CircularProgressIndicator(),
                                     ),
                                   );
                                   instance.currencyId.value =
-                                      widget.coinData.id;
+                                      widget.currency.id;
                                   await instance.calculate();
                                 });
+                              } else {
+                                THelperFunctions.showSnackBar(
+                                  bgColor: TColors.error,
+                                  title: 'Validation Error!',
+                                  message:
+                                      'Please enter a valid amount greater than or equal to \$ 10.00',
+                                );
+                                return;
                               }
                             },
                           ),

@@ -1,4 +1,3 @@
-import '../../controller/buy_controller.dart';
 import '../widgets.dart';
 
 class DollarRate extends StatefulWidget {
@@ -18,7 +17,7 @@ class _DollarRateState extends State<DollarRate> {
     return Card(
       elevation: 4,
       child: AnimatedGradientColoring(
-        padding: 0,
+        padding: 8,
         endColor: Color(0xFF2C627A),
         startColor: Color(0xFF285062),
         child: Container(

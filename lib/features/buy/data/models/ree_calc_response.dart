@@ -1,68 +1,71 @@
-// To parse this JSON data, do
-//
-//     final feeCalcResponse = feeCalcResponseFromJson(jsonString);
-
 import 'dart:convert';
 
-FeeCalcResponse feeCalcResponseFromJson(String str) => FeeCalcResponse.fromJson(json.decode(str));
+FeeCalcResponse feeCalcResponseFromJson(String str) =>
+    FeeCalcResponse.fromJson(json.decode(str));
 
-String feeCalcResponseToJson(FeeCalcResponse data) => json.encode(data.toJson());
+String feeCalcResponseToJson(FeeCalcResponse data) =>
+    json.encode(data.toJson());
 
 class FeeCalcResponse {
-    int? id;
-    int? startAmount;
-    int? endAmount;
-    int? regularFee;
-    int? priorityFee;
-    String? networkFeePaymentType;
-    String? ecurrencyName;
+  double? amountLocalCurrency;
+  double? amountStandardCurrency;
+  double? regularNetworkFee;
+  double? priorityNetworkFee;
+  double? usdTotal;
+  double? totalAmountLocalCurrency;
 
-    FeeCalcResponse({
-        this.id,
-        this.startAmount,
-        this.endAmount,
-        this.regularFee,
-        this.priorityFee,
-        this.networkFeePaymentType,
-        this.ecurrencyName,
-    });
+  FeeCalcResponse({
+    this.amountLocalCurrency,
+    this.amountStandardCurrency,
+    this.regularNetworkFee,
+    this.priorityNetworkFee,
+    this.usdTotal,
+    this.totalAmountLocalCurrency,
+  });
 
-    FeeCalcResponse copyWith({
-        int? id,
-        int? startAmount,
-        int? endAmount,
-        int? regularFee,
-        int? priorityFee,
-        String? networkFeePaymentType,
-        String? ecurrencyName,
-    }) =>
-        FeeCalcResponse(
-            id: id ?? this.id,
-            startAmount: startAmount ?? this.startAmount,
-            endAmount: endAmount ?? this.endAmount,
-            regularFee: regularFee ?? this.regularFee,
-            priorityFee: priorityFee ?? this.priorityFee,
-            networkFeePaymentType: networkFeePaymentType ?? this.networkFeePaymentType,
-            ecurrencyName: ecurrencyName ?? this.ecurrencyName,
-        );
+  FeeCalcResponse copyWith({
+    double? amountLocalCurrency,
+    double? amountStandardCurrency,
+    double? regularNetworkFee,
+    double? priorityNetworkFee,
+    double? usdTotal,
+    double? totalAmountLocalCurrency,
+  }) => FeeCalcResponse(
+    amountLocalCurrency: amountLocalCurrency ?? this.amountLocalCurrency,
+    amountStandardCurrency:
+        amountStandardCurrency ?? this.amountStandardCurrency,
+    regularNetworkFee: regularNetworkFee ?? this.regularNetworkFee,
+    priorityNetworkFee: priorityNetworkFee ?? this.priorityNetworkFee,
+    usdTotal: usdTotal ?? this.usdTotal,
+    totalAmountLocalCurrency:
+        totalAmountLocalCurrency ?? this.totalAmountLocalCurrency,
+  );
 
-    factory FeeCalcResponse.fromJson(Map<String, dynamic> json) => FeeCalcResponse(
-        id: json["id"],
-        startAmount: json["startAmount"],
-        endAmount: json["endAmount"],
-        regularFee: json["regularFee"],
-        priorityFee: json["priorityFee"],
-        networkFeePaymentType: json["networkFeePaymentType"],
-        ecurrencyName: json["ecurrencyName"],
-    );
+  factory FeeCalcResponse.fromJson(Map<String, dynamic> json) =>
+      FeeCalcResponse(
+        amountLocalCurrency: json["amountLocalCurrency"],
+        amountStandardCurrency: json["amountStandardCurrency"]?.toDouble(),
+        regularNetworkFee: json["regularNetworkFee"],
+        priorityNetworkFee: json["priorityNetworkFee"],
+        usdTotal: json["usdTotal"]?.toDouble(),
+        totalAmountLocalCurrency: json["totalAmountLocalCurrency"],
+      );
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "startAmount": startAmount,
-        "endAmount": endAmount,
-        "regularFee": regularFee,
-        "priorityFee": priorityFee,
-        "networkFeePaymentType": networkFeePaymentType,
-        "ecurrencyName": ecurrencyName,
-    };
+  Map<String, dynamic> toJson() => {
+    "amountLocalCurrency": amountLocalCurrency,
+    "amountStandardCurrency": amountStandardCurrency,
+    "regularNetworkFee": regularNetworkFee,
+    "priorityNetworkFee": priorityNetworkFee,
+    "usdTotal": usdTotal,
+    "totalAmountLocalCurrency": totalAmountLocalCurrency,
+  };
+
+  factory FeeCalcResponse.empty() => FeeCalcResponse(
+    amountLocalCurrency: 0,
+    amountStandardCurrency: 0.0,
+    regularNetworkFee: 0,
+    priorityNetworkFee: 0,
+    usdTotal: 0.0,
+    totalAmountLocalCurrency: 0,
+  );
 }

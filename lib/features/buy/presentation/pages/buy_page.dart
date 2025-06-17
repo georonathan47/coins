@@ -1,3 +1,4 @@
+import '../../data/models/currency.dart';
 import '../widgets/widgets.dart';
 
 class BuyPage extends StatefulWidget {
@@ -9,6 +10,8 @@ class BuyPage extends StatefulWidget {
 
 class BuyPageState extends State<BuyPage> {
   final textTheme = Get.textTheme;
+  final coinData = Get.arguments['coinData'] as CoinData;
+  final currency = Get.arguments['currency'] as Currency;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class BuyPageState extends State<BuyPage> {
             style: textTheme.titleLarge?.copyWith(color: TColors.light),
           ),
         ),
-        body: BuyBody(),
+        body: BuyBody(coinData: coinData, currency: currency),
       ),
     );
   }

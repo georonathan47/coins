@@ -1,11 +1,13 @@
 import 'package:flutter/services.dart';
 
 import '../../../../../core/utils/logger.dart';
-import '../../controller/buy_controller.dart';
+import '../../../data/models/currency.dart';
 import '../widgets.dart';
 
 class BuyBody extends StatefulWidget {
-  const BuyBody({super.key});
+  const BuyBody({super.key, required this.coinData, required this.currency});
+  final CoinData coinData;
+  final Currency currency;
 
   @override
   State<BuyBody> createState() => BuyBodyState();
@@ -15,7 +17,7 @@ class BuyBodyState extends State<BuyBody> {
   final textTheme = Get.textTheme;
   final formKey = GlobalKey<FormState>();
   final instance = BuyController.instance;
-  final currency = Get.arguments as CoinData;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -28,7 +30,7 @@ class BuyBodyState extends State<BuyBody> {
             isDense: true,
             items: [
               DropdownMenuItem(value: 'REGULAR', child: Text('Regular')),
-              DropdownMenuItem(value: 'PRIORITY', child: Text('Priority')),
+              DropdownMenuItem(value: 'PRIORITY', child: Text('Express')),
             ],
             onChanged: (value) {
               instance.network.value = value!;
@@ -57,7 +59,7 @@ class BuyBodyState extends State<BuyBody> {
           Stack(
             fit: StackFit.loose,
             children: [
-              LocalRate(coinData: currency),
+              LocalRate(coinData: widget.coinData, currency: widget.currency),
               Positioned(
                 top: 0,
                 left: 0,
@@ -68,13 +70,13 @@ class BuyBodyState extends State<BuyBody> {
                     width: 50,
                     height: 50,
                     child: ClipOval(
-                      child: currency.icon.contains('.svg')
+                      child: widget.coinData.icon.contains('.svg')
                           ? SvgPicture.network(
-                              currency.icon,
+                              widget.coinData.icon,
                               fit: BoxFit.contain,
                             )
                           : CachedNetworkImage(
-                              imageUrl: currency.icon,
+                              imageUrl: widget.coinData.icon,
                               fit: BoxFit.contain,
                             ),
                     ),
@@ -90,101 +92,118 @@ class BuyBodyState extends State<BuyBody> {
           ),
           const DollarRate(),
           const SizedBox(height: TSizes.spaceBtwItems),
-          Card(
-            elevation: 4,
-            child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-              ),
-              height: size.height / 2.75,
-              child: ScrollableWidget(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Network Fee (USD)',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
-                      Text(
-                        '\$56,750.98',
-                        style: textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.w500,
+          Obx(
+            () => Card(
+              elevation: 4,
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                height: size.height / 2.75,
+                child: ScrollableWidget(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Network Fee (USD)',
+                          style: textTheme.titleMedium?.copyWith(fontSize: 18),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: TSizes.spaceBtwSections),
-                  TextButton.icon(
-                    onPressed: () {},
-                    iconAlignment: IconAlignment.end,
-                    label: Text(
-                      'Totals',
-                      style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                        Text(
+                          instance.network.value == 'REGULAR'
+                              ? (instance
+                                            .calcResponse
+                                            .value
+                                            .regularNetworkFee ??
+                                        0.00)
+                                    .toString()
+                              : (instance
+                                            .calcResponse
+                                            .value
+                                            .priorityNetworkFee ??
+                                        0.00)
+                                    .toString(),
+                          style: textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
-                    icon: const Icon(Iconsax.info_circle),
-                  ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Amount to Pay (USD)',
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    TextButton.icon(
+                      onPressed: () {},
+                      iconAlignment: IconAlignment.end,
+                      label: Text(
+                        'Totals',
                         style: textTheme.titleMedium?.copyWith(fontSize: 18),
                       ),
-                      Text(
-                        '\$1,000.00',
-                        style: textTheme.bodyLarge?.copyWith(
-                          height: 1.5,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Amount to Pay (GHS)',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
-                      Text(
-                        'GHS 150,000.00',
-                        style: textTheme.bodyLarge?.copyWith(
-                          height: 1.5,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: TSizes.spaceBtwSections),
-                  TextFormField(
-                    maxLength: 32,
-                    validator: TValidator.validateWalletAddress,
-                    maxLengthEnforcement:
-                        MaxLengthEnforcement.truncateAfterCompositionEnds,
-                    decoration: InputDecoration(
-                      filled: true,
-                      isDense: true,
-                      labelText: 'Enter Wallet Address',
-                      hintText: 'Enter Wallet Address',
-                      prefixIcon: const Icon(Iconsax.wallet),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 16,
-                        horizontal: 16,
-                      ),
+                      icon: const Icon(Iconsax.info_circle),
                     ),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                  ),
-                ],
+                    const SizedBox(height: TSizes.spaceBtwItems),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Amount to Pay (USD)',
+                          style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                        ),
+                        Text(
+                          (instance.calcResponse.value.amountStandardCurrency ??
+                                  0)
+                              .toStringAsFixed(2),
+                          style: textTheme.bodyLarge?.copyWith(
+                            height: 1.5,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwItems),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Amount to Pay (GHS)',
+                          style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                        ),
+                        Text(
+                          (instance.calcResponse.value.amountLocalCurrency ?? 0)
+                              .toStringAsFixed(2),
+                          style: textTheme.bodyLarge?.copyWith(
+                            height: 1.5,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    TextFormField(
+                      maxLength: 32,
+                      validator: TValidator.validateWalletAddress,
+                      maxLengthEnforcement:
+                          MaxLengthEnforcement.truncateAfterCompositionEnds,
+                      decoration: InputDecoration(
+                        filled: true,
+                        isDense: true,
+                        labelText: 'Enter Wallet Address',
+                        hintText: 'Enter Wallet Address',
+                        prefixIcon: const Icon(Iconsax.wallet),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 16,
+                          horizontal: 16,
+                        ),
+                      ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

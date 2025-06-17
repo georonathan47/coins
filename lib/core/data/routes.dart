@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../features/buy/presentation/pages/buy_otp.dart';
 import '../../features/buy/presentation/pages/buy_page.dart';
 import '../../features/buy/presentation/pages/buy_summary.dart';
+import '../../features/buy/presentation/pages/buyable_assets.dart';
 import '../../features/buy/presentation/pages/history.dart';
 import '../../features/buy/presentation/pages/success.dart';
 import '../../features/homepage/presentation/pages/index.dart';
@@ -41,6 +42,7 @@ class Routers {
   static const buySummary = '/buySummary';
   static const regCaptcha = '/regCaptcha';
   static const legacyEmail = '/legacyEmail';
+  static const buyableAssets = '/buyableAssets';
 }
 
 class RouteManager {
@@ -149,6 +151,12 @@ class RouteManager {
         name: Routers.buyHistory,
         transition: Transition.fadeIn,
         page: () => const BuyOrderHistory(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.buyableAssets,
+        transition: Transition.fadeIn,
+        page: () => const BuyableAssets(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

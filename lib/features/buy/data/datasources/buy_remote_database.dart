@@ -77,7 +77,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
     }
   }
 
-  
+
 
   @override
   Future<FeeCalcResponse> calculateFees(

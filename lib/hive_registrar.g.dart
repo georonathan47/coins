@@ -5,11 +5,13 @@
 import 'package:hive_ce/hive.dart';
 import 'core/auth/domain/entities/user.dart';
 import 'core/onboarding/domain/entities/onboarding.dart';
+import 'features/buy/data/models/currency.dart';
 import 'features/buy/domain/entities/country.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(CountryAdapter());
+    registerAdapter(CurrencyAdapter());
     registerAdapter(OnboardingAdapter());
     registerAdapter(UserAdapter());
   }
@@ -18,6 +20,7 @@ extension HiveRegistrar on HiveInterface {
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(CountryAdapter());
+    registerAdapter(CurrencyAdapter());
     registerAdapter(OnboardingAdapter());
     registerAdapter(UserAdapter());
   }
