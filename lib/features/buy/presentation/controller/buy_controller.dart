@@ -107,6 +107,8 @@ class BuyController extends GetxController {
       },
       (success) {
         calcResponse.value = success;
+        local.value.text = success.amountLocalCurrency.toString();
+        dollar.value.text = success.amountStandardCurrency.toString();
         update();
         return success;
       },

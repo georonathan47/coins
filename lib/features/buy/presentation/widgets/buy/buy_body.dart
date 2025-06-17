@@ -112,20 +112,24 @@ class BuyBodyState extends State<BuyBody> {
                         ),
                         Text(
                           instance.network.value == 'REGULAR'
-                              ? (instance
-                                            .calcResponse
-                                            .value
-                                            .regularNetworkFee ??
-                                        0.00)
-                                    .toString()
-                              : (instance
-                                            .calcResponse
-                                            .value
-                                            .priorityNetworkFee ??
-                                        0.00)
-                                    .toString(),
+                              ? TFormatter.formatDollar(
+                                  instance
+                                          .calcResponse
+                                          .value
+                                          .regularNetworkFee ??
+                                      0,
+                                )
+                              : TFormatter.formatDollar(
+                                  instance
+                                          .calcResponse
+                                          .value
+                                          .priorityNetworkFee ??
+                                      0,
+                                ),
                           style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w500,
+                            height: 1.5,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -149,12 +153,16 @@ class BuyBodyState extends State<BuyBody> {
                           style: textTheme.titleMedium?.copyWith(fontSize: 18),
                         ),
                         Text(
-                          (instance.calcResponse.value.amountStandardCurrency ??
-                                  0)
-                              .toStringAsFixed(2),
+                          TFormatter.formatDollar(
+                            instance
+                                    .calcResponse
+                                    .value
+                                    .amountStandardCurrency ??
+                                0,
+                          ),
                           style: textTheme.bodyLarge?.copyWith(
                             height: 1.5,
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -169,11 +177,13 @@ class BuyBodyState extends State<BuyBody> {
                           style: textTheme.titleMedium?.copyWith(fontSize: 18),
                         ),
                         Text(
-                          (instance.calcResponse.value.amountLocalCurrency ?? 0)
-                              .toStringAsFixed(2),
+                          TFormatter.formatCurrency(
+                            instance.calcResponse.value.amountLocalCurrency ??
+                                0,
+                          ),
                           style: textTheme.bodyLarge?.copyWith(
                             height: 1.5,
-                            fontSize: 18,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

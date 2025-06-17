@@ -14,7 +14,7 @@ class _LocalRateState extends State<LocalRate> {
   final isDark = Get.isDarkMode;
   final textTheme = Get.textTheme;
   final instance = BuyController.instance;
-  
+
   @override
   void dispose() {
     instance.network.value = '';
@@ -30,7 +30,7 @@ class _LocalRateState extends State<LocalRate> {
         Card(
           elevation: 4,
           child: AnimatedGradientColoring(
-            padding: 8,
+            padding: 0,
             endColor: Color(0xFF2C627A),
             startColor: Color(0xFF285062),
             child: Container(
@@ -45,7 +45,7 @@ class _LocalRateState extends State<LocalRate> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  padding: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -60,7 +60,7 @@ class _LocalRateState extends State<LocalRate> {
                           ),
                         ),
                       ),
-                      SizedBox(height: TSizes.spaceBtwItems),
+                      const SizedBox(height: TSizes.spaceBtwSections),
                       Center(
                         child: SizedBox(
                           width: size.width / 2,
@@ -117,7 +117,7 @@ class _LocalRateState extends State<LocalRate> {
                           ),
                         ),
                       ),
-                      SizedBox(height: TSizes.spaceBtwSections),
+                      const Spacer(),
                       Align(
                         alignment: AlignmentDirectional.bottomEnd,
                         child: IntrinsicHeight(
