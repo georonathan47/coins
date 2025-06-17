@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'dashboard/trending_assets_shimmer.dart';
 import 'widgets.dart';
 
 class DashboardBody extends StatefulWidget {
@@ -14,16 +15,6 @@ class _DashboardBodyState extends State<DashboardBody> {
   final textTheme = Get.textTheme;
   late ScrollController _scrollController;
   final instance = DashboardController.instance;
-
-  final List<String> _assets = [
-    'Bitcoin',
-    'Ethereum',
-    'Dogecoin',
-    'XRP',
-    'USDt',
-    'Binance Coin',
-    'TrumpCoin',
-  ];
 
   @override
   void initState() {
@@ -86,16 +77,73 @@ class _DashboardBodyState extends State<DashboardBody> {
         const SizedBox(height: TSizes.spaceBtwItems),
         SizedBox(
           height: MediaQuery.sizeOf(context).height / 15,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                ..._assets.map((e) => TrendingAsset(asset: e)),
-                ..._assets.map((e) => TrendingAsset(asset: e)),
-                ..._assets.map((e) => TrendingAsset(asset: e)),
-              ],
-            ),
+          child: FutureBuilder(
+            future: instance.fetchListings(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(
+                      5,
+                      (index) => TrendingAssetShimmer(),
+                    ),
+                  ),
+                );
+              }
+
+              if (snapshot.hasError) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 32,
+                    padding: const EdgeInsets.all(16),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.error_outline, size: 40),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Error: ${snapshot.error}',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              if (!snapshot.hasData || snapshot.requireData.isEmpty) {
+                return const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.task_outlined, size: 40),
+                      SizedBox(height: 8),
+                      Text('No currencies found'),
+                    ],
+                  ),
+                );
+              }
+
+              return SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: snapshot.requireData.map((currency) {
+                    return InkWell(
+                      onTap: () {
+                        Get.toNamed(Routers.buy, arguments: currency);
+                      },
+                      child: TrendingAsset(asset: currency),
+                    );
+                  }).toList(),
+                ),
+              );
+            },
           ),
         ),
         const SizedBox(height: TSizes.spaceBtwSections),
@@ -155,7 +203,8 @@ class _DashboardBodyState extends State<DashboardBody> {
                     onTap: () {
                       Get.toNamed(Routers.buy, arguments: currency);
                     },
-                    child: CurrencyCard(currency: currency));
+                    child: CurrencyCard(currency: currency),
+                  );
                 },
               );
             },

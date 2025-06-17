@@ -17,11 +17,14 @@ class TLoggerHelper {
     );
   }
 
-  static void logApiResult({int? code, String? message}) {
-    String getEmoji(int? code) {
+  static void logApiResult({
+    required int code,
+    required String method,
+    required String message,
+    required String httpMethod,
+  }) {
+    String getEmoji(int code) {
       switch (code) {
-        case null:
-          return '🚫';
         case >= 200 && < 300:
           return '✅';
         case >= 400 && < 500:
@@ -33,28 +36,26 @@ class TLoggerHelper {
       }
     }
 
-    int getLevel(int? code) {
+    int getLevel(int code) {
       switch (code) {
-        case null:
-          return 5;
         case >= 200 && < 300:
-          return 0;
+          return 200;
         case >= 400 && < 500:
-          return 2;
+          return 500;
         case >= 500:
-          return 3;
+          return 900;
         default:
           return 0;
       }
     }
 
     log(
-      '${getEmoji(code)} $code ${getEmoji(code)}: $message - ${DateTime.now()}',
+      '[${getEmoji(code)} $httpMethod - $code ${getEmoji(code)}] - ($method): $message - ${DateTime.now()}',
       name: 'API',
       zone: Zone.current,
       time: DateTime.now(),
       level: getLevel(code),
-      stackTrace: code! >= 400 ? StackTrace.current : null,
+      stackTrace: code >= 400 ? StackTrace.current : null,
     );
   }
 }

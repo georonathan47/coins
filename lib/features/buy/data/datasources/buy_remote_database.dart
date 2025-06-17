@@ -52,17 +52,17 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         Env.listingsUrl,
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
       );
-      TLoggerHelper.logApiResult(
-        code: result.statusCode!,
-        message: result.bodyString!,
-      );
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         final List<dynamic> responseData = result.body;
         List<CoinData> coinData = responseData
             .map((country) => coinDataFromJson(jsonEncode(country)))
-            // .toSet()
             .toList();
-        TLoggerHelper.logEvent(coinData, eventName: 'Buy Listings Available');
+        TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
+          code: result.statusCode!,
+          method: 'fetchCurrencies',
+          message: 'Fetched ${coinData.length} listed currencies',
+        );
         return coinData;
       } else {
         throw ServerException();
@@ -117,8 +117,11 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
             .toSet()
             .toList();
         TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
           code: result.statusCode!,
-          message: currencies.toString(),
+          method: 'fetchCurrencies',
+          message:
+              'Fetched ${currencies.length} currencies for country $countryId',
         );
         return currencies;
       } else {
@@ -136,16 +139,19 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         '${Env.tradableCurrenciesUrl}=$countryId',
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
       );
-      TLoggerHelper.logApiResult(
-        code: result.statusCode!,
-        message: result.bodyString!,
-      );
+
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         final List<dynamic> responseData = result.body;
         List<CoinData> coinData = responseData
             .map((coin) => coinDataFromJson(jsonEncode(coin)))
             .toList();
-        TLoggerHelper.logEvent(coinData, eventName: 'Tradables Available');
+        TLoggerHelper.logApiResult(
+          code: result.statusCode!,
+          httpMethod: 'GET',
+          method: 'fetchTradableCoins',
+          message:
+              'Fetched ${coinData.length} tradable coins for country $countryId',
+        );
         return coinData;
       } else {
         throw ServerException();
