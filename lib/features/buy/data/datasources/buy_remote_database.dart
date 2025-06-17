@@ -51,17 +51,27 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         Env.listingsUrl,
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
       );
+      TLoggerHelper.logApiResult(
+        code: result.statusCode!,
+        message: result.bodyString!,
+      );
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
-        final List<dynamic> responseData = jsonDecode(result.bodyString!);
-        List<CoinData> countries = responseData
+        final List<dynamic> responseData = result.body;
+        List<CoinData> coinData = responseData
             .map((country) => coinDataFromJson(jsonEncode(country)))
-            .toSet()
+            // .toSet()
             .toList();
-        return countries;
+        TLoggerHelper.logEvent(coinData, eventName: 'Buy Listings Available');
+        return coinData;
       } else {
         throw ServerException();
       }
-    } catch (e) {
+    } catch (e, s) {
+      TLoggerHelper.logEvent(
+        e,
+        stackTrace: s,
+        eventName: 'Error Fetching Listings',
+      );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }
   }

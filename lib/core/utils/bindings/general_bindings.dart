@@ -34,6 +34,7 @@ class GeneralBindings extends Bindings {
         DashboardController(
           retrieveUserUsecase: Get.find(),
           saveUserInfoUsecase: Get.find(),
+          fetchListingsUsecase: Get.find(),
           fetchUserInfoUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),

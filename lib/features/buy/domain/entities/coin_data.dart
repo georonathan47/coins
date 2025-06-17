@@ -5,72 +5,71 @@ CoinData coinDataFromJson(String str) => CoinData.fromJson(json.decode(str));
 String coinDataToJson(CoinData data) => json.encode(data.toJson());
 
 class CoinData {
-    int id;
-    String name;
-    String icon;
-    String color;
-    String price;
-    String symbol;
-    List<double> sparkline;
-    String percentageChange;
-    List<dynamic> displaySection;
+  int id;
+  String name;
+  String symbol;
+  String price;
+  String percentageChange;
+  String icon;
+  String color;
+  List<String> displaySection;
+  List<double> sparkline;
 
-    CoinData({
-        required this.id,
-        required this.name,
-        required this.icon,
-        required this.color,
-        required this.price,
-        required this.symbol,
-        required this.sparkline,
-        required this.percentageChange,
-        required this.displaySection,
-    });
+  CoinData({
+    required this.id,
+    required this.name,
+    required this.symbol,
+    required this.price,
+    required this.percentageChange,
+    required this.icon,
+    required this.color,
+    required this.displaySection,
+    required this.sparkline,
+  });
 
-    CoinData copyWith({
-        int? id,
-        String? name,
-        String? icon,
-        String? color,
-        String? price,
-        String? symbol,
-        List<double>? sparkline,
-        String? percentageChange,
-        List<dynamic>? displaySection,
-    }) =>
-        CoinData(
-            id: id ?? this.id,
-            name: name ?? this.name,
-            icon: icon ?? this.icon,
-            color: color ?? this.color,
-            price: price ?? this.price,
-            symbol: symbol ?? this.symbol,
-            sparkline: sparkline ?? this.sparkline,
-            percentageChange: percentageChange ?? this.percentageChange,
-            displaySection: displaySection ?? this.displaySection,
-        );
+  CoinData copyWith({
+    int? id,
+    String? name,
+    String? symbol,
+    String? price,
+    String? percentageChange,
+    String? icon,
+    String? color,
+    List<String>? displaySection,
+    List<double>? sparkline,
+  }) => CoinData(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    symbol: symbol ?? this.symbol,
+    price: price ?? this.price,
+    percentageChange: percentageChange ?? this.percentageChange,
+    icon: icon ?? this.icon,
+    color: color ?? this.color,
+    displaySection: displaySection ?? this.displaySection,
+    sparkline: sparkline ?? this.sparkline,
+  );
 
-    factory CoinData.fromJson(Map<String, dynamic> json) => CoinData(
-        id: json["id"],
-        name: json["name"],
-        icon: json["icon"],
-        color: json["color"],
-        price: json["price"],
-        symbol: json["symbol"],
-        sparkline: List<double>.from(json["sparkline"].map((x) => x.toDouble())),
-        percentageChange: json["percentageChange"],
-        displaySection: List<dynamic>.from(json["displaySection"].map((x) => x)),
-    );
+  factory CoinData.fromJson(Map<String, dynamic> json) => CoinData(
+    id: json["id"],
+    icon: json["icon"],
+    name: json["name"],
+    price: json["price"],
+    symbol: json["symbol"],
+    color: json["color"] ?? '#000000',
+    percentageChange: json["percentageChange"],
+    sparkline: List<double>.from(json["sparkline"].map((x) => double.parse(x))),
+    displaySection: List<String>.from(json["displaySection"].map((x) => x)),
+  );
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "icon": icon,
-        "color": color,
-        "price": price,
-        "symbol": symbol,
-        "sparkline": List<dynamic>.from(sparkline.map((x) => x)),
-        "percentageChange": percentageChange,
-        "displaySection": List<dynamic>.from(displaySection.map((x) => x)),
-    };
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "symbol": symbol,
+    "price": price,
+    "percentageChange": percentageChange,
+    "icon": icon,
+    "color": color,
+    "displaySection": List<dynamic>.from(displaySection.map((x) => x)),
+    "sparkline": List<dynamic>.from(sparkline.map((x) => x)),
+  };
 }

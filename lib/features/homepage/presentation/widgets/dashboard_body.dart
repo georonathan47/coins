@@ -109,7 +109,7 @@ class _DashboardBodyState extends State<DashboardBody> {
         SizedBox(
           height: MediaQuery.sizeOf(context).height / 3,
           child: FutureBuilder(
-            future: instance.fetchCurrencies(),
+            future: instance.fetchListings(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return ListView.builder(

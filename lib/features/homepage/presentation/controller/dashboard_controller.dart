@@ -3,9 +3,11 @@ import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/auth/domain/usecases/save_user_usecase.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../buy/data/models/currency.dart';
+import '../../../buy/domain/entities/coin_data.dart';
 import '../../../buy/domain/entities/country.dart';
 import '../../../buy/domain/usecases/fetch_countries_usecase.dart';
 import '../../../buy/domain/usecases/fetch_currencies_usecase.dart';
+import '../../../buy/domain/usecases/fetch_listings_usecase.dart';
 import '../widgets/widgets.dart';
 
 class DashboardController extends GetxController {
@@ -14,6 +16,7 @@ class DashboardController extends GetxController {
 
   final RetrieveUserUsecase retrieveUserUsecase;
   final SaveUserInfoUsecase saveUserInfoUsecase;
+  final FetchListingsUsecase fetchListingsUsecase;
   final FetchUserInfoUsecase fetchUserInfoUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
 
@@ -21,6 +24,7 @@ class DashboardController extends GetxController {
   DashboardController({
     required this.retrieveUserUsecase,
     required this.saveUserInfoUsecase,
+    required this.fetchListingsUsecase,
     required this.fetchUserInfoUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
@@ -104,6 +108,14 @@ class DashboardController extends GetxController {
         currentUser.value = user;
         update();
       },
+    );
+  }
+
+  Future<List<CoinData>> fetchListings() async {
+    final result = await fetchListingsUsecase(NoParams());
+    return result.fold(
+      (failure) => Future.error(failure.message),
+      (success) => success,
     );
   }
 }

@@ -2,8 +2,18 @@ import 'dart:async';
 import 'dart:developer';
 
 class TLoggerHelper {
-  static void logEvent(dynamic message, {String? eventName}) {
-    log(message.toString(), name: eventName ?? 'EVENT', time: DateTime.now());
+  static void logEvent(
+    dynamic message, {
+    String? eventName,
+    StackTrace? stackTrace,
+  }) {
+    log(
+      message.toString(),
+      name: eventName ?? 'EVENT',
+      time: DateTime.now(),
+      stackTrace: stackTrace ?? StackTrace.current,
+      zone: Zone.current,
+    );
   }
 
   static void logApiResult({int? code, String? message}) {
