@@ -17,6 +17,20 @@ class TLoggerHelper {
     );
   }
 
+  static void logRefreshAttempt(
+    dynamic message, {
+    required int statusCode,
+    StackTrace? stackTrace,
+  }) {
+    log(
+      '$message failed with status code: $statusCode, attempting token refresh',
+      time: DateTime.now(),
+      zone: Zone.current,
+      name: 'Token Refresh Attempt',
+      stackTrace: stackTrace,
+    );
+  }
+
   static void logApiResult({
     required int code,
     required String method,

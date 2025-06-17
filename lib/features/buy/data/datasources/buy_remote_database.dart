@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:get/get_connect.dart';
 
+import '../../../../core/auth/data/datasources/auth_remote_database.dart';
 import '../../../../core/constants/env.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/utils/logger.dart';
 import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';
+import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../models/currency.dart';
 import '../models/ree_calc_response.dart';
@@ -17,11 +19,17 @@ abstract class BuyRemoteDatabase {
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
   Future<FeeCalcResponse> calculateFees(FeeCalculation request, Map tokens);
+
+  Future createOrder(CreateBuyOrder request, Map tokens);
 }
 
 class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
   final GetHttpClient client;
-  BuyRemoteDatabaseImpl(this.client);
+  final AuthRemoteDatabase authRemoteDatabase;
+  BuyRemoteDatabaseImpl({
+    required this.client,
+    required this.authRemoteDatabase,
+  });
 
   @override
   Future<List<Country>> fetchCountries(Map tokens) async {
@@ -37,6 +45,20 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
             .toSet()
             .toList();
         return countries;
+      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchCountries',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchCountries(tokens);
+        } catch (e) {
+          throw ServerException();
+        }
       } else {
         throw ServerException();
       }
@@ -64,6 +86,20 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${coinData.length} listed currencies',
         );
         return coinData;
+      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchListings',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchListings(tokens);
+        } catch (e) {
+          throw ServerException();
+        }
       } else {
         throw ServerException();
       }
@@ -76,8 +112,6 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }
   }
-
-
 
   @override
   Future<FeeCalcResponse> calculateFees(
@@ -104,6 +138,20 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         throw NoResultException(
           'Buy/Sell rate with the provided parameters does not exist',
         );
+      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'calculateFees',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return calculateFees(request, tokens);
+        } catch (e) {
+          throw ServerException();
+        }
       } else {
         throw ServerException();
       }
@@ -133,6 +181,20 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${currencies.length} currencies for country $countryId',
         );
         return currencies;
+      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchCurrencies',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchCurrencies(countryId, tokens);
+        } catch (e) {
+          throw ServerException();
+        }
       } else {
         throw ServerException();
       }
@@ -162,6 +224,20 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${coinData.length} tradable coins for country $countryId',
         );
         return coinData;
+      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchTradableCoins',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchTradableCoins(countryId, tokens);
+        } catch (e) {
+          throw ServerException();
+        }
       } else {
         throw ServerException();
       }
@@ -170,6 +246,49 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         e,
         stackTrace: s,
         eventName: 'Error Fetching Tradables',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future createOrder(CreateBuyOrder request, Map tokens) async {
+    try {
+      final result = await client.post(
+        Env.listingsUrl,
+        body: jsonEncode(request.toJson()),
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        TLoggerHelper.logApiResult(
+          httpMethod: 'POST',
+          method: 'createOrder',
+          code: result.statusCode!,
+          message:
+              'Created Buy Order for ${request.buyAmount} of ${request.eCurrency}',
+        );
+      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'createOrder',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return createOrder(request, tokens);
+        } catch (e) {
+          throw ServerException();
+        }
+      } else {
+        throw ServerException();
+      }
+    } catch (e, s) {
+      TLoggerHelper.logEvent(
+        e,
+        stackTrace: s,
+        eventName: 'Error Fetching Listings',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

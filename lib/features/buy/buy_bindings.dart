@@ -3,6 +3,7 @@ import 'data/datasources/buy_remote_database.dart';
 import 'data/datasources/currency_local_database.dart';
 import 'data/repositories/buy_repo_impl.dart';
 import 'domain/repositories/buy_repository.dart';
+import 'domain/usecases/create_order_usecase.dart';
 import 'domain/usecases/fee_calculation_usecase.dart';
 import 'domain/usecases/fetch_countries_usecase.dart';
 import 'domain/usecases/fetch_currencies_usecase.dart';
@@ -15,7 +16,12 @@ class BuyBindings extends Bindings {
   void dependencies() {
     Get
       ..lazyPut<BuyLocalDatabase>(() => BuyLocalDatabaseImpl(Get.find()))
-      ..lazyPut<BuyRemoteDatabase>(() => BuyRemoteDatabaseImpl(Get.find()))
+      ..lazyPut<BuyRemoteDatabase>(
+        () => BuyRemoteDatabaseImpl(
+          client: Get.find(),
+          authRemoteDatabase: Get.find(),
+        ),
+      )
       ..lazyPut<CurrencyLocalDatabase>(
         () => CurrencyLocalDatabaseImpl(Get.find()),
       )
@@ -31,6 +37,7 @@ class BuyBindings extends Bindings {
       )
       ..lazyPut(() => CalculateFeeUsecase(Get.find()))
       ..lazyPut(() => FetchListingsUsecase(Get.find()))
+      ..lazyPut(() => CreateBuyOrderUsecase(Get.find()))
       ..lazyPut(() => FetchCountriesUsecase(Get.find()))
       ..lazyPut(() => FetchCurrenciesUsecase(Get.find()))
       ..lazyPut(() => FetchTradableCoinsUsecase(Get.find()));

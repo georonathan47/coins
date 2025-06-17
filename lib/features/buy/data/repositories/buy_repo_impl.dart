@@ -6,6 +6,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/platform/network_info.dart';
 import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';
+import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/repositories/buy_repository.dart';
 import '../datasources/buy_local_database.dart';
@@ -145,6 +146,26 @@ class BuyRepositoryImpl implements BuyRepository {
           countryId,
           tokens,
         );
+        return Right(response);
+      } else {
+        return Left(
+          Failure(
+            'No internet connection. Please check your internet connection and try again!',
+          ),
+        );
+      }
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> createBuyOrder(CreateBuyOrder order) async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await authLocalDatabase.fetchTokens();
+        final request = order.copyWith(userId: tokens['userId']);
+        final response = await remoteDatabase.createOrder(request, tokens);
         return Right(response);
       } else {
         return Left(
