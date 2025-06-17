@@ -19,6 +19,7 @@ class BuyController extends GetxController {
   final currentUser = User.empty().obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final local = TextEditingController().obs;
+  final wallet = TextEditingController().obs;
   final dollar = TextEditingController().obs;
   final calcResponse = FeeCalcResponse.empty().obs;
   static BuyController get instance => Get.find();
@@ -43,13 +44,12 @@ class BuyController extends GetxController {
     fetchCurrencies();
   }
 
-  @override
-  void dispose() {
+  void clearControllers() {
+    network.value = '';
     currencyId.value = 0;
     local.value.dispose();
     dollar.value.dispose();
     calcResponse.value = FeeCalcResponse.empty();
-    super.dispose();
   }
 
   Future<User> retrieveUser() async {
@@ -91,11 +91,11 @@ class BuyController extends GetxController {
       currencyId: currencyId.value,
       networkFeeType: network.value,
       paymentMode: paymentMode.value,
-      isLocal: local.value.text.isNotEmpty,
+      isLocal: local.value.text.isNotEmpty && dollar.value.text.isEmpty,
       amount: dollar.value.text.isEmpty ? local.value.text : dollar.value.text,
     ).obs;
     final result = await calculateFeeUsecase(ObjectParams(request.value));
-    Get.back();
+    Navigator.pop(Get.context!);
     return result.fold(
       (failure) {
         THelperFunctions.showSnackBar(
@@ -107,8 +107,8 @@ class BuyController extends GetxController {
       },
       (success) {
         calcResponse.value = success;
-        local.value.text = success.amountLocalCurrency.toString();
-        dollar.value.text = success.amountStandardCurrency.toString();
+        local.value.text = success.amountLocalCurrency!.toStringAsFixed(2);
+        dollar.value.text = success.amountStandardCurrency!.toStringAsFixed(2);
         update();
         return success;
       },

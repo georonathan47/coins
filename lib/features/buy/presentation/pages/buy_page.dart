@@ -10,6 +10,7 @@ class BuyPage extends StatefulWidget {
 
 class BuyPageState extends State<BuyPage> {
   final textTheme = Get.textTheme;
+  final instance = BuyController.instance;
   final coinData = Get.arguments['coinData'] as CoinData;
   final currency = Get.arguments['currency'] as Currency;
 
@@ -19,6 +20,13 @@ class BuyPageState extends State<BuyPage> {
       child: Scaffold(
         appBar: TAppBar(
           centerTitle: true,
+          leading: BackButton(
+            color: TColors.light,
+            onPressed: () {
+              instance.clearControllers();
+              Get.back();
+            },
+          ),
           title: Text(
             'Buy',
             style: textTheme.titleLarge?.copyWith(color: TColors.light),

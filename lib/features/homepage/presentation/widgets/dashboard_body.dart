@@ -158,7 +158,6 @@ class _DashboardBodyState extends State<DashboardBody> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return ListView.builder(
                   itemCount: 5,
-                  padding: const EdgeInsets.all(16),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return CurrencyCardShimmer();
@@ -198,11 +197,21 @@ class _DashboardBodyState extends State<DashboardBody> {
                 itemBuilder: (context, index) {
                   final coinData = snapshot.requireData[index];
                   return InkWell(
-                    onTap: () async{
+                    onTap: () async {
+                      showDialog(
+                        context: context,
+                        builder: (_) =>
+                            const Center(child: CircularProgressIndicator()),
+                      );
                       final result = await instance.fetchCurrencies();
                       final currency = result.firstWhere(
-                        (element) => element.currencyName == coinData.name,);
-                      Get.toNamed(Routers.buy, arguments: {'coinData': coinData, 'currency': currency});
+                        (element) => element.currencyName == coinData.name,
+                      );
+                      Get.back();
+                      Get.toNamed(
+                        Routers.buy,
+                        arguments: {'coinData': coinData, 'currency': currency},
+                      );
                     },
                     child: CurrencyCard(currency: coinData),
                   );

@@ -192,6 +192,7 @@ class BuyBodyState extends State<BuyBody> {
                     const SizedBox(height: TSizes.spaceBtwSections),
                     TextFormField(
                       maxLength: 32,
+                      controller: instance.wallet.value,
                       validator: TValidator.validateWalletAddress,
                       maxLengthEnforcement:
                           MaxLengthEnforcement.truncateAfterCompositionEnds,
