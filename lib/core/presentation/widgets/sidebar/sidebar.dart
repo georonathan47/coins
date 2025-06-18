@@ -40,7 +40,8 @@ class Sidebar extends StatelessWidget {
                             icon: Icons.person,
                             text: 'Verify Account',
                             onTap: () {
-                              // Navigate to profile
+                              Get.back();
+                              Get.toNamed(Routers.kyc);
                             },
                           ),
                           NavDrawerItem(

@@ -9,6 +9,8 @@ import '../../features/buy/presentation/pages/history.dart';
 import '../../features/buy/presentation/pages/payment_selection.dart';
 import '../../features/buy/presentation/pages/success.dart';
 import '../../features/homepage/presentation/pages/index.dart';
+import '../../features/kyc/presentation/pages/home.dart';
+import '../../features/kyc/presentation/pages/personal_details.dart';
 import '../auth/presentation/pages/captcha.dart';
 import '../auth/presentation/pages/check_mail.dart';
 import '../auth/presentation/pages/legacy.dart';
@@ -48,6 +50,7 @@ class Routers {
   static const legacyEmail = '/legacyEmail';
   static const buyableAssets = '/buyableAssets';
   static const paymentSelection = '/paymentSelection';
+  static const kycPersonalDetails = '/kycPersonalDetails';
 }
 
 class RouteManager {
@@ -174,6 +177,19 @@ class RouteManager {
         name: Routers.actionBuy,
         transition: Transition.fadeIn,
         page: () => const ActionableBuy(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      /// KYC and Profile
+      GetPage(
+        name: Routers.kyc,
+        page: () => const KycHome(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        transition: Transition.fadeIn,
+        name: Routers.kycPersonalDetails,
+        page: () => const PersonalDetails(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

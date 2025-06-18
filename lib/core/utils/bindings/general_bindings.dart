@@ -1,5 +1,6 @@
 import '../../../features/buy/presentation/controller/buy_controller.dart';
 import '../../../features/homepage/presentation/widgets/widgets.dart';
+import '../../../features/kyc/presentation/controller/kyc_controller.dart';
 import '../../onboarding/presentation/controller/onboarding_controller.dart';
 
 class GeneralBindings extends Bindings {
@@ -43,6 +44,7 @@ class GeneralBindings extends Bindings {
           fetchTradableCoinsUsecase: Get.find(),
         ),
       )
+      ..put(KycController(retrieveUserUsecase: Get.find()))
       //? Onboarding Controller
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
   }

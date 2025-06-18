@@ -20,14 +20,13 @@ class TLoggerHelper {
   static void logRefreshAttempt(
     dynamic message, {
     required int statusCode,
-    StackTrace? stackTrace,
   }) {
     log(
       '$message failed with status code: $statusCode, attempting token refresh',
       time: DateTime.now(),
       zone: Zone.current,
       name: 'Token Refresh Attempt',
-      stackTrace: stackTrace,
+      stackTrace: StackTrace.current,
     );
   }
 
@@ -64,11 +63,11 @@ class TLoggerHelper {
     }
 
     log(
-      '[${getEmoji(code)} $httpMethod - $code ${getEmoji(code)}] - ($method): $message - ${DateTime.now()}',
-      name: 'API',
+      '[${getEmoji(code)} $code ${getEmoji(code)}] - ($method): $message - ${DateTime.now()}',
       zone: Zone.current,
       time: DateTime.now(),
       level: getLevel(code),
+      name: '$httpMethod API',
       stackTrace: code >= 400 ? StackTrace.current : null,
     );
   }

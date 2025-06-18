@@ -14,8 +14,8 @@ class TBottomSheetTheme {
 
   static BottomSheetThemeData darkBottomSheetTheme = BottomSheetThemeData(
     showDragHandle: true,
-    backgroundColor: TColors.black,
-    modalBackgroundColor: TColors.black,
+    backgroundColor: TColors.darkContainer,
+    modalBackgroundColor: TColors.darkerGrey,
     constraints: const BoxConstraints(minWidth: double.infinity),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
   );
