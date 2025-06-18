@@ -1,5 +1,13 @@
 import 'package:get/get.dart';
 
+import '../../features/buy/presentation/pages/actionable_buy.dart';
+import '../../features/buy/presentation/pages/buy_otp.dart';
+import '../../features/buy/presentation/pages/buy_page.dart';
+import '../../features/buy/presentation/pages/buy_summary.dart';
+import '../../features/buy/presentation/pages/buyable_assets.dart';
+import '../../features/buy/presentation/pages/history.dart';
+import '../../features/buy/presentation/pages/payment_selection.dart';
+import '../../features/buy/presentation/pages/success.dart';
 import '../../features/homepage/presentation/pages/index.dart';
 import '../auth/presentation/pages/captcha.dart';
 import '../auth/presentation/pages/check_mail.dart';
@@ -14,12 +22,15 @@ import '../auth/presentation/pages/signup_captcha.dart';
 import '../presentation/animations/splash.dart';
 
 class Routers {
+  static const buy = '/buy';
+  static const kyc = '/kyc';
   static const otp = '/otp';
   static const mfa = '/mfa';
   static const edit = '/edit';
   static const index = '/index';
   static const login = '/login';
   static const reset = '/reset';
+  static const buyOtp = '/buyOtp';
   static const splash = '/splash';
   static const legacy = '/legacy';
   static const regOtp = '/regOtp';
@@ -29,12 +40,18 @@ class Routers {
   static const register = '/register';
   static const homepage = '/homepage';
   static const settings = '/settings';
+  static const actionBuy = '/actionBuy';
+  static const buyHistory = '/buyHistory';
+  static const buySuccess = '/buySuccess';
+  static const buySummary = '/buySummary';
   static const regCaptcha = '/regCaptcha';
   static const legacyEmail = '/legacyEmail';
+  static const buyableAssets = '/buyableAssets';
+  static const paymentSelection = '/paymentSelection';
 }
 
 class RouteManager {
-  static const initial = Routers.index;
+  static const initial = Routers.splash;
 
   static List<GetPage> getPages() {
     return [
@@ -109,6 +126,54 @@ class RouteManager {
         name: Routers.legacyEmail,
         transition: Transition.fadeIn,
         page: () => const CheckEmail(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.buy,
+        page: () => const BuyPage(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.buySummary,
+        transition: Transition.fadeIn,
+        page: () => const BuySummary(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.buyOtp,
+        page: () => const BuyOtp(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.buySuccess,
+        transition: Transition.fadeIn,
+        page: () => const BuySuccessPage(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.buyHistory,
+        transition: Transition.fadeIn,
+        page: () => const BuyOrderHistory(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.buyableAssets,
+        transition: Transition.fadeIn,
+        page: () => const BuyableAssets(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        transition: Transition.fadeIn,
+        name: Routers.paymentSelection,
+        page: () => const PaymentSelectionPage(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.actionBuy,
+        transition: Transition.fadeIn,
+        page: () => const ActionableBuy(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

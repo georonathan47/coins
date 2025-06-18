@@ -50,6 +50,9 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
       } else if (result.statusCode! == 400) {
         final body = jsonDecode(result.body);
         throw BadRequestException(body['message']);
+      } else if (result.statusCode! == 404) {
+        final body = jsonDecode(result.body);
+        throw BadRequestException(body['message']);
       } else {
         throw ServerException();
       }
@@ -82,6 +85,8 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
         body: jsonEncode(jsonBody),
       );
       TLoggerHelper.logApiResult(
+        httpMethod: 'POST',
+        method: 'register user',
         code: result.statusCode!,
         message: 'AuthRemoteDatabase.register()',
       );
@@ -103,6 +108,8 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
       );
       TLoggerHelper.logApiResult(
+        httpMethod: 'GET',
+        method: 'fetchUserInfo',
         code: result.statusCode!,
         message: 'AuthRemoteDatabase.fetchUserInfo()',
       );
@@ -190,6 +197,8 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
         // body: jsonBody,
       );
       TLoggerHelper.logApiResult(
+        httpMethod: 'POST',
+        method: 'update user',
         code: result.statusCode!,
         message: 'AuthRemoteDatabase.update()',
       );

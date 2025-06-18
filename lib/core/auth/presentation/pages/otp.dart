@@ -29,7 +29,7 @@ class _OtpState extends State<Otp> {
           child: ScrollableWidget(
             children: [
               SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.375,
+                height: Get.height * 0.375,
                 child: Lottie.network(TImages.lottieImage),
               ),
               SizedBox(height: 2.5),
@@ -60,7 +60,7 @@ class _OtpState extends State<Otp> {
                 controller: pinController,
                 pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                 defaultPinTheme: PinTheme(
-                  height: MediaQuery.sizeOf(context).height * 0.075,
+                  height: Get.height * 0.075,
                   textStyle: textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),

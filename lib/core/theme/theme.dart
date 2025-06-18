@@ -17,8 +17,8 @@ class TAppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     fontFamily: 'Poppins',
-    disabledColor: TColors.grey,
     brightness: Brightness.light,
+    disabledColor: TColors.grey,
     primaryColor: TColors.primary,
     textTheme: TTextTheme.lightTextTheme,
     chipTheme: TChipTheme.lightChipTheme,
@@ -26,11 +26,17 @@ class TAppTheme {
     drawerTheme: TDrawerTheme.lightDrawerTheme,
     checkboxTheme: TCheckboxTheme.lightCheckboxTheme,
     scaffoldBackgroundColor: TColors.primaryBackground,
-    cardTheme: const CardThemeData(color: TColors.white),
+    cardTheme: const CardThemeData(color: TColors.light),
     bottomSheetTheme: TBottomSheetTheme.lightBottomSheetTheme,
     elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme,
     outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
     inputDecorationTheme: TTextFormFieldTheme.lightInputDecorationTheme,
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      strokeWidth: 5,
+      linearMinHeight: 35,
+      color: TColors.secondary,
+      linearTrackColor: TColors.darkGrey.withOpacity(0.3),
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -46,18 +52,15 @@ class TAppTheme {
     scaffoldBackgroundColor: TColors.darkerGrey,
     checkboxTheme: TCheckboxTheme.darkCheckboxTheme,
     bottomSheetTheme: TBottomSheetTheme.darkBottomSheetTheme,
-    cardTheme: const CardThemeData(color: TColors.darkGray),
+    cardTheme: const CardThemeData(color: TColors.darkerGrey),
     elevatedButtonTheme: TElevatedButtonTheme.darkElevatedButtonTheme,
     outlinedButtonTheme: TOutlinedButtonTheme.darkOutlinedButtonTheme,
     inputDecorationTheme: TTextFormFieldTheme.darkInputDecorationTheme,
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      strokeWidth: 5,
+      linearMinHeight: 35,
+      color: TColors.secondary,
+      linearTrackColor: TColors.grey.withOpacity(0.3),
+    ),
   );
 }
-
-// final customDatePickerTheme = ThemeData(
-//   primarySwatch: Colors.red,
-//   indicatorColor: TColors.accent,
-//   highlightColor: TColors.secondary,
-//   dialogTheme: const DialogThemeData(
-//     backgroundColor: TColors.primaryBackground,
-//   ),
-// );

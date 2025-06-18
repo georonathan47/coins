@@ -44,5 +44,15 @@ abstract class Env {
   static const String googleLoginUrl = _Env.googleLoginUrl;
   @EnviedField(varName: 'MFA')
   static const String mfaUrl = _Env.mfaUrl;
+  @EnviedField(varName: 'ACTIVATE_COUNTRIES')
+  static const String activateCountriesUrl = _Env.activateCountriesUrl;
+  @EnviedField(varName: 'BUY_URL')
+  static const String buyUrl = _Env.buyUrl;
+  @EnviedField(varName: 'SPECIFIC_CURRENCY')
+  static const String specificCurrencyUrl = _Env.specificCurrencyUrl;
+  @EnviedField(varName: 'COIN_DATA')
+  static const String listingsUrl = _Env.listingsUrl;
+  @EnviedField(varName: 'TRADABLE_CURRENCIES')
+  static const String tradableCurrenciesUrl = _Env.tradableCurrenciesUrl;
 
 }

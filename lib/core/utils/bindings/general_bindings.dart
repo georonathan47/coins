@@ -1,3 +1,4 @@
+import '../../../features/buy/presentation/controller/buy_controller.dart';
 import '../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../onboarding/presentation/controller/onboarding_controller.dart';
 
@@ -14,15 +15,35 @@ class GeneralBindings extends Bindings {
           refreshTokenUsecase: Get.find(),
           registerUserUsecase: Get.find(),
           retrieveUserUsecase: Get.find(),
+          saveUserInfoUsecase: Get.find(),
           sendLoginOtpUseCase: Get.find(),
           fetchUserInfoUsecase: Get.find(),
           resetPasswordUsecase: Get.find(),
+          fetchCountriesUsecase: Get.find(),
           verifyLoginOtpUsecase: Get.find(),
         ),
       )
-
+      ..put(
+        BuyController(
+          calculateFeeUsecase: Get.find(),
+          retrieveUserUsecase: Get.find(),
+          fetchListingsUsecase: Get.find(),
+          fetchCountriesUsecase: Get.find(),
+          fetchCurrenciesUsecase: Get.find(),
+        ),
+      )
+      ..put(
+        DashboardController(
+          retrieveUserUsecase: Get.find(),
+          saveUserInfoUsecase: Get.find(),
+          fetchListingsUsecase: Get.find(),
+          fetchUserInfoUsecase: Get.find(),
+          fetchCountriesUsecase: Get.find(),
+          fetchCurrenciesUsecase: Get.find(),
+          fetchTradableCoinsUsecase: Get.find(),
+        ),
+      )
       //? Onboarding Controller
-      ..put(DashboardController())
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
   }
 }

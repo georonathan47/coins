@@ -85,17 +85,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
                     demoData.length,
-                    (index) => DotIndicator(isActive: index == currentPage.value),
+                    (index) =>
+                        DotIndicator(isActive: index == currentPage.value),
                   ),
                 ),
                 const Spacer(flex: 2),
                 Visibility(
                   visible: currentPage.value == demoData.length - 1,
                   child: SizedBox(
-                    width: MediaQuery.sizeOf(context).width * .5,
+                    width: Get.width * .5,
                     child: ElevatedButton(
                       onPressed: () async {
-                        await OnboardingController.instance.onboardingComplete();
+                        await OnboardingController.instance
+                            .onboardingComplete();
                         Get.offAllNamed(Routers.login);
                       },
                       child: Padding(

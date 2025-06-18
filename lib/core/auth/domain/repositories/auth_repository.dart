@@ -12,6 +12,7 @@ abstract class AuthRepository {
   Future<Either<Failure, User>> fetchUserInfo();
   Future<Either<Failure, String>> update(User request);
   Future<Either<Failure, AuthResponse>> refreshToken();
+  Future<Either<Failure, void>> saveUserInfo(User user);
   Future<Either<Failure, String>> sendLoginOtp(int userId);
   Future<Either<Failure, AuthResponse>> login(User request);
   Future<Either<Failure, AuthResponse>> register(User request);

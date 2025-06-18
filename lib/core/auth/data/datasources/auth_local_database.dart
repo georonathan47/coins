@@ -52,8 +52,8 @@ class AuthLocalDatabaseImpl implements AuthLocalDatabase {
   Future<bool> authenticationStatus() async {
     try {
       final user = await _retrieveBox();
-      TLoggerHelper.logEvent(user.userId! > 0);
-      return user.userId! > 0;
+      TLoggerHelper.logEvent(user.userId != null && user.userId! > 0);
+      return user.userId != null && user.userId! > 0;
     } catch (error) {
       TLoggerHelper.logEvent(error);
       return false;

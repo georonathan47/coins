@@ -222,4 +222,14 @@ class AuthRepoImpl implements AuthRepository {
       return Left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> saveUserInfo(User user) async {
+    try {
+      final response = await localDatabase.saveUserInfo(user);
+      return Right(response);
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
 }

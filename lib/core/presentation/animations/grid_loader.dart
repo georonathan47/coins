@@ -7,7 +7,7 @@
 
 //   @override
 //   Widget build(BuildContext context) {
-//     final size = MediaQuery.sizeOf(context);
+//     final size = Get;
 //     return Skeletonizer(
 //       enabled: true,
 //       enableSwitchAnimation: true,

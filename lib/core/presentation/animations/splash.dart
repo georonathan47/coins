@@ -167,8 +167,7 @@ class SplashScreenState extends State<SplashScreen>
                                   Get.isDarkMode
                                       ? TImages.logo
                                       : TImages.logoWhite,
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.325,
+                                  height: Get.height * 0.25,
                                 ),
                                 Text(
                                   F.title,
@@ -188,7 +187,7 @@ class SplashScreenState extends State<SplashScreen>
                       .fade(duration: twoSecondDelay)
                       .scale(delay: const Duration(milliseconds: 500)),
 
-                  SizedBox(height: MediaQuery.sizeOf(context).height * 0.1),
+                  SizedBox(height: Get.height * 0.1),
 
                   // Main title with typewriter effect
                   Padding(
@@ -198,6 +197,7 @@ class SplashScreenState extends State<SplashScreen>
                               "Ready to transform your finances?".capitalize!,
                               textAlign: TextAlign.center,
                               style: textTheme.titleMedium!.copyWith(
+                                fontSize: 20,
                                 letterSpacing: 1,
                                 color: TColors.primaryBackground,
                               ),
@@ -219,9 +219,11 @@ class SplashScreenState extends State<SplashScreen>
                         // .capitalize!,
                         textAlign: TextAlign.center,
                         style: textTheme.titleMedium!.copyWith(
+                          fontSize: 20,
                           color: TColors.primaryBackground,
                         ),
                       )
+                      .paddingOnly(left: 16, right: 16)
                       .animate()
                       .fadeIn(
                         delay: const Duration(milliseconds: 1500),
@@ -233,7 +235,7 @@ class SplashScreenState extends State<SplashScreen>
                         curve: Curves.easeOutQuad,
                       ),
 
-                  SizedBox(height: TSizes.spaceBtwSections),
+                  SizedBox(height: TSizes.spaceBtwSections * 2),
                   // Get Started button
                   SizedBox(
                     width: MediaQuery.sizeOf(Get.context!).width * 0.5,

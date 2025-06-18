@@ -37,14 +37,13 @@ class LoginCaptchaState extends State<LoginCaptcha> {
     return FlavorBanner(
       child: Scaffold(
         appBar: TAppBar(
+          centerTitle: true,
           title: Text(
             'CAPTCHA',
             style: textTheme.titleMedium?.copyWith(color: TColors.light),
           ),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(
-              MediaQuery.sizeOf(context).height * 0.075,
-            ),
+            preferredSize: Size.fromHeight(Get.height * 0.075),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Text(

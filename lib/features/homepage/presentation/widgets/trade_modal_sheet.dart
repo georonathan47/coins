@@ -1,3 +1,4 @@
+import '../../../../core/middleware/auth_guard.dart';
 import 'widgets.dart';
 
 class TradeModalSheet extends StatelessWidget {
@@ -23,12 +24,18 @@ class TradeModalSheet extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections / 2),
             TradeTile(
               title: 'Buy',
-              onTap: () {},
+              onTap: () {
+                Get.find<AuthGuard>().checkKycAndExecute(
+                  () => Get.toNamed(Routers.actionBuy),
+                );
+              },
               subtitle: 'Add to your portfolio with a buy order',
             ),
             const SizedBox(height: TSizes.spaceBtwItems / 3),
             TradeTile(
-              onTap: () {},
+              onTap: () {
+                Get.find<AuthGuard>().checkKycAndExecute(() {});
+              },
               title: 'Sell',
               subtitle: 'Cash out or swap your crypto assets.',
             ),

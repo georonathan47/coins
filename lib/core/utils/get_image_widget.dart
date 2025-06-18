@@ -9,7 +9,6 @@ import 'package:flutter/material.dart'
         Image,
         Widget,
         precacheImage;
-import 'package:flutter/services.dart' show Uint8List;
 import 'package:iconsax/iconsax.dart';
 
 import '../constants/colors.dart';
@@ -37,18 +36,22 @@ Future<Widget> getImageWidget(
   }
 }
 
-Future<Uint8List> getImageString(
+Future<Widget> getImageString(
   String base64Image, {
   required BuildContext context,
 }) async {
   try {
     final decodedBytes = base64Decode(base64Image);
-    final image = Image.memory(decodedBytes);
-    await precacheImage(
-      image.image,
-      context,
-    ); // Pre-cache the image for better performance
-    return decodedBytes;
+    final image = Image.memory(
+      decodedBytes,
+      fit: BoxFit.cover,
+      filterQuality: FilterQuality.high,
+      errorBuilder: (context, error, stackTrace) {
+        return const Icon(Iconsax.user, size: 65, color: TColors.accent);
+      },
+    );
+    await precacheImage(image.image, context);
+    return image;
   } catch (e) {
     throw DeviceException(
       e.toString(),

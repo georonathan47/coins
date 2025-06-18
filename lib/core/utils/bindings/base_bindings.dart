@@ -3,6 +3,7 @@ import 'package:hive_ce/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../middleware/auth_guard.dart';
 import '../../platform/gallery_info.dart';
 import '../../platform/network_info.dart';
 import '../../platform/share_info.dart';
@@ -24,6 +25,7 @@ class BaseBindings extends Bindings {
       ..lazyPut(() => OpenImageGallery(Get.find()))
       ..lazyPut(() => OpenImageCamera(Get.find()))
       ..lazyPut<ShareInfo>(() => ShareInfoImpl())
+      ..lazyPut(() => AuthGuard(Get.find()))
       ..lazyPut(() => OpenShare(Get.find()))
       ..lazyPut<HiveInterface>(() => Hive)
       ..lazyPut(() => OpenUrl(Get.find()))

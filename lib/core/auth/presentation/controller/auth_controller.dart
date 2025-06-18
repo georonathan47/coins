@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../../features/buy/domain/entities/country.dart';
+import '../../../../features/buy/domain/usecases/fetch_countries_usecase.dart';
 import '../../data/models/verify_otp_model.dart';
 import '../../domain/usecases/fetch_user_info_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
@@ -8,6 +10,7 @@ import '../../domain/usecases/refresh_token_usecase.dart';
 import '../../domain/usecases/reset_password_usecase.dart';
 import '../../domain/usecases/retrieve_user.dart';
 import '../../../usecase/usecase.dart';
+import '../../domain/usecases/save_user_usecase.dart';
 import '../../domain/usecases/send_login_otp_usecase.dart';
 import '../../domain/usecases/signup_usecase.dart';
 import '../../domain/usecases/verify_login_otp_usecase.dart';
@@ -34,9 +37,11 @@ class AuthController extends GetxController {
   final RefreshTokenUsecase refreshTokenUsecase;
   final RegisterUserUsecase registerUserUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
+  final SaveUserInfoUsecase saveUserInfoUsecase;
   final SendLoginOtpUseCase sendLoginOtpUseCase;
   final FetchUserInfoUsecase fetchUserInfoUsecase;
   final ResetPasswordUsecase resetPasswordUsecase;
+  final FetchCountriesUsecase fetchCountriesUsecase;
   final VerifyLoginOtpUsecase verifyLoginOtpUsecase;
 
   AuthController({
@@ -45,9 +50,11 @@ class AuthController extends GetxController {
     required this.refreshTokenUsecase,
     required this.registerUserUsecase,
     required this.retrieveUserUsecase,
+    required this.saveUserInfoUsecase,
     required this.sendLoginOtpUseCase,
     required this.fetchUserInfoUsecase,
     required this.resetPasswordUsecase,
+    required this.fetchCountriesUsecase,
     required this.verifyLoginOtpUsecase,
   });
 
@@ -126,9 +133,21 @@ class AuthController extends GetxController {
 
   Future<User> fetchUserDetails() async {
     final result = await fetchUserInfoUsecase(NoParams());
-    return result.fold((failure) => User.empty(), (success) {
-      currentUser.value = success;
+    return result.fold((failure) => Future.error(failure.message), (
+      success,
+    ) async {
+      final country = await countries().then(
+        (countries) => countries.firstWhere(
+          (country) => country.countryName == success.country,
+          orElse: () => Country.empty(),
+        ),
+      );
+      currentUser.value = success.copyWith(
+        country: country.countryName,
+        countryId: country.id,
+      );
       update();
+      await saveUserInfo(currentUser.value);
       return success;
     });
   }
@@ -334,6 +353,31 @@ class AuthController extends GetxController {
             ),
           ],
         );
+      },
+    );
+  }
+
+  Future<List<Country>> countries() async {
+    final countries = await fetchCountriesUsecase(NoParams());
+    return countries.fold(
+      (failure) => Future.error(failure.message),
+      (success) => success,
+    );
+  }
+
+  Future<void> saveUserInfo(User user) async {
+    final result = await saveUserInfoUsecase(ObjectParams(user));
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+      },
+      (success) {
+        currentUser.value = user;
+        update();
       },
     );
   }

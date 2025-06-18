@@ -9,8 +9,16 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// - [leadingOnPressed] callback for the leading icon press event.
   /// - [actions] for adding a list of action widgets.
   /// - Horizontal padding of the appbar can be customized inside this widget.
-  const TAppBar({super.key, this.title, this.actions, this.bottom, this.leading});
+  const TAppBar({
+    super.key,
+    this.title,
+    this.actions,
+    this.bottom,
+    this.leading,
+    this.centerTitle,
+  });
 
+  final bool? centerTitle;
   final List<Widget>? actions;
   final Widget? title, leading;
   final PreferredSizeWidget? bottom;
@@ -22,7 +30,7 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
       bottom: bottom,
       actions: actions,
       leading: leading,
-      centerTitle: bottom != null,
+      centerTitle: centerTitle,
       flexibleSpace: AnimatedGradientFlexibleSpace(),
     );
   }

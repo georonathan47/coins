@@ -21,6 +21,11 @@ class TFormatter {
         .format(amount); // Customize the currency locale and symbol as needed
   }
 
+  static String formatDollar(double amount) {
+    return NumberFormat.currency(locale: 'en_US', symbol: 'USD')
+        .format(amount); // Customize the currency locale and symbol as needed
+  }
+
   static String formatPhoneNumber(String phoneNumber) {
     // Assuming a 10-digit US phone number format: (123) 456-7890
     if (phoneNumber.length == 10) {

@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
-
+import '../../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../../../flavors.dart';
-import '../../../auth/presentation/widgets/widgets.dart';
 import 'logout_card.dart';
 import 'sidebar_category.dart';
 import 'sidebar_header.dart';
@@ -12,8 +10,7 @@ class Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final instance = DashboardController.instance;
-    final size = MediaQuery.sizeOf(context);
+    final size = Get;
     return ClipRRect(
       borderRadius: BorderRadius.zero,
       child: Drawer(
@@ -64,7 +61,7 @@ class Sidebar extends StatelessWidget {
                       ),
 
                       // Transactions
-                      const SizedBox(height: TSizes.spaceBtwSections),
+                      const SizedBox(height: TSizes.spaceBtwSections / 2),
                       SidebarCategory(
                         title: 'Transactions',
                         icon: Iconsax.transaction_minus,
@@ -87,7 +84,7 @@ class Sidebar extends StatelessWidget {
                       ),
 
                       // Communication
-                      const SizedBox(height: TSizes.spaceBtwSections),
+                      const SizedBox(height: TSizes.spaceBtwSections / 2),
                       SidebarCategory(
                         title: 'Communication',
                         icon: Iconsax.message_notif,
@@ -110,7 +107,7 @@ class Sidebar extends StatelessWidget {
                       ),
 
                       // Help & Support
-                      const SizedBox(height: TSizes.spaceBtwSections),
+                      const SizedBox(height: TSizes.spaceBtwSections / 2),
                       SidebarCategory(
                         title: 'Help & Support',
                         icon: Iconsax.message_question,

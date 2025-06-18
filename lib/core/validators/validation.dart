@@ -224,6 +224,39 @@ class TValidator {
     return null;
   }
 
+  static String? validateWalletAddress(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Wallet address is required.';
+    }
+
+    if (value.length < 32) {
+      return 'Wallet address cannot be less than 32 characters.';
+    }
+
+    return null;
+  }
+
+  static String? validateAmount(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Amount is required.';
+    }
+
+    final numValue = double.tryParse(value);
+
+    if (numValue == null) {
+      return 'Please enter a valid number.';
+    }
+
+    if (numValue <= 0 || numValue.isNaN || numValue.isInfinite) {
+      return 'Please enter a valid positive amount.';
+    }
+
+    if (numValue > double.maxFinite) {
+      return 'Amount is too large.';
+    }
+    return null;
+  }
+
   static String? validateShortDescription(String? value) {
     if (value == null || value.isEmpty) {
       return 'Description is required.';

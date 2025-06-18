@@ -6,7 +6,9 @@ import 'package:path_provider/path_provider.dart';
 class HiveAdapters {
   /// User Entity
   static const user = 0;
+  static const countries = 1;
   static const onboarding = 2;
+  static const currencies = 3;
 
   /// Initialize adapters when app starts
   static Future<void> setUp() async {
