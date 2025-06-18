@@ -50,7 +50,7 @@ Explore the exciting updates we've introduced to make your journey even better:'
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.5,
+              height: Get.height * 0.5,
               child: PageView.builder(
                 pageSnapping: true,
                 controller: controller,

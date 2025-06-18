@@ -167,8 +167,7 @@ class SplashScreenState extends State<SplashScreen>
                                   Get.isDarkMode
                                       ? TImages.logo
                                       : TImages.logoWhite,
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.25,
+                                  height: Get.height * 0.25,
                                 ),
                                 Text(
                                   F.title,
@@ -188,7 +187,7 @@ class SplashScreenState extends State<SplashScreen>
                       .fade(duration: twoSecondDelay)
                       .scale(delay: const Duration(milliseconds: 500)),
 
-                  SizedBox(height: MediaQuery.sizeOf(context).height * 0.1),
+                  SizedBox(height: Get.height * 0.1),
 
                   // Main title with typewriter effect
                   Padding(

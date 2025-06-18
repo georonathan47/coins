@@ -1,4 +1,3 @@
-
 import '../widgets/widgets.dart';
 
 class BuyOtp extends StatefulWidget {
@@ -14,7 +13,7 @@ class BuyOtpState extends State<BuyOtp> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
+    final size = Get;
     return FlavorBanner(
       child: Scaffold(
         persistentFooterAlignment: AlignmentDirectional.center,

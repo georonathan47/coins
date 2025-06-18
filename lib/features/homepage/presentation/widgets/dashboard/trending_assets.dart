@@ -1,3 +1,5 @@
+import 'package:flutter_svg/svg.dart';
+
 import '../../../../../core/utils/extensions.dart';
 import '../widgets.dart';
 
@@ -13,7 +15,7 @@ class _TaskItemState extends State<TrendingAsset> {
   final textTheme = Get.textTheme;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
+    final size = Get;
     return Container(
       width: size.width * 0.45,
       padding: const EdgeInsets.all(8),
@@ -36,7 +38,21 @@ class _TaskItemState extends State<TrendingAsset> {
       ),
       child: Row(
         children: [
-          Image.asset(TImages.logoWhite, width: 40),
+          // Image.asset(TImages.logoWhite, width: 40),
+          widget.asset.icon.contains('.svg')
+              ? SvgPicture.network(
+                  widget.asset.icon,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                )
+              : CachedNetworkImage(
+                  imageUrl: widget.asset.icon,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                ),
+
           const SizedBox(width: 12),
           Expanded(
             child: Column(

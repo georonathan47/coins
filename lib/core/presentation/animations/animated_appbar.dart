@@ -52,11 +52,11 @@ class AnimatedGradientFlexibleSpaceState
               colors: [
                 Color.lerp(
                   TColors.secondary,
-                  TColors.accent,
+                  TColors.primary,
                   _animation.value,
                 )!,
                 Color.lerp(
-                  TColors.accent,
+                  TColors.primary,
                   TColors.secondary,
                   _animation.value,
                 )!,

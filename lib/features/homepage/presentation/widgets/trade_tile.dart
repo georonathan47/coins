@@ -23,7 +23,7 @@ class TradeTile extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
         width: double.infinity,
-        height: MediaQuery.sizeOf(context).height * .0975,
+        height: Get.height * .0975,
         decoration: BoxDecoration(
           color: TColors.primary,
           backgroundBlendMode: BlendMode.darken,

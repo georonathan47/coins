@@ -1,5 +1,6 @@
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../core/middleware/auth_guard.dart';
 import '../widgets.dart';
 
 class ActionButtons extends StatefulWidget {
@@ -39,7 +40,9 @@ class ActionButtonsState extends State<ActionButtons> {
               onTap: () {
                 switch (status) {
                   case 'Buy':
-                    Get.toNamed(Routers.buyableAssets);
+                    Get.find<AuthGuard>().checkKycAndExecute(
+                      () => Get.toNamed(Routers.actionBuy),
+                    );
                   case 'Sell':
                     break;
                   case 'PayAccount':

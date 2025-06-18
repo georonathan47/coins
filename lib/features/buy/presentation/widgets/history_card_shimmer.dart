@@ -1,4 +1,3 @@
-
 import 'widgets.dart';
 
 class HistoryCardShimmer extends StatelessWidget {
@@ -66,8 +65,8 @@ class HistoryCardShimmer extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: '',
                   fit: BoxFit.cover,
-                  width: MediaQuery.sizeOf(context).height * 0.075,
-                  height: MediaQuery.sizeOf(context).height * 0.075,
+                  width: Get.height * 0.075,
+                  height: Get.height * 0.075,
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
                   errorWidget: (context, url, error) => const Icon(

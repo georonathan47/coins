@@ -77,11 +77,21 @@ class BuyController extends GetxController {
   Future<List<Currency>> fetchCurrencies() async {
     final user = await retrieveUser();
     final result = await fetchCurrenciesUsecase(ObjectParams(user.countryId!));
-    return result.fold((failure) => Future.error(failure.message), (success) {
-      currencies.value = success;
-      update();
-      return success;
-    });
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        currencies.value = success;
+        update();
+        return success;
+      },
+    );
   }
 
   Future<FeeCalcResponse> calculate() async {

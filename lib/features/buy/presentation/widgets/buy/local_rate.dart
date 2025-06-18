@@ -77,23 +77,22 @@ class _LocalRateState extends State<LocalRate> {
                               color: Colors.white,
                             ),
                             onChanged: (amount) {
-                              if (instance.network.value.isEmpty) {
-                                THelperFunctions.showSnackBar(
-                                  bgColor: TColors.error,
-                                  title: 'Validation Error!',
-                                  message: 'Please select network fee type.',
-                                );
-                                return;
-                              }
-
                               final amount = instance.local.value.text.trim();
                               final amountIsValid =
                                   amount.isNotEmpty &&
                                   double.tryParse(amount) != null &&
                                   double.parse(amount) >= 10.0;
-
                               if (amountIsValid) {
                                 THelperFunctions.debounce(() async {
+                                  if (instance.network.value.isEmpty) {
+                                    THelperFunctions.showSnackBar(
+                                      bgColor: TColors.error,
+                                      title: 'Validation Error!',
+                                      message:
+                                          'Please select network fee type.',
+                                    );
+                                    return;
+                                  }
                                   showDialog(
                                     context: context,
                                     builder: (_) => const Center(

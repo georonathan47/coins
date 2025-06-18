@@ -11,7 +11,7 @@ class _TaskItemState extends State<TrendingAssetShimmer> {
   final textTheme = Get.textTheme;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
+    final size = Get;
     return ShimmerAnimation(
       child: Container(
         width: size.width * 0.45,
@@ -35,7 +35,7 @@ class _TaskItemState extends State<TrendingAssetShimmer> {
         ),
         child: Row(
           children: [
-            Image.asset(TImages.logoWhite),
+            Image.asset(TImages.logoWhite, width: 40),
             const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

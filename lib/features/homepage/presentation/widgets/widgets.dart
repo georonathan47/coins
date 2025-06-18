@@ -1,3 +1,4 @@
+export 'package:cached_network_image/cached_network_image.dart';
 export 'package:flutter/material.dart';
 export 'package:get/get.dart';
 export 'package:flutter/foundation.dart';

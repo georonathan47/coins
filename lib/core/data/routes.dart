@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
 
+import '../../features/buy/presentation/pages/actionable_buy.dart';
 import '../../features/buy/presentation/pages/buy_otp.dart';
 import '../../features/buy/presentation/pages/buy_page.dart';
 import '../../features/buy/presentation/pages/buy_summary.dart';
 import '../../features/buy/presentation/pages/buyable_assets.dart';
 import '../../features/buy/presentation/pages/history.dart';
+import '../../features/buy/presentation/pages/payment_selection.dart';
 import '../../features/buy/presentation/pages/success.dart';
 import '../../features/homepage/presentation/pages/index.dart';
 import '../auth/presentation/pages/captcha.dart';
@@ -21,6 +23,7 @@ import '../presentation/animations/splash.dart';
 
 class Routers {
   static const buy = '/buy';
+  static const kyc = '/kyc';
   static const otp = '/otp';
   static const mfa = '/mfa';
   static const edit = '/edit';
@@ -37,12 +40,14 @@ class Routers {
   static const register = '/register';
   static const homepage = '/homepage';
   static const settings = '/settings';
+  static const actionBuy = '/actionBuy';
   static const buyHistory = '/buyHistory';
   static const buySuccess = '/buySuccess';
   static const buySummary = '/buySummary';
   static const regCaptcha = '/regCaptcha';
   static const legacyEmail = '/legacyEmail';
   static const buyableAssets = '/buyableAssets';
+  static const paymentSelection = '/paymentSelection';
 }
 
 class RouteManager {
@@ -157,6 +162,18 @@ class RouteManager {
         name: Routers.buyableAssets,
         transition: Transition.fadeIn,
         page: () => const BuyableAssets(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        transition: Transition.fadeIn,
+        name: Routers.paymentSelection,
+        page: () => const PaymentSelectionPage(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.actionBuy,
+        transition: Transition.fadeIn,
+        page: () => const ActionableBuy(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

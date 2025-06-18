@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../constants/sizes.dart';
 import '../../../constants/text_strings.dart';
@@ -26,19 +27,33 @@ class SuccessScreen extends StatelessWidget {
           child: Column(
             children: [
               /// Image
-              Image(image: AssetImage(image), width: THelperFunctions.screenWidth(context) * 0.6),
+              Image(
+                image: AssetImage(image),
+                width: THelperFunctions.screenWidth(context) * 0.6,
+              ),
               const SizedBox(height: TSizes.spaceBtwSections),
 
               /// Title & SubTitle
-              Text(title, style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center),
+              Text(
+                title,
+                style: Get.textTheme.headlineMedium,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: TSizes.spaceBtwItems),
-              Text(subTitle, style: Theme.of(context).textTheme.labelMedium, textAlign: TextAlign.center),
+              Text(
+                subTitle,
+                style: Get.textTheme.labelMedium,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: TSizes.spaceBtwSections),
 
               /// Buttons
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(onPressed: onPressed, child: const Text(TTexts.tContinue)),
+                child: ElevatedButton(
+                  onPressed: onPressed,
+                  child: const Text(TTexts.tContinue),
+                ),
               ),
             ],
           ),

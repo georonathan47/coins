@@ -118,7 +118,7 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
               tabBuilder: (index, val) {
                 return Column(
                   children: [
-                    SizedBox(height: MediaQuery.sizeOf(context).height * 0.014),
+                    SizedBox(height: Get.height * 0.014),
                     Expanded(
                       child: Icon(
                         indexList[index]['icon'] as IconData?,
@@ -127,7 +127,7 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
                             : Colors.white70,
                       ),
                     ),
-                    SizedBox(height: MediaQuery.sizeOf(context).height * 0.012),
+                    SizedBox(height: Get.height * 0.012),
                     Expanded(
                       child: Text(
                         indexList[index]['name'] as String,

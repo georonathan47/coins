@@ -43,9 +43,7 @@ class SignupCaptchaState extends State<SignupCaptcha> {
         appBar: TAppBar(
           title: Text('CAPTCHA', style: textTheme.titleMedium),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(
-              MediaQuery.sizeOf(context).height * 0.075,
-            ),
+            preferredSize: Size.fromHeight(Get.height * 0.075),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Text(

@@ -11,7 +11,16 @@ class AuthGuard {
     if (isLoggedIn) {
       action();
     } else {
-      Get.offAllNamed(Routers.login);
+      Get.toNamed(Routers.login);
+    }
+  }
+
+  Future<void> checkKycAndExecute(VoidCallback action) async {
+    final isKycVerified = await authLocalDatabase.authenticationStatus();
+    if (isKycVerified) {
+      action();
+    } else {
+      Get.toNamed(Routers.kyc);
     }
   }
 }

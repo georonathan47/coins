@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../../../core/presentation/widgets/success_screen/error.dart';
 import 'dashboard/trending_assets_shimmer.dart';
 import 'widgets.dart';
 
@@ -76,7 +77,7 @@ class _DashboardBodyState extends State<DashboardBody> {
         ),
         const SizedBox(height: TSizes.spaceBtwItems),
         SizedBox(
-          height: MediaQuery.sizeOf(context).height / 14,
+          height: Get.height / 14,
           child: FutureBuilder(
             future: instance.fetchListings(),
             builder: (context, snapshot) {
@@ -95,21 +96,28 @@ class _DashboardBodyState extends State<DashboardBody> {
               if (snapshot.hasError) {
                 return SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width - 32,
-                    padding: const EdgeInsets.all(16),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.error_outline, size: 40),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Error: ${snapshot.error}',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
+                  child: Card(
+                    elevation: 4,
+                    shadowColor: TColors.dark,
+                    child: Container(
+                      width: Get.width - 32,
+                      padding: const EdgeInsets.all(8),
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              size: TSizes.iconLg,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              snapshot.error.toString(),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -151,7 +159,7 @@ class _DashboardBodyState extends State<DashboardBody> {
         ),
         const SizedBox(height: TSizes.spaceBtwItems),
         SizedBox(
-          height: MediaQuery.sizeOf(context).height / 3,
+          height: Get.height / 2.5,
           child: FutureBuilder(
             future: instance.fetchTradables(),
             builder: (context, snapshot) {
@@ -166,16 +174,7 @@ class _DashboardBodyState extends State<DashboardBody> {
               }
 
               if (snapshot.hasError) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.error_outline, size: 40),
-                      const SizedBox(height: 8),
-                      Text('Error: ${snapshot.error}'),
-                    ],
-                  ),
-                );
+                return FetchError(message: '${snapshot.error}');
               }
 
               if (!snapshot.hasData || snapshot.requireData.isEmpty) {

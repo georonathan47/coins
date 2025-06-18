@@ -8,7 +8,7 @@ class NavDrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Get.isDarkMode;
     final textTheme = Get.textTheme;
-    final size = MediaQuery.sizeOf(context);
+    final size = Get;
     return Padding(
       padding: EdgeInsets.only(
         top: TDeviceUtils.getAppBarHeight() / 2,

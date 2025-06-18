@@ -19,14 +19,14 @@ class LogoutCardState extends State<LogoutCard> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return AnimatedGradientColoring(
-      startColor: TColors.accent,
-      endColor: TColors.secondary,
+      startColor: TColors.secondary,
+      endColor: TColors.primary,
       child: Container(
         width: double.infinity,
         height: size.height * 0.12,
         padding: const EdgeInsets.symmetric(
-          horizontal: TSizes.spaceBtwInputFields / 4,
           vertical: TSizes.spaceBtwItems / 2,
+          horizontal: TSizes.spaceBtwInputFields / 4,
         ),
         child: Row(
           children: [

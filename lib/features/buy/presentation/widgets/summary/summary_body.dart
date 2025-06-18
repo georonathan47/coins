@@ -224,13 +224,11 @@ class BuySummaryBody extends StatelessWidget {
         ),
         const SizedBox(height: TSizes.spaceBtwSections * 2),
         ElevatedButton.icon(
-          onPressed: () {
-            Get.toNamed(Routers.buyOtp);
-          },
           iconAlignment: IconAlignment.end,
           icon: Icon(Icons.chevron_right, size: TSizes.iconLg),
+          onPressed: () => Get.toNamed(Routers.paymentSelection),
           label: Text(
-            'Confirm Buy',
+            'I have transferred funds, ',
             style: textTheme.titleMedium?.copyWith(color: TColors.white),
           ),
         ),
