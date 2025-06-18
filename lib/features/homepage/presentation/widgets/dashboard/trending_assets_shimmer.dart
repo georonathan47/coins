@@ -9,12 +9,12 @@ class TrendingAssetShimmer extends StatefulWidget {
 
 class _TaskItemState extends State<TrendingAssetShimmer> {
   final textTheme = Get.textTheme;
+
   @override
   Widget build(BuildContext context) {
-    final size = Get;
     return ShimmerAnimation(
       child: Container(
-        width: size.width * 0.45,
+        width: Get.width * 0.45,
         padding: const EdgeInsets.all(4),
         margin: const EdgeInsets.only(right: 16),
         decoration: BoxDecoration(

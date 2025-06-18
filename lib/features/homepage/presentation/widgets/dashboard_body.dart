@@ -178,15 +178,9 @@ class _DashboardBodyState extends State<DashboardBody> {
               }
 
               if (!snapshot.hasData || snapshot.requireData.isEmpty) {
-                return const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.task_outlined, size: 40),
-                      SizedBox(height: 8),
-                      Text('No currencies found'),
-                    ],
-                  ),
+                return FetchError(
+                  message: 'No currencies found',
+                  title: 'No Tradable Assets',
                 );
               }
 
