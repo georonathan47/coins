@@ -55,6 +55,14 @@ class KycController extends GetxController {
       Get.toNamed(Routers.selfieInfo);
     }
   }
+
+  Future<void> validateSelfie() async {
+    if (docsFormKey.value.currentState!.validate()) {
+      
+      Get.offNamed(Routers.kycSuccess);
+    }
+  }
+
   Future<void> validateUserDetails() async {
     if (personalDetailsFormKey.value.currentState!.validate()) {
       Get.toNamed(Routers.docUpload);

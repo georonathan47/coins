@@ -175,7 +175,7 @@ class KycSelfieUploadState extends State<KycSelfieUpload> {
             ),
             SizedBox(height: TSizes.spaceBtwSections),
             ElevatedButton(
-              onPressed: () => instance.validateDocs(),
+              onPressed: () => instance.validateSelfie(),
               child: Text(
                 'Next',
                 style: textTheme.titleMedium?.copyWith(

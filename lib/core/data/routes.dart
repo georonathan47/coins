@@ -14,6 +14,7 @@ import '../../features/kyc/presentation/pages/id_upload.dart';
 import '../../features/kyc/presentation/pages/personal_details.dart';
 import '../../features/kyc/presentation/pages/selfie_info.dart';
 import '../../features/kyc/presentation/pages/selfie_upload.dart';
+import '../../features/kyc/presentation/pages/success.dart';
 import '../auth/presentation/pages/captcha.dart';
 import '../auth/presentation/pages/check_mail.dart';
 import '../auth/presentation/pages/legacy.dart';
@@ -50,6 +51,7 @@ class Routers {
   static const buyHistory = '/buyHistory';
   static const buySuccess = '/buySuccess';
   static const buySummary = '/buySummary';
+  static const kycSuccess = '/kycSuccess';
   static const regCaptcha = '/regCaptcha';
   static const selfieInfo = '/selfieInfo';
   static const legacyEmail = '/legacyEmail';
@@ -215,6 +217,12 @@ class RouteManager {
         name: Routers.selfieUpload,
         transition: Transition.fadeIn,
         page: () => const KycSelfieUpload(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.kycSuccess,
+        transition: Transition.fadeIn,
+        page: () => const KycSuccess(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

@@ -19,6 +19,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_animate: 4.5.2
+  flutter_confetti: 0.5.1
   flutter_flavorizr: 2.4.1
   flutter_image_compress: 2.4.0
   flutter_slidable: 4.0.0
