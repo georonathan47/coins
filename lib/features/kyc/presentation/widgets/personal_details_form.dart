@@ -1,6 +1,5 @@
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../controller/kyc_controller.dart';
 import 'widgets.dart';
 
 class PersonalDetailsForm extends StatefulWidget {

@@ -228,7 +228,7 @@ class BuySummaryBody extends StatelessWidget {
           icon: Icon(Icons.chevron_right, size: TSizes.iconLg),
           onPressed: () => Get.toNamed(Routers.paymentSelection),
           label: Text(
-            'I have transferred funds, ',
+            'Confirm Buy',
             style: textTheme.titleMedium?.copyWith(color: TColors.white),
           ),
         ),

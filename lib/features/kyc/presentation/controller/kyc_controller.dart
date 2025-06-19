@@ -1,10 +1,16 @@
 import '../../../../core/auth/domain/entities/user.dart';
 import '../../../../core/auth/domain/usecases/retrieve_user.dart';
+import '../../../../core/usecase/open_image_camera.dart';
+import '../../../../core/usecase/open_image_gallery.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../widgets/widgets.dart';
 
 class KycController extends GetxController {
   final currentUser = User.empty().obs;
+  final selfie = ValueNotifier<String>('').obs;
+  final backImg = ValueNotifier<String>('').obs;
+  final docsFormKey = GlobalKey<FormState>().obs;
+  final frontImg = ValueNotifier<String>('').obs;
   static KycController get instance => Get.find();
 
   final dobController = TextEditingController().obs;
@@ -14,9 +20,15 @@ class KycController extends GetxController {
   final phoneController = TextEditingController().obs;
   final personalDetailsFormKey = GlobalKey<FormState>().obs;
 
+  final OpenImageCamera openImageCamera;
+  final OpenImageGallery openImageGallery;
   final RetrieveUserUsecase retrieveUserUsecase;
 
-  KycController({required this.retrieveUserUsecase});
+  KycController({
+    required this.openImageCamera,
+    required this.openImageGallery,
+    required this.retrieveUserUsecase,
+  });
 
   @override
   void onInit() {
@@ -38,8 +50,25 @@ class KycController extends GetxController {
     });
   }
 
+  Future<void> validateDocs() async {
+    if (docsFormKey.value.currentState!.validate()) {
+      Get.toNamed(Routers.selfieInfo);
+    }
+  }
   Future<void> validateUserDetails() async {
-    if (personalDetailsFormKey.value.currentState!.validate()) {}
+    if (personalDetailsFormKey.value.currentState!.validate()) {
+      Get.toNamed(Routers.docUpload);
+    }
+  }
+
+  Future<String> openCamera() async {
+    final result = await openImageCamera(NoParams());
+    return result.fold((failure) => '', (success) => success);
+  }
+
+  Future<String> openGallery() async {
+    final result = await openImageGallery(NoParams());
+    return result.fold((failure) => '', (success) => success);
   }
 
   @override

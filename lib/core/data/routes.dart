@@ -10,7 +10,10 @@ import '../../features/buy/presentation/pages/payment_selection.dart';
 import '../../features/buy/presentation/pages/success.dart';
 import '../../features/homepage/presentation/pages/index.dart';
 import '../../features/kyc/presentation/pages/home.dart';
+import '../../features/kyc/presentation/pages/id_upload.dart';
 import '../../features/kyc/presentation/pages/personal_details.dart';
+import '../../features/kyc/presentation/pages/selfie_info.dart';
+import '../../features/kyc/presentation/pages/selfie_upload.dart';
 import '../auth/presentation/pages/captcha.dart';
 import '../auth/presentation/pages/check_mail.dart';
 import '../auth/presentation/pages/legacy.dart';
@@ -42,12 +45,15 @@ class Routers {
   static const register = '/register';
   static const homepage = '/homepage';
   static const settings = '/settings';
+  static const docUpload = '/docUpload';
   static const actionBuy = '/actionBuy';
   static const buyHistory = '/buyHistory';
   static const buySuccess = '/buySuccess';
   static const buySummary = '/buySummary';
   static const regCaptcha = '/regCaptcha';
+  static const selfieInfo = '/selfieInfo';
   static const legacyEmail = '/legacyEmail';
+  static const selfieUpload = '/selfieUpload';
   static const buyableAssets = '/buyableAssets';
   static const paymentSelection = '/paymentSelection';
   static const kycPersonalDetails = '/kycPersonalDetails';
@@ -179,6 +185,7 @@ class RouteManager {
         page: () => const ActionableBuy(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
+
       /// KYC and Profile
       GetPage(
         name: Routers.kyc,
@@ -190,6 +197,24 @@ class RouteManager {
         transition: Transition.fadeIn,
         name: Routers.kycPersonalDetails,
         page: () => const PersonalDetails(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.docUpload,
+        transition: Transition.fadeIn,
+        page: () => const KycDocUpload(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.selfieInfo,
+        transition: Transition.fadeIn,
+        page: () => const KycSelfieInfo(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.selfieUpload,
+        transition: Transition.fadeIn,
+        page: () => const KycSelfieUpload(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

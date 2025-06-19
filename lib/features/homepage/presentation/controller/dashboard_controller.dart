@@ -20,9 +20,9 @@ class DashboardController extends GetxController {
   final FetchListingsUsecase fetchListingsUsecase;
   final FetchUserInfoUsecase fetchUserInfoUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
+  final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   final FetchTradableCoinsUsecase fetchTradableCoinsUsecase;
 
-  final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   DashboardController({
     required this.retrieveUserUsecase,
     required this.saveUserInfoUsecase,

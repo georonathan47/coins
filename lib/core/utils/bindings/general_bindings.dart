@@ -44,7 +44,13 @@ class GeneralBindings extends Bindings {
           fetchTradableCoinsUsecase: Get.find(),
         ),
       )
-      ..put(KycController(retrieveUserUsecase: Get.find()))
+      ..put(
+        KycController(
+          openImageCamera: Get.find(),
+          openImageGallery: Get.find(),
+          retrieveUserUsecase: Get.find(),
+        ),
+      )
       //? Onboarding Controller
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
   }

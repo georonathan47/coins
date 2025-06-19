@@ -17,7 +17,7 @@ class SidebarCategory extends StatelessWidget {
     final textTheme = Get.textTheme;
     final isDark = Get.isDarkMode;
     return ExpansionTile(
-      backgroundColor: TColors.secondary,
+      backgroundColor: Get.isDarkMode?  TColors.secondary : TColors.accent,
       title: Text(
         title,
         style: textTheme.titleMedium?.copyWith(

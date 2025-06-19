@@ -16,8 +16,12 @@ class PersonalDetailsState extends State<PersonalDetails> {
     return FlavorBanner(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: TColors.transparent,
-          title: Text('Confirm Personal Details', style: textTheme.titleLarge),
+          title: Text(
+            'Confirm Personal Details',
+            style: textTheme.titleLarge?.copyWith(fontSize: 20),
+          ),
         ),
         body: ScrollableWidget(
           children: [

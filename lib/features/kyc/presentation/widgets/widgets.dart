@@ -1,4 +1,5 @@
 export 'package:get/get.dart';
+export 'package:getwidget/getwidget.dart';
 export 'package:flutter/material.dart';
 export 'package:iconsax/iconsax.dart';
 export 'package:lottie/lottie.dart';
@@ -22,6 +23,9 @@ export '../../../../core/presentation/widgets/success_screen/error.dart';
 export '../../../../core/utils/get_image_widget.dart';
 export '../../../../core/validators/validation.dart';
 export '../../../../flavors.dart';
+export '../controller/kyc_controller.dart';
 
+export 'doc_upload_form.dart';
+export 'instructions_widget.dart';
 export 'kyc_informatics.dart';
 export 'personal_details_form.dart';
