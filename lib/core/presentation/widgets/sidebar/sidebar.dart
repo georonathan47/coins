@@ -21,7 +21,7 @@ class _SidebarState extends State<Sidebar> {
   @override
   void initState() {
     super.initState();
-    instance.checkStatus();
+    instance.checkSidebarStatus();
     TLoggerHelper.logEvent(
       'Sidebar initialized with KYC status: ${instance.statusResult.value}',
     );

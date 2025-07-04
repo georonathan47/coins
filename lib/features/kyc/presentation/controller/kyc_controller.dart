@@ -132,8 +132,7 @@ class KycController extends GetxController {
   Future<KycStatus> checkStatus() async {
     final result = await checkKycStatusUsecase(NoParams());
     return result.fold((failure) => KycStatus.rejected, (success) {
-      if (success == KycStatus.approved || success == KycStatus.pending) {
-        Get.offNamed(Routers.kycSuccess);
+      if (success == KycStatus.approved) {
         statusResult.value = true;
         return success;
       } else if (success == KycStatus.pending) {
@@ -157,6 +156,11 @@ class KycController extends GetxController {
         return success;
       }
     });
+  }
+
+  Future<KycStatus> checkSidebarStatus() async {
+    final result = await checkKycStatusUsecase(NoParams());
+    return result.fold((failure) => KycStatus.rejected, (success) => success);
   }
 
   @override
