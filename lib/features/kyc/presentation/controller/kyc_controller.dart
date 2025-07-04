@@ -3,10 +3,17 @@ import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/usecase/open_image_camera.dart';
 import '../../../../core/usecase/open_image_gallery.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../../domain/entities/kyc_entity.dart';
+import '../../domain/entities/kyc_status.enum.dart';
+import '../../domain/usecases/check_status_usecase.dart';
+import '../../domain/usecases/initiate_kyc_usecase.dart';
 import '../widgets/widgets.dart';
 
 class KycController extends GetxController {
+  final statusResult = false.obs;
   final currentUser = User.empty().obs;
+  final kycRequest = KycModel.empty().obs;
+  final selectedGender = Gender.male.obs;
   final selfie = ValueNotifier<String>('').obs;
   final backImg = ValueNotifier<String>('').obs;
   final docsFormKey = GlobalKey<FormState>().obs;
@@ -14,6 +21,8 @@ class KycController extends GetxController {
   static KycController get instance => Get.find();
 
   final dobController = TextEditingController().obs;
+  final issController = TextEditingController().obs;
+  final expController = TextEditingController().obs;
   final fnameController = TextEditingController().obs;
   final lnameController = TextEditingController().obs;
   final emailController = TextEditingController().obs;
@@ -22,12 +31,16 @@ class KycController extends GetxController {
 
   final OpenImageCamera openImageCamera;
   final OpenImageGallery openImageGallery;
+  final InitiateKycUsecase initiateKycUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
+  final CheckKycStatusUsecase checkKycStatusUsecase;
 
   KycController({
     required this.openImageCamera,
     required this.openImageGallery,
+    required this.initiateKycUsecase,
     required this.retrieveUserUsecase,
+    required this.checkKycStatusUsecase,
   });
 
   @override
@@ -58,8 +71,45 @@ class KycController extends GetxController {
 
   Future<void> validateSelfie() async {
     if (docsFormKey.value.currentState!.validate()) {
-      
-      Get.offNamed(Routers.kycSuccess);
+      showDialog(
+        context: Get.context!,
+        builder: (ctx) => const Center(child: CircularProgressIndicator()),
+      );
+      final request = kycRequest.value.copyWith(
+        documentId: 'PASSPORT',
+        documentType: 'PASSPORT',
+        dob: dobController.value.text,
+        selfieFile: selfie.value.value,
+        backIdFile: backImg.value.value,
+        frontIdFile: frontImg.value.value,
+        userSId: currentUser.value.userId,
+        email: emailController.value.text,
+        gender: selectedGender.value.value,
+        issueDate: issController.value.text,
+        expiryDate: expController.value.text,
+        lastname: lnameController.value.text,
+        firstname: fnameController.value.text,
+        phoneNumber: phoneController.value.text,
+      );
+      final result = await initiateKycUsecase(ObjectParams(request));
+      Get.back();
+      return result.fold(
+        (failure) {
+          THelperFunctions.showSnackBar(
+            title: 'Error',
+            message: failure.message,
+            bgColor: TColors.error,
+          );
+        },
+        (success) {
+          THelperFunctions.showSnackBar(
+            title: 'Success',
+            message: success,
+            bgColor: TColors.success,
+          );
+          Get.offAllNamed(Routers.index);
+        },
+      );
     }
   }
 
@@ -77,6 +127,36 @@ class KycController extends GetxController {
   Future<String> openGallery() async {
     final result = await openImageGallery(NoParams());
     return result.fold((failure) => '', (success) => success);
+  }
+
+  Future<KycStatus> checkStatus() async {
+    final result = await checkKycStatusUsecase(NoParams());
+    return result.fold((failure) => KycStatus.rejected, (success) {
+      if (success == KycStatus.approved || success == KycStatus.pending) {
+        Get.offNamed(Routers.kycSuccess);
+        statusResult.value = true;
+        return success;
+      } else if (success == KycStatus.pending) {
+        showAdaptiveDialog(
+          context: Get.context!,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text('KYC Under Review'),
+              content: Text(
+                'Your KYC verification is under review. It will take the team 3-5 business days to review your application. You will receive an email once your application is approved or rejected.',
+              ),
+              actions: [
+                TextButton(onPressed: () => Get.back(), child: Text('OK')),
+              ],
+            );
+          },
+        );
+        return success;
+      } else {
+        statusResult.value = false;
+        return success;
+      }
+    });
   }
 
   @override

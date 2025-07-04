@@ -1,6 +1,3 @@
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../../core/middleware/auth_guard.dart';
 import '../widgets.dart';
 
 class ActionButtons extends StatefulWidget {
@@ -37,12 +34,10 @@ class ActionButtonsState extends State<ActionButtons> {
             (status) => InkWell(
               borderRadius: BorderRadius.circular(25),
               splashColor: isDark ? TColors.darkerGrey : TColors.grey,
-              onTap: () {
+              onTap: () async {
                 switch (status) {
                   case 'Buy':
-                    Get.find<AuthGuard>().checkKycAndExecute(
-                      () => Get.toNamed(Routers.actionBuy),
-                    );
+                    Get.toNamed(Routers.actionBuy);
                   case 'Sell':
                     break;
                   case 'PayAccount':

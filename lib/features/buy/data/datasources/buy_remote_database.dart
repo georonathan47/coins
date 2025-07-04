@@ -16,11 +16,10 @@ import '../models/ree_calc_response.dart';
 abstract class BuyRemoteDatabase {
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
+  Future createOrder(CreateBuyOrder request, Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
   Future<FeeCalcResponse> calculateFees(FeeCalculation request, Map tokens);
-
-  Future createOrder(CreateBuyOrder request, Map tokens);
 }
 
 class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {

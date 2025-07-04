@@ -54,5 +54,7 @@ abstract class Env {
   static const String listingsUrl = _Env.listingsUrl;
   @EnviedField(varName: 'TRADABLE_CURRENCIES')
   static const String tradableCurrenciesUrl = _Env.tradableCurrenciesUrl;
+  @EnviedField(varName: 'CHECK_STATUS')
+  static const String checkStatusUrl = _Env.checkStatusUrl;
 
 }

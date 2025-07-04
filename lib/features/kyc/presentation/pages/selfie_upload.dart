@@ -151,7 +151,9 @@ class KycSelfieUploadState extends State<KycSelfieUpload> {
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
                 height: Get.height / 4.25,
-                child: Column(
+                child: ScrollableWidget(
+                  padding: 0,
+                  physics: const BouncingScrollPhysics(),
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(

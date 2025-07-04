@@ -65,6 +65,7 @@ class LogoutCardState extends State<LogoutCard> {
                   Text(
                     instance.currentUser.value.fullName,
                     style: textTheme.titleMedium?.copyWith(
+                      fontSize: 20,
                       color: TColors.light,
                       fontWeight: FontWeight.bold,
                     ),

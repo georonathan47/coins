@@ -59,7 +59,7 @@ class DocUploadFormState extends State<DocUploadForm> {
 
           const SizedBox(height: TSizes.spaceBtwInputFields),
           TextFormField(
-            controller: instance.dobController.value,
+            controller: instance.issController.value,
             decoration: InputDecoration(
               labelText: 'Issued Date',
               hintText: 'Select issued date',
@@ -71,9 +71,44 @@ class DocUploadFormState extends State<DocUploadForm> {
                 lastDate: DateTime.now(),
                 firstDate: DateTime(1900),
                 initialDate: DateTime.now(),
+                builder: (context, child) => Theme(
+                  data: Get.isDarkMode
+                      ? ThemeData.dark().copyWith(
+                          primaryColor: TColors.secondary,
+                          cardColor: TColors.drawerBackgroundDark,
+                          scaffoldBackgroundColor: TColors.drawerBackgroundDark,
+                          canvasColor: TColors.drawerBackgroundDark,
+                          textTheme: TextTheme(
+                            bodyMedium: textTheme.bodyMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                            titleMedium: textTheme.titleMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                          ),
+                          colorScheme: ColorScheme.dark(
+                            primary: TColors.secondary,
+                          ),
+                        )
+                      : ThemeData.light().copyWith(
+                          primaryColor: TColors.primary,
+                          textTheme: TextTheme(
+                            bodyMedium: textTheme.bodyMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                            titleMedium: textTheme.titleMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                          ),
+                          colorScheme: ColorScheme.light(
+                            primary: TColors.primary,
+                          ),
+                        ),
+                  child: child!,
+                ),
               );
               if (selectedDate != null) {
-                instance.dobController.value.text = '${selectedDate.toLocal()}'
+                instance.issController.value.text = '${selectedDate.toLocal()}'
                     .split(' ')[0];
               }
             },
@@ -86,7 +121,7 @@ class DocUploadFormState extends State<DocUploadForm> {
           ),
           const SizedBox(height: TSizes.spaceBtwInputFields),
           TextFormField(
-            controller: instance.dobController.value,
+            controller: instance.expController.value,
             decoration: InputDecoration(
               labelText: 'Expiry Date',
               hintText: 'Select expiry date',
@@ -95,12 +130,47 @@ class DocUploadFormState extends State<DocUploadForm> {
             onTap: () async {
               DateTime? selectedDate = await showDatePicker(
                 context: context,
-                lastDate: DateTime.now(),
                 firstDate: DateTime(1900),
                 initialDate: DateTime.now(),
+                lastDate: DateTime.now().add(Duration(days: 365 * 10)),
+                builder: (context, child) => Theme(
+                  data: Get.isDarkMode
+                      ? ThemeData.dark().copyWith(
+                          primaryColor: TColors.secondary,
+                          cardColor: TColors.drawerBackgroundDark,
+                          scaffoldBackgroundColor: TColors.drawerBackgroundDark,
+                          canvasColor: TColors.drawerBackgroundDark,
+                          textTheme: TextTheme(
+                            bodyMedium: textTheme.bodyMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                            titleMedium: textTheme.titleMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                          ),
+                          colorScheme: ColorScheme.dark(
+                            primary: TColors.secondary,
+                          ),
+                        )
+                      : ThemeData.light().copyWith(
+                          primaryColor: TColors.primary,
+                          textTheme: TextTheme(
+                            bodyMedium: textTheme.bodyMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                            titleMedium: textTheme.titleMedium?.copyWith(
+                              color: TColors.light,
+                            ),
+                          ),
+                          colorScheme: ColorScheme.light(
+                            primary: TColors.primary,
+                          ),
+                        ),
+                  child: child!,
+                ),
               );
               if (selectedDate != null) {
-                instance.dobController.value.text = '${selectedDate.toLocal()}'
+                instance.expController.value.text = '${selectedDate.toLocal()}'
                     .split(' ')[0];
               }
             },
@@ -297,35 +367,39 @@ class DocUploadFormState extends State<DocUploadForm> {
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               height: Get.height / 2.35,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Instructions to follow:',
-                    textAlign: TextAlign.center,
-                    style: textTheme.bodyLarge?.copyWith(fontSize: 18),
-                  ),
-                  SizedBox(height: TSizes.spaceBtwItems),
-                  InstructionsWidget(
-                    instruction:
-                        'Ensure the document is clear and readable, with no blurriness or distortion.',
-                  ),
-                  SizedBox(height: TSizes.spaceBtwItems),
-                  InstructionsWidget(
-                    instruction:
-                        'Submit the entire ID, capturing all corners and relevant information.',
-                  ),
-                  SizedBox(height: TSizes.spaceBtwItems),
-                  InstructionsWidget(
-                    instruction:
-                        'Confirm that the ID is current, not expired, and within the accepted date range.',
-                  ),
-                  SizedBox(height: TSizes.spaceBtwItems),
-                  InstructionsWidget(
-                    instruction:
-                        'The document should be in its original, unaltered state without any edits or modifications.',
-                  ),
-                ],
+              child: Expanded(
+                child: ScrollableWidget(
+                  padding: 0,
+                  physics: const BouncingScrollPhysics(),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Instructions to follow:',
+                      textAlign: TextAlign.center,
+                      style: textTheme.bodyLarge?.copyWith(fontSize: 18),
+                    ),
+                    SizedBox(height: TSizes.spaceBtwItems),
+                    InstructionsWidget(
+                      instruction:
+                          'Ensure the document is clear and readable, with no blurriness or distortion.',
+                    ),
+                    SizedBox(height: TSizes.spaceBtwItems),
+                    InstructionsWidget(
+                      instruction:
+                          'Submit the entire ID, capturing all corners and relevant information.',
+                    ),
+                    SizedBox(height: TSizes.spaceBtwItems),
+                    InstructionsWidget(
+                      instruction:
+                          'Confirm that the ID is current, not expired, and within the accepted date range.',
+                    ),
+                    SizedBox(height: TSizes.spaceBtwItems),
+                    InstructionsWidget(
+                      instruction:
+                          'The document should be in its original, unaltered state without any edits or modifications.',
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

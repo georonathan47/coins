@@ -1,20 +1,38 @@
 import '../../../../features/homepage/presentation/widgets/widgets.dart';
+import '../../../../features/kyc/presentation/controller/kyc_controller.dart';
 import '../../../../flavors.dart';
+import '../../../middleware/auth_guard.dart';
+import '../../../utils/logger.dart';
 import 'logout_card.dart';
 import 'sidebar_category.dart';
 import 'sidebar_header.dart';
 import 'sidebar_menu_items.dart';
 
-class Sidebar extends StatelessWidget {
+class Sidebar extends StatefulWidget {
   const Sidebar({super.key});
 
   @override
+  State<Sidebar> createState() => _SidebarState();
+}
+
+class _SidebarState extends State<Sidebar> {
+  final instance = KycController.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    instance.checkStatus();
+    TLoggerHelper.logEvent(
+      'Sidebar initialized with KYC status: ${instance.statusResult.value}',
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final size = Get;
     return ClipRRect(
       borderRadius: BorderRadius.zero,
       child: Drawer(
-        width: size.width * 0.75,
+        width: Get.width * 0.75,
         child: Column(
           children: [
             Expanded(
@@ -41,7 +59,8 @@ class Sidebar extends StatelessWidget {
                             text: 'Verify Account',
                             onTap: () {
                               Get.back();
-                              Get.toNamed(Routers.kyc);
+
+                              Get.find<AuthGuard>().checkKycAndExecute(() {});
                             },
                           ),
                           NavDrawerItem(

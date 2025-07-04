@@ -35,7 +35,7 @@ class _DollarRateState extends State<DollarRate> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -64,7 +64,7 @@ class _DollarRateState extends State<DollarRate> {
                         ),
                     ],
                   ),
-                  SizedBox(height: TSizes.spaceBtwSections),
+                  SizedBox(height: TSizes.spaceBtwItems),
                   Center(
                     child: SizedBox(
                       width: size.width * 0.6,

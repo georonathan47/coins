@@ -20,7 +20,7 @@ class LoginFormState extends State<LoginForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           LoginHeader(),
-          const SizedBox(height: 40),
+          const SizedBox(height: TSizes.spaceBtwSections),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             autofillHints: const [AutofillHints.email],
@@ -42,7 +42,7 @@ class LoginFormState extends State<LoginForm> {
             validator: TValidator.validateEmail,
             autovalidateMode: AutovalidateMode.onUserInteraction,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: TSizes.spaceBtwInputFields),
           ValueListenableBuilder(
             valueListenable: shouldShow,
             builder: (context, value, child) {
@@ -94,10 +94,10 @@ class LoginFormState extends State<LoginForm> {
           //     },
           //   ),
           // ),
-          const SizedBox(height: 30),
+          const SizedBox(height: TSizes.spaceBtwItems),
           SizedBox(
-            width: double.infinity,
             height: 56,
+            width: double.infinity,
             child: ElevatedButton(
               onPressed: () async {
                 if (!instance.loginKey.value.currentState!.validate()) {
@@ -123,7 +123,7 @@ class LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: TSizes.spaceBtwItems),
           Row(
             children: [
               Expanded(child: Divider(color: Colors.grey[400])),
@@ -131,10 +131,10 @@ class LoginFormState extends State<LoginForm> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text('OR', style: textTheme.titleLarge),
               ),
-              Expanded(child: Divider()),
+              Expanded(child: Divider(color: Colors.grey[400])),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: TSizes.spaceBtwItems),
           Row(
             children: [
               Expanded(
@@ -156,7 +156,7 @@ class LoginFormState extends State<LoginForm> {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: TSizes.spaceBtwItems),
           SignupRow(),
         ],
       ),

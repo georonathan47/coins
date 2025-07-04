@@ -8,7 +8,6 @@ class PersonalDetails extends StatefulWidget {
 }
 
 class PersonalDetailsState extends State<PersonalDetails> {
-  late DateTime date;
   final textTheme = Get.textTheme;
 
   @override

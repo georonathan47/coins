@@ -39,6 +39,7 @@ class GeneralBindings extends Bindings {
           saveUserInfoUsecase: Get.find(),
           fetchListingsUsecase: Get.find(),
           fetchUserInfoUsecase: Get.find(),
+          checkKycStatusUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),
           fetchTradableCoinsUsecase: Get.find(),
@@ -48,7 +49,9 @@ class GeneralBindings extends Bindings {
         KycController(
           openImageCamera: Get.find(),
           openImageGallery: Get.find(),
+          initiateKycUsecase: Get.find(),
           retrieveUserUsecase: Get.find(),
+          checkKycStatusUsecase: Get.find(),
         ),
       )
       //? Onboarding Controller

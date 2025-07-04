@@ -1,5 +1,3 @@
-import 'package:intl_phone_field/intl_phone_field.dart';
-
 import 'widgets.dart';
 
 class PersonalDetailsForm extends StatefulWidget {
@@ -124,6 +122,42 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                   lastDate: DateTime.now(),
                   firstDate: DateTime(1900),
                   initialDate: DateTime.now(),
+                  builder: (context, child) => Theme(
+                    data: Get.isDarkMode
+                        ? ThemeData.dark().copyWith(
+                            primaryColor: TColors.secondary,
+                            cardColor: TColors.drawerBackgroundDark,
+                            scaffoldBackgroundColor:
+                                TColors.drawerBackgroundDark,
+                            canvasColor: TColors.drawerBackgroundDark,
+                            textTheme: TextTheme(
+                              bodyMedium: textTheme.bodyMedium?.copyWith(
+                                color: TColors.light,
+                              ),
+                              titleMedium: textTheme.titleMedium?.copyWith(
+                                color: TColors.light,
+                              ),
+                            ),
+                            colorScheme: ColorScheme.dark(
+                              primary: TColors.secondary,
+                            ),
+                          )
+                        : ThemeData.light().copyWith(
+                            primaryColor: TColors.primary,
+                            textTheme: TextTheme(
+                              bodyMedium: textTheme.bodyMedium?.copyWith(
+                                color: TColors.light,
+                              ),
+                              titleMedium: textTheme.titleMedium?.copyWith(
+                                color: TColors.light,
+                              ),
+                            ),
+                            colorScheme: ColorScheme.light(
+                              primary: TColors.primary,
+                            ),
+                          ),
+                    child: child!,
+                  ),
                 );
                 if (selectedDate != null) {
                   instance.dobController.value.text =
@@ -136,6 +170,46 @@ class _PersonalDetailsFormState extends State<PersonalDetailsForm> {
                 }
                 return null;
               },
+            ),
+            SizedBox(height: TSizes.spaceBtwItems),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text('Gender', style: textTheme.bodySmall),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: RadioListTile<Gender>(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Male'),
+                        value: Gender.male,
+                        groupValue: instance.selectedGender.value,
+                        onChanged: (Gender? value) {
+                          if (value != null) {
+                            instance.selectedGender.value = value;
+                          }
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: RadioListTile<Gender>(
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Female'),
+                        value: Gender.female,
+                        groupValue: instance.selectedGender.value,
+                        onChanged: (Gender? value) {
+                          if (value != null) {
+                            instance.selectedGender.value = value;
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: TSizes.spaceBtwSections * 5),
             // const Spacer(),

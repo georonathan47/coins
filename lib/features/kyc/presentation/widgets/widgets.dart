@@ -6,6 +6,7 @@ export 'package:lottie/lottie.dart';
 export 'package:chart_sparkline/chart_sparkline.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:flutter_svg/svg.dart';
+export 'package:intl_phone_field/intl_phone_field.dart';
 
 export '../../../../banner.dart';
 export '../../../../core/constants/colors.dart';
@@ -23,6 +24,7 @@ export '../../../../core/presentation/widgets/success_screen/error.dart';
 export '../../../../core/utils/get_image_widget.dart';
 export '../../../../core/validators/validation.dart';
 export '../../../../flavors.dart';
+export '../../domain/entities/gender.enum.dart';
 export '../controller/kyc_controller.dart';
 
 export 'doc_upload_form.dart';

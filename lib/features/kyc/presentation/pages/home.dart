@@ -13,10 +13,19 @@ class KycHomeState extends State<KycHome> {
   final textTheme = Get.textTheme;
 
   @override
+  void initState() {
+    super.initState();
+    Get.find<KycController>().onInit();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
-        appBar: AppBar(backgroundColor: TColors.transparent),
+        appBar: AppBar(
+          backgroundColor: TColors.transparent,
+          leading: BackButton(onPressed: () => Get.offNamed(Routers.index)),
+        ),
         body: ScrollableWidget(
           children: [
             SvgPicture.asset(

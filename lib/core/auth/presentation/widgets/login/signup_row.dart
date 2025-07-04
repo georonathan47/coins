@@ -9,12 +9,17 @@ class SignupRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Don't have an account? ", style: textTheme.bodyLarge),
+        Expanded(
+          child: Text("Don't have an account? ", style: textTheme.bodyLarge),
+        ),
         TextButton(
           onPressed: () => Get.offNamed(Routers.register),
           child: Text(
             'Sign Up',
-            style: textTheme.titleMedium!.copyWith(color: TColors.secondary),
+            style: textTheme.titleMedium!.copyWith(
+              fontSize: 20,
+              color: TColors.secondary,
+            ),
           ),
         ),
       ],
