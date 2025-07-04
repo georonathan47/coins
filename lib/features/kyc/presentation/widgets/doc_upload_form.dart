@@ -43,7 +43,7 @@ class DocUploadFormState extends State<DocUploadForm> {
             decoration: InputDecoration(
               filled: true,
               isDense: true,
-              labelText: 'Network Fee Type',
+              labelText: 'Document Type',
               hintText: 'Select Document Type',
               prefixIcon: const Icon(Iconsax.money),
               contentPadding: const EdgeInsets.all(16),

@@ -18,7 +18,7 @@ class BuySummaryState extends State<BuySummary> {
           centerTitle: true,
           title: Text(
             'Buy Order Summary',
-            style: textTheme.titleLarge?.copyWith(color: TColors.light),
+            style: textTheme.titleMedium?.copyWith(color: TColors.light),
           ),
         ),
         body: BuySummaryBody(),

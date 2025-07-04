@@ -7,10 +7,12 @@ import '../../data/models/ree_calc_response.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
+import '../../domain/entities/payment_mode.dart';
 import '../../domain/usecases/fee_calculation_usecase.dart';
 import '../../domain/usecases/fetch_currencies_usecase.dart';
 import '../../domain/usecases/fetch_listings_usecase.dart';
 import '../../domain/usecases/fetch_countries_usecase.dart';
+import '../../domain/usecases/fetch_payment_modes_usecase.dart';
 import '../widgets/widgets.dart';
 
 class BuyController extends GetxController {
@@ -19,6 +21,7 @@ class BuyController extends GetxController {
   final currencyId = 0.obs;
   final countries = <Country>[].obs;
   final currencies = <Currency>[].obs;
+  final payModes = <PaymentMode>[].obs;
   final currentUser = User.empty().obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final order = CreateBuyOrder.empty().obs;
@@ -33,6 +36,8 @@ class BuyController extends GetxController {
   final FetchListingsUsecase fetchListingsUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
+  final FetchPaymentModesUsecase fetchPaymentModesUsecase;
+
 
   BuyController({
     required this.calculateFeeUsecase,
@@ -40,6 +45,7 @@ class BuyController extends GetxController {
     required this.fetchListingsUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
+    required this.fetchPaymentModesUsecase,
   });
 
   @override
@@ -89,6 +95,32 @@ class BuyController extends GetxController {
       (success) {
         currencies.value = success;
         update();
+        return success;
+      },
+    );
+  }
+
+  Future<List<PaymentMode>> fetchPaymentModes() async {
+    final user = await retrieveUser();
+    final country = countries.firstWhere(
+      (country) => country.id == user.countryId,
+      orElse: () => Country.empty(),
+    );
+    final result = await fetchPaymentModesUsecase(ObjectParams(country.countryName));
+    Get.back();
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        payModes.value = success;
+        update();
+        Get.toNamed(Routers.paymentSelection);
         return success;
       },
     );

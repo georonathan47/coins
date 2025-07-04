@@ -10,6 +10,7 @@ import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
+import '../../domain/entities/payment_mode.dart';
 import '../models/currency.dart';
 import '../models/ree_calc_response.dart';
 
@@ -19,6 +20,7 @@ abstract class BuyRemoteDatabase {
   Future createOrder(CreateBuyOrder request, Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
+  Future<List<PaymentMode>> fetchPaymentModes(String country, Map tokens);
   Future<FeeCalcResponse> calculateFees(FeeCalculation request, Map tokens);
 }
 
@@ -288,6 +290,54 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         e,
         stackTrace: s,
         eventName: 'Error Fetching Listings',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<PaymentMode>> fetchPaymentModes(String country, Map tokens) async {
+     try {
+      final result = await client.get(
+        '${Env.paymentModesUrl}=$country',
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<PaymentMode> modes = responseData
+            .map((coin) => paymentModeFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logApiResult(
+          code: result.statusCode!,
+          httpMethod: 'GET',
+          method: 'fetchPaymentModes',
+          message:
+              'Fetched ${modes.length} payment modes for country $country',
+        );
+        return modes;
+      } else if (result.statusCode! == 401) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchTradableCoins',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchPaymentModes(country, tokens);
+        } catch (e) {
+          throw ServerException();
+        }
+      } else {
+        throw ServerException();
+      }
+    } catch (e, s) {
+      TLoggerHelper.logEvent(
+        e,
+        stackTrace: s,
+        eventName: 'Error Fetching Tradables',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

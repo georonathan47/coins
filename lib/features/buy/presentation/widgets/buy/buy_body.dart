@@ -28,9 +28,16 @@ class BuyBodyState extends State<BuyBody> {
         children: [
           DropdownButtonFormField(
             isDense: true,
+            value: 'REGULAR',
             items: [
-              DropdownMenuItem(value: 'REGULAR', child: Text('Regular')),
-              DropdownMenuItem(value: 'PRIORITY', child: Text('Express')),
+              DropdownMenuItem(
+                value: 'PRIORITY',
+                child: Text('Express', style: textTheme.bodyLarge),
+              ),
+              DropdownMenuItem(
+                value: 'REGULAR',
+                child: Text('Regular', style: textTheme.bodyLarge),
+              ),
             ],
             onChanged: (value) {
               instance.network.value = value!;
@@ -44,11 +51,10 @@ class BuyBodyState extends State<BuyBody> {
               filled: true,
               isDense: true,
               labelText: 'Network Fee Type',
-              hintStyle: textTheme.bodyLarge,
               labelStyle: textTheme.bodyLarge,
-              hintText: 'Select Network Fee Type',
               prefixIcon: const Icon(Iconsax.money),
               contentPadding: const EdgeInsets.all(16),
+              hint: Text('Select Network Fee Type', style: textTheme.bodyLarge),
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.circular(12),
@@ -107,10 +113,7 @@ class BuyBodyState extends State<BuyBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Network Fee (USD)',
-                          style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                        ),
+                        Text('Network Fee (USD)', style: textTheme.bodyLarge),
                         Text(
                           instance.network.value == 'REGULAR'
                               ? TFormatter.formatDollar(
@@ -129,13 +132,12 @@ class BuyBodyState extends State<BuyBody> {
                                 ),
                           style: textTheme.bodyLarge?.copyWith(
                             height: 1.5,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: TSizes.spaceBtwSections),
+                    const SizedBox(height: TSizes.spaceBtwItems),
                     TextButton.icon(
                       onPressed: () {},
                       iconAlignment: IconAlignment.end,
@@ -149,10 +151,7 @@ class BuyBodyState extends State<BuyBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Amount to Pay (USD)',
-                          style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                        ),
+                        Text('Amount to Pay (USD)', style: textTheme.bodyLarge),
                         Text(
                           TFormatter.formatDollar(
                             instance
@@ -163,8 +162,7 @@ class BuyBodyState extends State<BuyBody> {
                           ),
                           style: textTheme.bodyLarge?.copyWith(
                             height: 1.5,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -173,10 +171,7 @@ class BuyBodyState extends State<BuyBody> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Amount to Pay (GHS)',
-                          style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                        ),
+                        Text('Amount to Pay (GHS)', style: textTheme.bodyLarge),
                         Text(
                           TFormatter.formatCurrency(
                             instance.calcResponse.value.amountLocalCurrency ??
@@ -184,8 +179,7 @@ class BuyBodyState extends State<BuyBody> {
                           ),
                           style: textTheme.bodyLarge?.copyWith(
                             height: 1.5,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],

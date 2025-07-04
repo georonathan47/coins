@@ -7,18 +7,19 @@ import '../entities/coin_data.dart';
 import '../entities/country.dart';
 import '../entities/create_buy_order.dart';
 import '../entities/fee_calculation.dart';
+import '../entities/payment_mode.dart';
 
 abstract class BuyRepository {
-  /// Create a buy order
-  Future<Either<Failure, dynamic>> createBuyOrder(CreateBuyOrder order);
   /// Fetch all countries
   Future<Either<Failure, List<Country>>> fetchCountries();
   Future<Either<Failure, List<CoinData>>> fetchListings();
+  /// Create a buy order
+  Future<Either<Failure, dynamic>> createBuyOrder(CreateBuyOrder order);
   Future<Either<Failure, List<CoinData>>> fetchTradableCoins(int countryId);
-
   /// Fetch all currencies
   Future<Either<Failure, List<Currency>>> fetchCurrencies(int countryId);
-
   // ? Calculate amount based on selected fee type
   Future<Either<Failure, FeeCalcResponse>> calculateAmount(FeeCalculation fee);
+  /// Fetch payment modes by country
+  Future<Either<Failure, List<PaymentMode>>> fetchPaymentModes(String country);
 }
