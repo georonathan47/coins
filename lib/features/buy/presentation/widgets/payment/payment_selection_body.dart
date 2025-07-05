@@ -1,3 +1,4 @@
+import '../../../domain/entities/payment_mode.dart';
 import '../widgets.dart';
 
 class PaymentSelectionBody extends StatefulWidget {
@@ -44,24 +45,36 @@ class PaymentSelectionBodyState extends State<PaymentSelectionBody> {
           ),
         ),
         const SizedBox(height: TSizes.spaceBtwItems),
-
-        DropdownButtonFormField(
+        DropdownButtonFormField<PaymentMode>(
           isDense: true,
-          items: [
-            DropdownMenuItem(
-              value: 'BANK_TRANSFER',
-              child: Text('Bank', style: textTheme.titleSmall),
-            ),
-            DropdownMenuItem(
-              value: 'GHQR',
-              child: Text('GhQR All Networks', style: textTheme.titleSmall),
-            ),
-            DropdownMenuItem(
-              value: 'MOBILE_MONEY',
-              child: Text('USSD Mobile Money', style: textTheme.titleSmall),
-            ),
-          ],
-          onChanged: (value) {},
+          isExpanded: true,
+          items: instance.payModes
+              .map(
+                (mode) => DropdownMenuItem(
+                  value: mode,
+                  onTap: () async {
+                    setState(() {
+                      instance.paymentMode.value = mode.paymentMode;
+                      instance.paymentType.value = mode.paymentType;
+                    });
+                    if (mode.paymentType.contains('BANK')) {
+                      await instance.fetchBanks();
+                    }
+                  },
+                  child: Text(mode.paymentMode, style: textTheme.bodyLarge),
+                ),
+              )
+              .toList(),
+
+          onChanged: (value) {}, // onChanged: (value) async {
+          //   setState(() {
+          //     instance.paymentMode.value = value!.paymentMode;
+          //     instance.paymentType.value = value.paymentType;
+          //   });
+          //   if (value!.paymentType.contains('BANK')) {
+          //     await instance.fetchBanks();
+          //   }
+          // },
           decoration: InputDecoration(
             filled: true,
             isDense: true,
@@ -86,21 +99,22 @@ class PaymentSelectionBodyState extends State<PaymentSelectionBody> {
         const SizedBox(height: TSizes.spaceBtwItems),
         DropdownButtonFormField(
           isDense: true,
-          items: [
-            DropdownMenuItem(
-              value: 'MTN',
-              child: Text('MTN', style: textTheme.titleSmall),
-            ),
-            DropdownMenuItem(
-              value: 'ATMONEY',
-              child: Text('ATMoney GhQR', style: textTheme.titleSmall),
-            ),
-            DropdownMenuItem(
-              value: 'TELECEL',
-              child: Text('Telecel', style: textTheme.titleSmall),
-            ),
-          ],
-          onChanged: (value) {},
+          items: instance.banks.isNotEmpty
+              ? instance.banks
+                    .map(
+                      (mode) => DropdownMenuItem(
+                        value: mode,
+                        child: Text(mode.bankName, style: textTheme.bodyLarge),
+                      ),
+                    )
+                    .toList()
+              : [],
+          onChanged: (value) {
+            // setState(() {
+            //   instance.paymentMode.value = value!.paymentMode;
+            //   instance.paymentType.value = value.paymentType;
+            // });
+          },
           decoration: InputDecoration(
             filled: true,
             isDense: true,

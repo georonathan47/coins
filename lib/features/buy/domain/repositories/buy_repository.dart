@@ -3,6 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import '../../../../core/error/failures.dart';
 import '../../data/models/currency.dart';
 import '../../data/models/ree_calc_response.dart';
+import '../entities/bank.dart';
 import '../entities/coin_data.dart';
 import '../entities/country.dart';
 import '../entities/create_buy_order.dart';
@@ -10,6 +11,8 @@ import '../entities/fee_calculation.dart';
 import '../entities/payment_mode.dart';
 
 abstract class BuyRepository {
+  /// Fetch all banks
+  Future<Either<Failure, List<Bank>>> fetchBanks();
   /// Fetch all countries
   Future<Either<Failure, List<Country>>> fetchCountries();
   Future<Either<Failure, List<CoinData>>> fetchListings();

@@ -12,6 +12,8 @@ abstract class Env {
   static const String authUrl = _Env.authUrl;
   @EnviedField(varName: 'USER_URL')
   static const String userUrl = _Env.userUrl;
+  @EnviedField(varName: 'BANK_LIST')
+  static const String bankListUrl = _Env.bankListUrl;
   @EnviedField(varName: 'CAPTCHA_URL')
   static const String captchaUrl = _Env.captchaUrl;
   @EnviedField(varName: 'REGISTER_URL')
@@ -58,5 +60,4 @@ abstract class Env {
   static const String checkStatusUrl = _Env.checkStatusUrl;
   @EnviedField(varName: 'PAYMENT_MODES')
   static const String paymentModesUrl = _Env.paymentModesUrl;
-
 }

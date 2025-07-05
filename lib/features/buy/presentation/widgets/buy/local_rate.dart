@@ -81,8 +81,7 @@ class _LocalRateState extends State<LocalRate> {
                               final amountIsValid =
                                   amount.isNotEmpty &&
                                   double.tryParse(amount) != null &&
-                                  double.parse(instance.dollar.value.text) >=
-                                      10.0;
+                                  double.parse(amount) >= 10.0;
                               if (amountIsValid) {
                                 THelperFunctions.debounce(() async {
                                   if (instance.network.value.isEmpty) {

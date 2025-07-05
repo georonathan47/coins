@@ -19,6 +19,12 @@ class BuyBodyState extends State<BuyBody> {
   final instance = BuyController.instance;
 
   @override
+  void initState() {
+    super.initState();
+    instance.eCurrency.value = widget.coinData.name;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Form(

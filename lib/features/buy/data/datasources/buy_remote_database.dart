@@ -6,6 +6,7 @@ import '../../../../core/auth/data/datasources/auth_remote_database.dart';
 import '../../../../core/constants/env.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/utils/logger.dart';
+import '../../domain/entities/bank.dart';
 import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
@@ -15,6 +16,7 @@ import '../models/currency.dart';
 import '../models/ree_calc_response.dart';
 
 abstract class BuyRemoteDatabase {
+  Future<List<Bank>> fetchBanks(Map tokens);
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
   Future createOrder(CreateBuyOrder request, Map tokens);
@@ -122,6 +124,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
     try {
       final url =
           '${Env.buyUrl}=${request.country.id}&currencyId=${request.currencyId}&amount=${request.amount}&networkFeeType=${request.networkFeeType}&networkFeePaymentType=${request.paymentMode}&amountIsLocal=${request.isLocal}';
+      TLoggerHelper.logEvent(url);
       final result = await client.get(
         url,
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
@@ -296,8 +299,11 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
   }
 
   @override
-  Future<List<PaymentMode>> fetchPaymentModes(String country, Map tokens) async {
-     try {
+  Future<List<PaymentMode>> fetchPaymentModes(
+    String country,
+    Map tokens,
+  ) async {
+    try {
       final result = await client.get(
         '${Env.paymentModesUrl}=$country',
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
@@ -312,13 +318,12 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           code: result.statusCode!,
           httpMethod: 'GET',
           method: 'fetchPaymentModes',
-          message:
-              'Fetched ${modes.length} payment modes for country $country',
+          message: 'Fetched ${modes.length} payment modes for country $country',
         );
         return modes;
       } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
-          'fetchTradableCoins',
+          'fetchPaymentModes',
           statusCode: result.statusCode!,
         );
         try {
@@ -327,6 +332,53 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['accessToken'] = token.accessToken;
           tokens['refreshToken'] = token.refreshToken;
           return fetchPaymentModes(country, tokens);
+        } catch (e) {
+          throw ServerException();
+        }
+      } else {
+        throw ServerException();
+      }
+    } catch (e, s) {
+      TLoggerHelper.logEvent(
+        e,
+        stackTrace: s,
+        eventName: 'Error Fetching Tradables',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<Bank>> fetchBanks(Map tokens) async {
+    try {
+      final result = await client.get(
+        Env.bankListUrl,
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<Bank> banks = responseData
+            .map((coin) => bankFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
+          method: 'fetchBanks',
+          code: result.statusCode!,
+          message: 'Fetched ${banks.length} banks',
+        );
+        return banks;
+      } else if (result.statusCode! == 401) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchBanks',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchBanks(tokens);
         } catch (e) {
           throw ServerException();
         }
