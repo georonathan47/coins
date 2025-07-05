@@ -11,6 +11,8 @@ import '../entities/fee_calculation.dart';
 import '../entities/payment_mode.dart';
 
 abstract class BuyRepository {
+  /// Fetch all Momo networks
+  Future<Either<Failure, List<Momo>>> fetchMomo();
   /// Fetch all banks
   Future<Either<Failure, List<Bank>>> fetchBanks();
   /// Fetch all countries

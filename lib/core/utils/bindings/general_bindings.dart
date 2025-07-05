@@ -26,6 +26,7 @@ class GeneralBindings extends Bindings {
       )
       ..put(
         BuyController(
+          fetchMomoUsecase: Get.find(),
           fetchBanksUsecase: Get.find(),
           calculateFeeUsecase: Get.find(),
           retrieveUserUsecase: Get.find(),

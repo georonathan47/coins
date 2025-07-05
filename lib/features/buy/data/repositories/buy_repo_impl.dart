@@ -223,4 +223,23 @@ class BuyRepositoryImpl implements BuyRepository {
       return Left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Momo>>> fetchMomo() async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await authLocalDatabase.fetchTokens();
+        final response = await remoteDatabase.fetchMomoList(tokens);
+        return Right(response);
+      } else {
+        return Left(
+          Failure(
+            'No internet connection. Please check your internet connection and try again!',
+          ),
+        );
+      }
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
 }

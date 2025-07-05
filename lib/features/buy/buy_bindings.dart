@@ -9,6 +9,7 @@ import 'domain/usecases/fetch_banks_usecase.dart';
 import 'domain/usecases/fetch_countries_usecase.dart';
 import 'domain/usecases/fetch_currencies_usecase.dart';
 import 'domain/usecases/fetch_listings_usecase.dart';
+import 'domain/usecases/fetch_momo_list_usecase.dart';
 import 'domain/usecases/fetch_payment_modes_usecase.dart';
 import 'domain/usecases/fetch_tradable_usecase.dart';
 import 'presentation/widgets/widgets.dart';
@@ -37,6 +38,7 @@ class BuyBindings extends Bindings {
           currencyLocalDatabase: Get.find(),
         ),
       )
+      ..lazyPut(() => FetchMomoUsecase(Get.find()))
       ..lazyPut(() => FetchBanksUsecase(Get.find()))
       ..lazyPut(() => CalculateFeeUsecase(Get.find()))
       ..lazyPut(() => FetchListingsUsecase(Get.find()))

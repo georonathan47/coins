@@ -14,6 +14,7 @@ import '../../domain/usecases/fetch_banks_usecase.dart';
 import '../../domain/usecases/fetch_currencies_usecase.dart';
 import '../../domain/usecases/fetch_listings_usecase.dart';
 import '../../domain/usecases/fetch_countries_usecase.dart';
+import '../../domain/usecases/fetch_momo_list_usecase.dart';
 import '../../domain/usecases/fetch_payment_modes_usecase.dart';
 import '../widgets/widgets.dart';
 
@@ -21,6 +22,7 @@ class BuyController extends GetxController {
   final eCurrency = ''.obs;
   final currencyId = 0.obs;
   final paymentType = ''.obs;
+  final momo = <Momo>[].obs;
   final banks = <Bank>[].obs;
   final network = 'REGULAR'.obs;
   final countries = <Country>[].obs;
@@ -35,6 +37,7 @@ class BuyController extends GetxController {
   final calcResponse = FeeCalcResponse.empty().obs;
   static BuyController get instance => Get.find();
 
+  final FetchMomoUsecase fetchMomoUsecase;
   final FetchBanksUsecase fetchBanksUsecase;
   final CalculateFeeUsecase calculateFeeUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
@@ -44,6 +47,7 @@ class BuyController extends GetxController {
   final FetchPaymentModesUsecase fetchPaymentModesUsecase;
 
   BuyController({
+    required this.fetchMomoUsecase,
     required this.fetchBanksUsecase,
     required this.calculateFeeUsecase,
     required this.retrieveUserUsecase,
@@ -56,7 +60,13 @@ class BuyController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCurrencies();
+    Future.any([
+      retrieveUser(),
+      fetchCountries(),
+      fetchCurrencies(),
+      fetchBanks(),
+      fetchMomo(),
+    ]);
     network.value = 'REGULAR';
   }
 
@@ -149,6 +159,25 @@ class BuyController extends GetxController {
       },
       (success) {
         banks.value = success;
+        update();
+        return success;
+      },
+    );
+  }
+
+  Future<List<Momo>> fetchMomo() async {
+    final result = await fetchMomoUsecase(NoParams());
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        momo.value = success;
         update();
         return success;
       },

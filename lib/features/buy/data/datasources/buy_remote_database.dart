@@ -17,6 +17,7 @@ import '../models/ree_calc_response.dart';
 
 abstract class BuyRemoteDatabase {
   Future<List<Bank>> fetchBanks(Map tokens);
+  Future<List<Momo>> fetchMomoList(Map tokens);
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
   Future createOrder(CreateBuyOrder request, Map tokens);
@@ -379,6 +380,53 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['accessToken'] = token.accessToken;
           tokens['refreshToken'] = token.refreshToken;
           return fetchBanks(tokens);
+        } catch (e) {
+          throw ServerException();
+        }
+      } else {
+        throw ServerException();
+      }
+    } catch (e, s) {
+      TLoggerHelper.logEvent(
+        e,
+        stackTrace: s,
+        eventName: 'Error Fetching Tradables',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<Momo>> fetchMomoList(Map tokens) async {
+    try {
+      final result = await client.get(
+        Env.momoListUrl,
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<Momo> momo = responseData
+            .map((coin) => momoFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
+          method: 'fetchMomoList',
+          code: result.statusCode!,
+          message: 'Fetched ${momo.length} momo networks',
+        );
+        return momo;
+      } else if (result.statusCode! == 401) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchMomoList',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchMomoList(tokens);
         } catch (e) {
           throw ServerException();
         }
