@@ -7,12 +7,8 @@ environment:
   sdk: 3.8.0
 
 dependencies:
-  animated_bottom_navigation_bar: ^1.4.0
+  animated_bottom_navigation_bar: 1.4.0
   cached_network_image: 3.4.1
-  captcha_solver:
-    git:
-      url: https://github.com/georonathan47/captcha_solver.git
-      ref: master
   chart_sparkline: 1.1.1
   connectivity_plus: 6.1.4
   cupertino_icons: 1.0.8
@@ -23,14 +19,16 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_animate: 4.5.2
+  flutter_confetti: 0.5.1
   flutter_flavorizr: 2.4.1
   flutter_image_compress: 2.4.0
   flutter_slidable: 4.0.0
   flutter_svg: 2.1.0
-  font_awesome_flutter: ^10.8.0
+  font_awesome_flutter: 10.8.0
   fpdart: 1.1.1
   freezed_annotation: 3.0.0
   get: 4.7.2
+  getwidget: 6.0.0
   google_fonts: 6.2.1
   hive_ce: 2.11.3
   hive_ce_flutter: 2.3.1

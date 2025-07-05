@@ -4,21 +4,30 @@ import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/logger.dart';
 import '../../data/models/currency.dart';
 import '../../data/models/ree_calc_response.dart';
+import '../../domain/entities/bank.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
+import '../../domain/entities/payment_mode.dart';
 import '../../domain/usecases/fee_calculation_usecase.dart';
+import '../../domain/usecases/fetch_banks_usecase.dart';
 import '../../domain/usecases/fetch_currencies_usecase.dart';
 import '../../domain/usecases/fetch_listings_usecase.dart';
 import '../../domain/usecases/fetch_countries_usecase.dart';
+import '../../domain/usecases/fetch_momo_list_usecase.dart';
+import '../../domain/usecases/fetch_payment_modes_usecase.dart';
 import '../widgets/widgets.dart';
 
 class BuyController extends GetxController {
-  final network = ''.obs;
   final eCurrency = ''.obs;
   final currencyId = 0.obs;
+  final paymentType = ''.obs;
+  final momo = <Momo>[].obs;
+  final banks = <Bank>[].obs;
+  final network = 'REGULAR'.obs;
   final countries = <Country>[].obs;
   final currencies = <Currency>[].obs;
+  final payModes = <PaymentMode>[].obs;
   final currentUser = User.empty().obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final order = CreateBuyOrder.empty().obs;
@@ -28,24 +37,37 @@ class BuyController extends GetxController {
   final calcResponse = FeeCalcResponse.empty().obs;
   static BuyController get instance => Get.find();
 
+  final FetchMomoUsecase fetchMomoUsecase;
+  final FetchBanksUsecase fetchBanksUsecase;
   final CalculateFeeUsecase calculateFeeUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
   final FetchListingsUsecase fetchListingsUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
+  final FetchPaymentModesUsecase fetchPaymentModesUsecase;
 
   BuyController({
+    required this.fetchMomoUsecase,
+    required this.fetchBanksUsecase,
     required this.calculateFeeUsecase,
     required this.retrieveUserUsecase,
     required this.fetchListingsUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
+    required this.fetchPaymentModesUsecase,
   });
 
   @override
   void onInit() {
     super.onInit();
-    fetchCurrencies();
+    Future.any([
+      retrieveUser(),
+      fetchCountries(),
+      fetchCurrencies(),
+      fetchBanks(),
+      fetchMomo(),
+    ]);
+    network.value = 'REGULAR';
   }
 
   void clearControllers() {
@@ -53,6 +75,8 @@ class BuyController extends GetxController {
     local.value.clear();
     dollar.value.clear();
     currencyId.value = 0;
+    paymentMode.value = '';
+    paymentType.value = '';
     calcResponse.value = FeeCalcResponse.empty();
   }
 
@@ -94,6 +118,72 @@ class BuyController extends GetxController {
     );
   }
 
+  Future<List<PaymentMode>> fetchPaymentModes() async {
+    final user = await retrieveUser();
+    final country = countries.firstWhere(
+      (country) => country.id == user.countryId,
+      orElse: () => Country.empty(),
+    );
+    final result = await fetchPaymentModesUsecase(
+      ObjectParams(country.countryName),
+    );
+    Get.back();
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        payModes.value = success;
+        update();
+        Get.toNamed(Routers.paymentSelection);
+        return success;
+      },
+    );
+  }
+
+  Future<List<Bank>> fetchBanks() async {
+    final result = await fetchBanksUsecase(NoParams());
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        banks.value = success;
+        update();
+        return success;
+      },
+    );
+  }
+
+  Future<List<Momo>> fetchMomo() async {
+    final result = await fetchMomoUsecase(NoParams());
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        momo.value = success;
+        update();
+        return success;
+      },
+    );
+  }
+
   Future<FeeCalcResponse> calculate() async {
     final countries = await fetchCountries();
     final country = countries.firstWhere(
@@ -107,8 +197,8 @@ class BuyController extends GetxController {
       paymentMode: paymentMode.value,
       isLocal: local.value.text.isNotEmpty && dollar.value.text.isEmpty,
       amount: dollar.value.text.isEmpty ? local.value.text : dollar.value.text,
-    ).obs;
-    final result = await calculateFeeUsecase(ObjectParams(request.value));
+    );
+    final result = await calculateFeeUsecase(ObjectParams(request));
     Navigator.pop(Get.context!);
     return result.fold(
       (failure) {

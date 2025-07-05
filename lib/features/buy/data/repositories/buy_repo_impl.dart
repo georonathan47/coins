@@ -4,10 +4,12 @@ import '../../../../core/auth/data/datasources/auth_local_database.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/platform/network_info.dart';
+import '../../domain/entities/bank.dart';
 import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
+import '../../domain/entities/payment_mode.dart';
 import '../../domain/repositories/buy_repository.dart';
 import '../datasources/buy_local_database.dart';
 import '../datasources/buy_remote_database.dart';
@@ -166,6 +168,68 @@ class BuyRepositoryImpl implements BuyRepository {
         final tokens = await authLocalDatabase.fetchTokens();
         final request = order.copyWith(userId: tokens['userId']);
         final response = await remoteDatabase.createOrder(request, tokens);
+        return Right(response);
+      } else {
+        return Left(
+          Failure(
+            'No internet connection. Please check your internet connection and try again!',
+          ),
+        );
+      }
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PaymentMode>>> fetchPaymentModes(
+    String country,
+  ) async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await authLocalDatabase.fetchTokens();
+        final response = await remoteDatabase.fetchPaymentModes(
+          country,
+          tokens,
+        );
+        return Right(response);
+      } else {
+        return Left(
+          Failure(
+            'No internet connection. Please check your internet connection and try again!',
+          ),
+        );
+      }
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Bank>>> fetchBanks() async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await authLocalDatabase.fetchTokens();
+        final response = await remoteDatabase.fetchBanks(tokens);
+        return Right(response);
+      } else {
+        return Left(
+          Failure(
+            'No internet connection. Please check your internet connection and try again!',
+          ),
+        );
+      }
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Momo>>> fetchMomo() async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await authLocalDatabase.fetchTokens();
+        final response = await remoteDatabase.fetchMomoList(tokens);
         return Right(response);
       } else {
         return Left(

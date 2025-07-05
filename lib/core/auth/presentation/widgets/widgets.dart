@@ -4,7 +4,6 @@ export 'package:pinput/pinput.dart';
 export 'package:iconsax/iconsax.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/gestures.dart';
-export 'package:captcha_solver/captcha_solver.dart';
 export 'package:webview_flutter/webview_flutter.dart';
 export 'package:intl_phone_field/intl_phone_field.dart';
 

@@ -1,5 +1,6 @@
 import '../../../features/buy/presentation/controller/buy_controller.dart';
 import '../../../features/homepage/presentation/widgets/widgets.dart';
+import '../../../features/kyc/presentation/controller/kyc_controller.dart';
 import '../../onboarding/presentation/controller/onboarding_controller.dart';
 
 class GeneralBindings extends Bindings {
@@ -25,11 +26,14 @@ class GeneralBindings extends Bindings {
       )
       ..put(
         BuyController(
+          fetchMomoUsecase: Get.find(),
+          fetchBanksUsecase: Get.find(),
           calculateFeeUsecase: Get.find(),
           retrieveUserUsecase: Get.find(),
           fetchListingsUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),
+          fetchPaymentModesUsecase: Get.find(),
         ),
       )
       ..put(
@@ -38,9 +42,19 @@ class GeneralBindings extends Bindings {
           saveUserInfoUsecase: Get.find(),
           fetchListingsUsecase: Get.find(),
           fetchUserInfoUsecase: Get.find(),
+          checkKycStatusUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),
           fetchTradableCoinsUsecase: Get.find(),
+        ),
+      )
+      ..put(
+        KycController(
+          openImageCamera: Get.find(),
+          openImageGallery: Get.find(),
+          initiateKycUsecase: Get.find(),
+          retrieveUserUsecase: Get.find(),
+          checkKycStatusUsecase: Get.find(),
         ),
       )
       //? Onboarding Controller

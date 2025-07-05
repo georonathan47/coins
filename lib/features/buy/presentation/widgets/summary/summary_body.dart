@@ -46,16 +46,12 @@ class BuySummaryBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Order Type',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('Order Type', style: textTheme.titleSmall),
                       Text(
                         'BUY ORDER'.capitalize!,
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -64,16 +60,13 @@ class BuySummaryBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'eCurrency',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('eCurrency', style: textTheme.titleSmall),
                       Text(
                         instance.eCurrency.value.capitalize!,
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -82,10 +75,7 @@ class BuySummaryBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Network Fee (USD)',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('Network Fee (USD)', style: textTheme.titleSmall),
                       Text(
                         instance.network.value == 'REGULAR'
                             ? TFormatter.formatDollar(
@@ -101,8 +91,8 @@ class BuySummaryBody extends StatelessWidget {
                               ),
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -112,16 +102,13 @@ class BuySummaryBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Date Created',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('Date Created', style: textTheme.titleSmall),
                       Text(
                         THelperFunctions.getFormattedDate(DateTime.now()),
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -130,16 +117,13 @@ class BuySummaryBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Order Status',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('Order Status', style: textTheme.titleSmall),
                       Text(
                         'Payment Pending'.capitalize!,
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -148,10 +132,7 @@ class BuySummaryBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Amount To Buy (USD)',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('Amount To Buy (USD)', style: textTheme.titleSmall),
                       Text(
                         TFormatter.formatDollar(
                           instance.calcResponse.value.amountStandardCurrency ??
@@ -160,7 +141,7 @@ class BuySummaryBody extends StatelessWidget {
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -171,16 +152,13 @@ class BuySummaryBody extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwItems),
                   Text(
                     'Totals (Includes all fees)',
-                    style: textTheme.titleMedium,
+                    style: textTheme.titleSmall,
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Amount To Pay (USD)',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('Amount To Pay (USD)', style: textTheme.titleSmall),
                       Text(
                         TFormatter.formatDollar(
                           instance.calcResponse.value.usdTotal ?? 0,
@@ -188,7 +166,7 @@ class BuySummaryBody extends StatelessWidget {
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -197,10 +175,7 @@ class BuySummaryBody extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Amount To Pay (GHS)',
-                        style: textTheme.titleMedium?.copyWith(fontSize: 18),
-                      ),
+                      Text('Amount To Pay (GHS)', style: textTheme.titleSmall),
                       Text(
                         TFormatter.formatCurrency(
                           instance
@@ -212,7 +187,7 @@ class BuySummaryBody extends StatelessWidget {
                         style: textTheme.bodyLarge?.copyWith(
                           height: 1.5,
                           fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -226,9 +201,15 @@ class BuySummaryBody extends StatelessWidget {
         ElevatedButton.icon(
           iconAlignment: IconAlignment.end,
           icon: Icon(Icons.chevron_right, size: TSizes.iconLg),
-          onPressed: () => Get.toNamed(Routers.paymentSelection),
+          onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (context) => const Center(child: CircularProgressIndicator())
+            );
+            await instance.fetchPaymentModes();
+          },
           label: Text(
-            'I have transferred funds, ',
+            'Confirm Buy',
             style: textTheme.titleMedium?.copyWith(color: TColors.white),
           ),
         ),

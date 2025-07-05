@@ -20,12 +20,17 @@ class BaseBindings extends Bindings {
       ..lazyPut<GalleryInfo>(() => GalleryInfoImpl(Get.find()))
       ..lazyPut<NetworkInfo>(() => NetworkInfoImpl())
       ..lazyPut(() => SharedPreferences.getInstance)
-      // ..lazyPut(() => InAppWebViewPlatform.instance)
       ..lazyPut(() => OpenAlbumGallery(Get.find()))
       ..lazyPut(() => OpenImageGallery(Get.find()))
       ..lazyPut(() => OpenImageCamera(Get.find()))
       ..lazyPut<ShareInfo>(() => ShareInfoImpl())
-      ..lazyPut(() => AuthGuard(Get.find()))
+      ..lazyPut(
+        () => AuthGuard(
+          authLocalDatabase: Get.find(),
+          kycLocalDatabase: Get.find(),
+        ),
+        fenix: true,
+      )
       ..lazyPut(() => OpenShare(Get.find()))
       ..lazyPut<HiveInterface>(() => Hive)
       ..lazyPut(() => OpenUrl(Get.find()))

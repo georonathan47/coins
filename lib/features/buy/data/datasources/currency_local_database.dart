@@ -7,6 +7,7 @@ import '../models/currency.dart';
 abstract class CurrencyLocalDatabase {
   Future<List<Currency>> retrieve();
   Future<void> saveActualCurrencies(List<Currency> countries);
+
 }
 
 class CurrencyLocalDatabaseImpl implements CurrencyLocalDatabase {
@@ -49,4 +50,5 @@ class CurrencyLocalDatabaseImpl implements CurrencyLocalDatabase {
       throw CacheException();
     }
   }
+
 }

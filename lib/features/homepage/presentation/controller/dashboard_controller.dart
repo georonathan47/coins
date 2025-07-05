@@ -9,6 +9,7 @@ import '../../../buy/domain/usecases/fetch_currencies_usecase.dart';
 import '../../../buy/domain/usecases/fetch_listings_usecase.dart';
 import '../../../buy/domain/usecases/fetch_tradable_usecase.dart';
 import '../../../buy/presentation/widgets/widgets.dart';
+import '../../../kyc/domain/usecases/check_status_usecase.dart';
 import '../widgets/widgets.dart';
 
 class DashboardController extends GetxController {
@@ -19,15 +20,17 @@ class DashboardController extends GetxController {
   final SaveUserInfoUsecase saveUserInfoUsecase;
   final FetchListingsUsecase fetchListingsUsecase;
   final FetchUserInfoUsecase fetchUserInfoUsecase;
+  final CheckKycStatusUsecase checkKycStatusUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
+  final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   final FetchTradableCoinsUsecase fetchTradableCoinsUsecase;
 
-  final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   DashboardController({
     required this.retrieveUserUsecase,
     required this.saveUserInfoUsecase,
     required this.fetchListingsUsecase,
     required this.fetchUserInfoUsecase,
+    required this.checkKycStatusUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
     required this.fetchTradableCoinsUsecase,

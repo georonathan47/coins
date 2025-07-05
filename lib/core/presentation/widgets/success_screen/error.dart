@@ -24,7 +24,6 @@ class FetchError extends StatelessWidget {
         shadowColor: TColors.dark,
         child: ScrollableWidget(
           children: [
-            // ToDo: Change asset to match error
             SvgPicture.asset(SvgAssets.noAsset, width: Get.width * 0.4),
             const SizedBox(height: TSizes.spaceBtwItems),
             Text(

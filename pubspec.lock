@@ -153,15 +153,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  captcha_solver:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: master
-      resolved-ref: "9c8be80b70bee5cc8dbe224e13630d363f4e2c09"
-      url: "https://github.com/georonathan47/captcha_solver.git"
-    source: git
-    version: "1.0.4"
   characters:
     dependency: transitive
     description:
@@ -431,6 +422,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+  flutter_confetti:
+    dependency: "direct main"
+    description:
+      name: flutter_confetti
+      sha256: "7e46b82ea0adc456afc91037652bbfbd52a951804fde0708822fad5d68be6398"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
   flutter_flavorizr:
     dependency: "direct main"
     description:
@@ -593,6 +592,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.7.2"
+  getwidget:
+    dependency: "direct main"
+    description:
+      name: getwidget
+      sha256: "0aea9b0168fec787501be65fc25c3ceb1e7f650ed77ee8f1edbda3296ea4d6a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
   glob:
     dependency: transitive
     description:
