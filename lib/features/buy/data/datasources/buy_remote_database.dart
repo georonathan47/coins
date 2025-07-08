@@ -17,7 +17,7 @@ import '../models/ree_calc_response.dart';
 
 abstract class BuyRemoteDatabase {
   Future<List<Bank>> fetchBanks(Map tokens);
-  Future<List<Momo>> fetchMomoList(Map tokens);
+  Future<List<Bank>> fetchMomoList(Map tokens);
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
   Future createOrder(CreateBuyOrder request, Map tokens);
@@ -390,14 +390,14 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
       TLoggerHelper.logEvent(
         e,
         stackTrace: s,
-        eventName: 'Error Fetching Tradables',
+        eventName: 'Error Fetching Banks',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }
   }
 
   @override
-  Future<List<Momo>> fetchMomoList(Map tokens) async {
+  Future<List<Bank>> fetchMomoList(Map tokens) async {
     try {
       final result = await client.get(
         Env.momoListUrl,
@@ -406,9 +406,16 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
 
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         final List<dynamic> responseData = result.body;
-        List<Momo> momo = responseData
-            .map((coin) => momoFromJson(jsonEncode(coin)))
-            .toList();
+        List<Bank> momo = responseData.map((coin) {
+          TLoggerHelper.logEvent(coin, eventName: 'Momo Network');
+          return Bank(
+            id: coin['id'],
+            bankName: coin['name'],
+            countryId: coin['countryId'],
+            bankCode: coin['networkCode'],
+            countryName: coin['countryName'],
+          );
+        }).toList();
         TLoggerHelper.logApiResult(
           httpMethod: 'GET',
           method: 'fetchMomoList',
@@ -437,7 +444,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
       TLoggerHelper.logEvent(
         e,
         stackTrace: s,
-        eventName: 'Error Fetching Tradables',
+        eventName: 'Error Fetching Momo List',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

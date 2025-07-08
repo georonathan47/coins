@@ -34,6 +34,7 @@ class GeneralBindings extends Bindings {
           fetchCountriesUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),
           fetchPaymentModesUsecase: Get.find(),
+          getPaymentDetailsUsecase: Get.find(),
         ),
       )
       ..put(

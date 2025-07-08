@@ -36,4 +36,5 @@ export 'buy/dollar_rate.dart';
 export 'buy/local_rate.dart';
 export 'summary/summary_body.dart';
 export 'history_body.dart';
+export 'payment/expandable_card.dart';
 

@@ -2,6 +2,8 @@ import '../../../../core/auth/domain/entities/user.dart';
 import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/logger.dart';
+import '../../../payment/domain/entities/payment_details.dart';
+import '../../../payment/domain/usecases/get_payment_details_usecase.dart';
 import '../../data/models/currency.dart';
 import '../../data/models/ree_calc_response.dart';
 import '../../domain/entities/bank.dart';
@@ -21,14 +23,15 @@ import '../widgets/widgets.dart';
 class BuyController extends GetxController {
   final eCurrency = ''.obs;
   final currencyId = 0.obs;
+  final momo = <Bank>[].obs;
   final paymentType = ''.obs;
-  final momo = <Momo>[].obs;
   final banks = <Bank>[].obs;
   final network = 'REGULAR'.obs;
   final countries = <Country>[].obs;
   final currencies = <Currency>[].obs;
   final payModes = <PaymentMode>[].obs;
   final currentUser = User.empty().obs;
+  final details = <PaymentDetails>[].obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final order = CreateBuyOrder.empty().obs;
   final local = TextEditingController().obs;
@@ -45,6 +48,7 @@ class BuyController extends GetxController {
   final FetchCountriesUsecase fetchCountriesUsecase;
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   final FetchPaymentModesUsecase fetchPaymentModesUsecase;
+  final GetPaymentDetailsUsecase getPaymentDetailsUsecase;
 
   BuyController({
     required this.fetchMomoUsecase,
@@ -55,6 +59,7 @@ class BuyController extends GetxController {
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
     required this.fetchPaymentModesUsecase,
+    required this.getPaymentDetailsUsecase,
   });
 
   @override
@@ -165,7 +170,34 @@ class BuyController extends GetxController {
     );
   }
 
-  Future<List<Momo>> fetchMomo() async {
+  Future<List<PaymentDetails>> fetchPayDetails() async {
+    final user = await retrieveUser();
+    final country = countries.firstWhere(
+      (country) => country.id == user.countryId,
+      orElse: () => Country.empty(),
+    );
+    final result = await getPaymentDetailsUsecase(
+      ObjectParams(paymentMode.value),
+      ObjectParams(country.countryName),
+    );
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        details.value = success;
+        update();
+        return success;
+      },
+    );
+  }
+
+  Future<List<Bank>> fetchMomo() async {
     final result = await fetchMomoUsecase(NoParams());
     return result.fold(
       (failure) {

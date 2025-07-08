@@ -225,7 +225,7 @@ class BuyRepositoryImpl implements BuyRepository {
   }
 
   @override
-  Future<Either<Failure, List<Momo>>> fetchMomo() async {
+  Future<Either<Failure, List<Bank>>> fetchMomo() async {
     try {
       if (await networkInfo.hasInternet()) {
         final tokens = await authLocalDatabase.fetchTokens();
