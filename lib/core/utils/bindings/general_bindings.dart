@@ -48,6 +48,7 @@ class GeneralBindings extends Bindings {
           checkKycStatusUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),
+          fetchDashPortfolioUsecase: Get.find(),
           fetchTradableCoinsUsecase: Get.find(),
         ),
       )

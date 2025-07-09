@@ -68,7 +68,7 @@ class BuyHistoryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: Text(
                     order.timeCreated,
                     style: textTheme.bodyLarge?.copyWith(
@@ -77,7 +77,7 @@ class BuyHistoryCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: Text(
                     order.paymentMode.replaceAll('_', ' ').capitalize!,
                     style: textTheme.bodyLarge?.copyWith(
@@ -86,7 +86,7 @@ class BuyHistoryCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: Text(
                     order.localCurrency,
                     style: textTheme.bodyLarge?.copyWith(
@@ -96,7 +96,6 @@ class BuyHistoryCard extends StatelessWidget {
                 ),
               ],
             ),
-            // ),
           ],
         ),
       ),
