@@ -66,4 +66,6 @@ abstract class Env {
   static const String paymentDetailsUrl = _Env.paymentDetailsUrl;
   @EnviedField(varName: 'CREATE_BUY_ORDER')
   static const String createBuyOrderUrl = _Env.createBuyOrderUrl;
+  @EnviedField(varName: 'BUY_ORDER_HISTORY')
+  static const String buyHistoryUrl = _Env.buyHistoryUrl;
 }

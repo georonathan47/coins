@@ -9,10 +9,11 @@ class BuyOrderHistory extends StatelessWidget {
     return FlavorBanner(
       child: Scaffold(
         appBar: TAppBar(
+          centerTitle: true,
           leading: BackButton(onPressed: () => Get.offAllNamed(Routers.index)),
           title: Text(
             'Buy Order History',
-            style: Get.textTheme.titleLarge?.copyWith(color: TColors.light),
+            style: Get.textTheme.titleMedium?.copyWith(color: TColors.light),
           ),
         ),
         body: BuyOrderHistoryBody(),

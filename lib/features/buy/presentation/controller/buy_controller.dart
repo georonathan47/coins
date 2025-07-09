@@ -4,9 +4,10 @@ import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../payment/domain/entities/payment_details.dart';
 import '../../../payment/domain/usecases/get_payment_details_usecase.dart';
+import '../../data/models/buy_history_model.dart';
 import '../../data/models/create_order_response.dart';
 import '../../data/models/currency.dart';
-import '../../data/models/ree_calc_response.dart';
+import '../../data/models/fee_calc_response.dart';
 import '../../domain/entities/bank.dart';
 import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
@@ -15,6 +16,7 @@ import '../../domain/entities/payment_mode.dart';
 import '../../domain/usecases/create_order_usecase.dart';
 import '../../domain/usecases/fee_calculation_usecase.dart';
 import '../../domain/usecases/fetch_banks_usecase.dart';
+import '../../domain/usecases/fetch_buy_history_usecase.dart';
 import '../../domain/usecases/fetch_currencies_usecase.dart';
 import '../../domain/usecases/fetch_listings_usecase.dart';
 import '../../domain/usecases/fetch_countries_usecase.dart';
@@ -28,6 +30,7 @@ class BuyController extends GetxController {
   final momo = <Bank>[].obs;
   final paymentType = ''.obs;
   final banks = <Bank>[].obs;
+  final filterStatus = ''.obs;
   final network = 'REGULAR'.obs;
   final countries = <Country>[].obs;
   final currencies = <Currency>[].obs;
@@ -52,6 +55,7 @@ class BuyController extends GetxController {
   final FetchListingsUsecase fetchListingsUsecase;
   final CreateBuyOrderUsecase createBuyOrderUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
+  final FetchBuyHistoryUsecase fetchBuyHistoryUsecase;
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   final FetchPaymentModesUsecase fetchPaymentModesUsecase;
   final GetPaymentDetailsUsecase getPaymentDetailsUsecase;
@@ -64,6 +68,7 @@ class BuyController extends GetxController {
     required this.fetchListingsUsecase,
     required this.createBuyOrderUsecase,
     required this.fetchCountriesUsecase,
+    required this.fetchBuyHistoryUsecase,
     required this.fetchCurrenciesUsecase,
     required this.fetchPaymentModesUsecase,
     required this.getPaymentDetailsUsecase,
@@ -306,5 +311,17 @@ class BuyController extends GetxController {
         return success;
       },
     );
+  }
+
+  Future<List<BuyHistoryModel>> history() async {
+    final result = await fetchBuyHistoryUsecase(NoParams());
+    return result.fold((failure) {
+      THelperFunctions.showSnackBar(
+        title: 'Error!',
+        message: failure.message,
+        bgColor: TColors.error,
+      );
+      return Future.error(failure.message);
+    }, (success) => success);
   }
 }

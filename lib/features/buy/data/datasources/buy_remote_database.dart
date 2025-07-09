@@ -12,15 +12,17 @@ import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/entities/payment_mode.dart';
+import '../models/buy_history_model.dart';
 import '../models/create_order_response.dart';
 import '../models/currency.dart';
-import '../models/ree_calc_response.dart';
+import '../models/fee_calc_response.dart';
 
 abstract class BuyRemoteDatabase {
   Future<List<Bank>> fetchBanks(Map tokens);
   Future<List<Bank>> fetchMomoList(Map tokens);
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
+  Future<List<BuyHistoryModel>> fetchHistory(Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
   Future<List<PaymentMode>> fetchPaymentModes(String country, Map tokens);
@@ -452,6 +454,55 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         e,
         stackTrace: s,
         eventName: 'Error Fetching Momo List',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<BuyHistoryModel>> fetchHistory(Map tokens) async {
+     try {
+      final result = await client.get(
+        '${Env.buyHistoryUrl}=${tokens['userId']}',
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<BuyHistoryModel> history = responseData
+            .map((coin) => buyHistoryModelFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
+          method: 'fetchBuyHistory',
+          code: result.statusCode!,
+          message: 'Fetched ${history.length} orders',
+        );
+        return history;
+      } else if (result.statusCode! == 401) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchBuyHistory',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchHistory(tokens);
+        } catch (e) {
+          throw ServerException();
+        }
+      } else {
+        throw ServerException();
+      }
+    } catch (e, s) {
+      TLoggerHelper.logError(
+        error: e,
+        stackTrace: s,
+        method: 'fetchBuyHistory',
+        eventName: 'Buy History',
+        message: 'Error fetching buy history',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

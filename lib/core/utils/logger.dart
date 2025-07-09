@@ -17,10 +17,7 @@ class TLoggerHelper {
     );
   }
 
-  static void logRefreshAttempt(
-    dynamic message, {
-    required int statusCode,
-  }) {
+  static void logRefreshAttempt(dynamic message, {required int statusCode}) {
     log(
       '$message failed with status code: $statusCode, attempting token refresh',
       time: DateTime.now(),
@@ -69,6 +66,24 @@ class TLoggerHelper {
       level: getLevel(code),
       name: '$httpMethod API',
       stackTrace: code >= 400 ? StackTrace.current : null,
+    );
+  }
+
+  static void logError({
+    required dynamic error,
+    required String method,
+    required String message,
+    required String eventName,
+    StackTrace? stackTrace,
+  }) {
+    log(
+      '$message on method $method',
+      level: 1000,
+      error: error,
+      zone: Zone.current,
+      time: DateTime.now(),
+      name: '$eventName Error',
+      stackTrace: stackTrace ?? StackTrace.current,
     );
   }
 }
