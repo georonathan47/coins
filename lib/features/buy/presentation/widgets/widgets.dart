@@ -17,6 +17,7 @@ export '../../../../core/helpers/helper_functions.dart';
 export '../../../../core/presentation/animations/animated_gradient_coloring.dart';
 export '../../../../core/presentation/animations/shimmer.dart';
 export '../../../../core/presentation/widgets/appbar/appbar.dart';
+export '../../../../core/presentation/widgets/form/text.dart';
 export '../../../../core/presentation/widgets/layouts/scrollable_widget.dart';
 export '../../../../core/presentation/widgets/success_screen/error.dart';
 export '../../../../core/utils/get_image_widget.dart';
@@ -37,4 +38,6 @@ export 'buy/local_rate.dart';
 export 'summary/summary_body.dart';
 export 'history_body.dart';
 export 'payment/expandable_card.dart';
+export 'transaction_info_body.dart';
+export 'declaration_widget.dart';
 

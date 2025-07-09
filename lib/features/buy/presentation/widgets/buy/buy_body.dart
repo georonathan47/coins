@@ -241,6 +241,9 @@ class BuyBodyState extends State<BuyBody> {
           ElevatedButton.icon(
             onPressed: () {
               if (formKey.currentState!.validate()) {
+                instance.order.value.copyWith(
+                  walletAddress: instance.wallet.value.text,
+                );
                 Get.toNamed(Routers.buySummary);
               }
             },

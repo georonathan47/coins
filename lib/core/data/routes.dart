@@ -8,6 +8,7 @@ import '../../features/buy/presentation/pages/buyable_assets.dart';
 import '../../features/buy/presentation/pages/history.dart';
 import '../../features/buy/presentation/pages/payment_selection.dart';
 import '../../features/buy/presentation/pages/success.dart';
+import '../../features/buy/presentation/pages/transaction_info.dart';
 import '../../features/homepage/presentation/pages/index.dart';
 import '../../features/kyc/presentation/pages/home.dart';
 import '../../features/kyc/presentation/pages/id_upload.dart';
@@ -57,6 +58,7 @@ class Routers {
   static const legacyEmail = '/legacyEmail';
   static const selfieUpload = '/selfieUpload';
   static const buyableAssets = '/buyableAssets';
+  static const transactionInfo = '/transactionInfo';
   static const paymentSelection = '/paymentSelection';
   static const kycPersonalDetails = '/kycPersonalDetails';
 }
@@ -223,6 +225,12 @@ class RouteManager {
         name: Routers.kycSuccess,
         transition: Transition.fadeIn,
         page: () => const KycSuccess(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.transactionInfo,
+        transition: Transition.fadeIn,
+        page: () => const TransactionInfoPage(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

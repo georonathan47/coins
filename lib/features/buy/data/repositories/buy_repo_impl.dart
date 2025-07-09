@@ -14,6 +14,7 @@ import '../../domain/repositories/buy_repository.dart';
 import '../datasources/buy_local_database.dart';
 import '../datasources/buy_remote_database.dart';
 import '../datasources/currency_local_database.dart';
+import '../models/create_order_response.dart';
 import '../models/currency.dart';
 import '../models/ree_calc_response.dart';
 
@@ -162,7 +163,7 @@ class BuyRepositoryImpl implements BuyRepository {
   }
 
   @override
-  Future<Either<Failure, dynamic>> createBuyOrder(CreateBuyOrder order) async {
+  Future<Either<Failure, CreateBuyOrderResponse>> createBuyOrder(CreateBuyOrder order) async {
     try {
       if (await networkInfo.hasInternet()) {
         final tokens = await authLocalDatabase.fetchTokens();

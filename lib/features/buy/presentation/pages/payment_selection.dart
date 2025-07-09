@@ -27,7 +27,10 @@ class PaymentSelectionPageState extends State<PaymentSelectionPage> {
         persistentFooterButtons: [
           SizedBox(
             width: Get.width * 0.95,
-            child: ElevatedButton(onPressed: () {}, child: Text('Continue')),
+            child: ElevatedButton(
+              onPressed: () => Get.toNamed(Routers.transactionInfo),
+              child: Text('Continue'),
+            ),
           ),
         ],
       ),

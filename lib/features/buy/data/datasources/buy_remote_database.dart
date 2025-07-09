@@ -12,6 +12,7 @@ import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/entities/payment_mode.dart';
+import '../models/create_order_response.dart';
 import '../models/currency.dart';
 import '../models/ree_calc_response.dart';
 
@@ -20,11 +21,14 @@ abstract class BuyRemoteDatabase {
   Future<List<Bank>> fetchMomoList(Map tokens);
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
-  Future createOrder(CreateBuyOrder request, Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
   Future<List<PaymentMode>> fetchPaymentModes(String country, Map tokens);
   Future<FeeCalcResponse> calculateFees(FeeCalculation request, Map tokens);
+  Future<CreateBuyOrderResponse> createOrder(
+    CreateBuyOrder request,
+    Map tokens,
+  );
 }
 
 class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
@@ -257,21 +261,24 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
   }
 
   @override
-  Future createOrder(CreateBuyOrder request, Map tokens) async {
+  Future<CreateBuyOrderResponse> createOrder(
+    CreateBuyOrder request,
+    Map tokens,
+  ) async {
     try {
       final result = await client.post(
-        Env.listingsUrl,
+        Env.createBuyOrderUrl,
         body: jsonEncode(request.toJson()),
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
       );
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         TLoggerHelper.logApiResult(
           httpMethod: 'POST',
-          method: 'createOrder',
+          method: 'createBuyOrder',
           code: result.statusCode!,
-          message:
-              'Created Buy Order for ${request.buyAmount} of ${request.eCurrency}',
+          message: result.bodyString!,
         );
+        return createBuyOrderResponseFromJson(result.bodyString!);
       } else if (result.statusCode! == 401 || result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'createOrder',

@@ -19,7 +19,7 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
   @override
   Widget build(BuildContext context) {
     return ScrollableWidget(
-      padding: 8,
+      padding: 12,
       physics: const BouncingScrollPhysics(),
       children: [
         Text(
@@ -231,8 +231,7 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
                       .entries
                       .map(
                         (entry) => DropdownMenuItem<String>(
-                          value:
-                              '${entry.key}_${entry.value.bankName}', // Use index + name for uniqueness
+                          value: '${entry.key}_${entry.value.bankName}',
                           child: Text(
                             entry.value.bankName,
                             style: textTheme.bodyLarge,
@@ -245,8 +244,7 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
                       .entries
                       .map(
                         (entry) => DropdownMenuItem<String>(
-                          value:
-                              '${entry.key}_${entry.value.bankName}', // Use index + name for uniqueness
+                          value: '${entry.key}_${entry.value.bankName}',
                           child: Text(
                             entry.value.bankName,
                             style: textTheme.bodyLarge,
@@ -294,74 +292,81 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
         const SizedBox(height: TSizes.spaceBtwItems),
         Divider(height: 1, color: TColors.accent),
         const SizedBox(height: TSizes.spaceBtwItems),
-        Obx(
-          () => ExpandableCard(
-            isExpanded: selectedAccount != null,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Payment Details',
-                  style: textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+        Visibility(
+          visible: selectedAccount != null,
+          child: Obx(
+            () => ExpandableCard(
+              isExpanded: selectedAccount != null,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Payment Details',
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                ...instance.details
-                    .where(
-                      (detail) =>
-                          detail.accountNumber ==
-                              selectedAccount!.split('_')[1] ||
-                          detail.bankName == selectedAccount!.split('_')[1],
-                    )
-                    .map(
-                      (detail) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              style: textTheme.bodyLarge,
-                              children: [
-                                const TextSpan(
-                                  text: 'Account Name: ',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                TextSpan(text: '${detail.accountName}\n'),
-                                const TextSpan(
-                                  text: 'Account Number: ',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                TextSpan(text: '${detail.accountNumber}\n'),
-                                if (detail.bankName.isNotEmpty) ...[
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  ...instance.details
+                      .where(
+                        (detail) =>
+                            detail.accountNumber ==
+                                selectedAccount!.split('_')[1] ||
+                            detail.bankName == selectedAccount!.split('_')[1],
+                      )
+                      .map(
+                        (detail) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                style: textTheme.bodyLarge,
+                                children: [
                                   const TextSpan(
-                                    text: 'Bank: ',
+                                    text: 'Account Name: ',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  TextSpan(text: detail.bankName),
+                                  TextSpan(text: '${detail.accountName}\n'),
+                                  const TextSpan(
+                                    text: 'Account Number: ',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(text: '${detail.accountNumber}\n'),
+                                  if (detail.bankName.isNotEmpty) ...[
+                                    const TextSpan(
+                                      text: 'Bank: ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(text: detail.bankName),
+                                  ],
                                 ],
-                              ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: TSizes.spaceBtwItems),
-                          Divider(height: 1, color: TColors.accent),
-                          const SizedBox(height: TSizes.spaceBtwItems),
-                          Text(
-                            'Notes',
-                            style: textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.bold,
+                            const SizedBox(height: TSizes.spaceBtwItems),
+                            Divider(height: 1, color: TColors.accent),
+                            const SizedBox(height: TSizes.spaceBtwItems),
+                            Text(
+                              'Notes',
+                              style: textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: TSizes.spaceBtwItems),
-                          Text(
-                            detail.note.capitalize!,
-                            style: textTheme.bodyLarge,
-                          ),
-                        ],
+                            const SizedBox(height: TSizes.spaceBtwItems),
+                            Text(
+                              detail.note.capitalize!,
+                              style: textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

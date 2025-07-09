@@ -4,6 +4,7 @@ import '../../../../core/usecase/usecase.dart';
 import '../../../../core/utils/logger.dart';
 import '../../../payment/domain/entities/payment_details.dart';
 import '../../../payment/domain/usecases/get_payment_details_usecase.dart';
+import '../../data/models/create_order_response.dart';
 import '../../data/models/currency.dart';
 import '../../data/models/ree_calc_response.dart';
 import '../../domain/entities/bank.dart';
@@ -11,6 +12,7 @@ import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/entities/payment_mode.dart';
+import '../../domain/usecases/create_order_usecase.dart';
 import '../../domain/usecases/fee_calculation_usecase.dart';
 import '../../domain/usecases/fetch_banks_usecase.dart';
 import '../../domain/usecases/fetch_currencies_usecase.dart';
@@ -34,17 +36,21 @@ class BuyController extends GetxController {
   final details = <PaymentDetails>[].obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final order = CreateBuyOrder.empty().obs;
+  final name = TextEditingController().obs;
   final local = TextEditingController().obs;
   final wallet = TextEditingController().obs;
   final dollar = TextEditingController().obs;
-  final calcResponse = FeeCalcResponse.empty().obs;
+  final number = TextEditingController().obs;
   static BuyController get instance => Get.find();
+  final calcResponse = FeeCalcResponse.empty().obs;
+  final transactionId = TextEditingController().obs;
 
   final FetchMomoUsecase fetchMomoUsecase;
   final FetchBanksUsecase fetchBanksUsecase;
   final CalculateFeeUsecase calculateFeeUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
   final FetchListingsUsecase fetchListingsUsecase;
+  final CreateBuyOrderUsecase createBuyOrderUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
   final FetchPaymentModesUsecase fetchPaymentModesUsecase;
@@ -56,6 +62,7 @@ class BuyController extends GetxController {
     required this.calculateFeeUsecase,
     required this.retrieveUserUsecase,
     required this.fetchListingsUsecase,
+    required this.createBuyOrderUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
     required this.fetchPaymentModesUsecase,
@@ -265,6 +272,37 @@ class BuyController extends GetxController {
           eventName: 'Buy Order Request',
         );
         update();
+        return success;
+      },
+    );
+  }
+
+  Future<CreateBuyOrderResponse> createOrder() async {
+    final request = order.value.copyWith(
+      nameOnAccount: name.value.text.trim(),
+      walletAddress: wallet.value.text.trim(),
+      accountNumber: number.value.text.trim(),
+      transactionDetails: transactionId.value.text.trim(),
+    );
+    TLoggerHelper.logEvent(request.toJson(), eventName: 'Create Buy Order');
+    final result = await createBuyOrderUsecase(ObjectParams(request));
+    Navigator.pop(Get.context!);
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error!',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        THelperFunctions.showSnackBar(
+          title: 'Success!',
+          message: 'Order created successfully',
+          bgColor: TColors.success,
+        );
+        Get.toNamed(Routers.buySuccess);
         return success;
       },
     );

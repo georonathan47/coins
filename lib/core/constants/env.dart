@@ -64,4 +64,6 @@ abstract class Env {
   static const String momoListUrl = _Env.momoListUrl;
   @EnviedField(varName: 'PAYMENT_DETAILS')
   static const String paymentDetailsUrl = _Env.paymentDetailsUrl;
+  @EnviedField(varName: 'CREATE_BUY_ORDER')
+  static const String createBuyOrderUrl = _Env.createBuyOrderUrl;
 }

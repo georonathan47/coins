@@ -32,6 +32,7 @@ class GeneralBindings extends Bindings {
           retrieveUserUsecase: Get.find(),
           fetchListingsUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
+          createBuyOrderUsecase: Get.find(),
           fetchCurrenciesUsecase: Get.find(),
           fetchPaymentModesUsecase: Get.find(),
           getPaymentDetailsUsecase: Get.find(),

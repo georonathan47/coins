@@ -46,9 +46,6 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
             .map((currency) => paymentDetailsFromJson(jsonEncode(currency)))
             .toSet()
             .toList();
-        for (var detail in details) {
-          TLoggerHelper.logEvent(detail.note);
-        }
         TLoggerHelper.logApiResult(
           httpMethod: 'GET',
           code: result.statusCode!,
