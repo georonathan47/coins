@@ -46,7 +46,10 @@ class TradeTile extends StatelessWidget {
           leading: Icon(Iconsax.money, color: TColors.light, size: 40),
           title: Text(
             title,
-            style: textTheme.titleMedium?.copyWith(color: TColors.light),
+            style: textTheme.titleSmall?.copyWith(
+              color: TColors.light,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           subtitle: Text(
             subtitle,

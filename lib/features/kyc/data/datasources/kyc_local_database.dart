@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/error/exception.dart';
@@ -20,6 +22,7 @@ class KycLocalDatabaseImpl implements KycLocalDatabase {
       final savedStatus = prefs.getString('status');
       return KycStatus.fromJson(savedStatus!);
     } catch (error) {
+      log('Error fetching KYC status: $error');
       throw CacheException();
     }
   }

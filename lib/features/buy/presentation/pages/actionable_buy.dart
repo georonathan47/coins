@@ -19,7 +19,7 @@ class ActionableBuyState extends State<ActionableBuy> {
           centerTitle: true,
           title: Text(
             'Select Currency',
-            style: textTheme.titleLarge?.copyWith(color: TColors.light),
+            style: textTheme.titleMedium?.copyWith(color: TColors.light),
           ),
         ),
         body: FutureBuilder(

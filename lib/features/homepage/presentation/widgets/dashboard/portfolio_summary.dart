@@ -41,9 +41,10 @@ class PortfolioSummaryState extends State<PortfolioSummary> {
                       children: [
                         Text(
                           'Portfolio Summary',
-                          style: textTheme.titleMedium!.copyWith(
+                          style: textTheme.titleSmall!.copyWith(
                             letterSpacing: .75,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         ValueListenableBuilder(
@@ -81,7 +82,7 @@ class PortfolioSummaryState extends State<PortfolioSummary> {
                                 width: double.infinity,
                                 child: Center(
                                   child: Text(
-                                    '...',
+                                    '',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
@@ -119,7 +120,7 @@ class PortfolioSummaryState extends State<PortfolioSummary> {
                                   children: [
                                     TextSpan(
                                       text:
-                                          '.${portfolio.balance.toStringAsFixed(2).substring(portfolio.balance.toString().indexOf('.') + 1)}',
+                                          '.${portfolio.balance.toStringAsFixed(2).substring(portfolio.balance.toString().indexOf('.') + 1)} ',
                                       style: GoogleFonts.raleway(
                                         textStyle: textTheme.displaySmall!
                                             .copyWith(
@@ -143,7 +144,7 @@ class PortfolioSummaryState extends State<PortfolioSummary> {
                               ),
                               secondChild: RichText(
                                 text: TextSpan(
-                                  text: '*****',
+                                  text: '****',
                                   style: textTheme.displaySmall!.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

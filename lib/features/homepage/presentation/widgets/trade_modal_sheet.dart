@@ -15,6 +15,7 @@ class TradeModalSheet extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.sizeOf(Get.context!).height / 3,
         child: ScrollableWidget(
+          padding: 8,
           children: [
             Text(
               'Trade',
@@ -24,11 +25,7 @@ class TradeModalSheet extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections / 2),
             TradeTile(
               title: 'Buy',
-              onTap: () {
-                Get.find<AuthGuard>().checkKycAndExecute(
-                  () => Get.toNamed(Routers.actionBuy),
-                );
-              },
+              onTap: () => Get.toNamed(Routers.actionBuy),
               subtitle: 'Add to your portfolio with a buy order',
             ),
             const SizedBox(height: TSizes.spaceBtwItems / 3),

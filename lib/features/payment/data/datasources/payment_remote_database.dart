@@ -91,9 +91,7 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
           httpMethod: 'GET',
           code: result.statusCode!,
           method: 'getPaymentDetails',
-          message:
-              'Fetched portfolio for user ${resultJson.userId}\n '
-              'Balance: ${resultJson.balance} ${resultJson.currency}',
+          message: 'Fetched portfolio for user ${resultJson.userId}',
         );
         return resultJson;
       } else if (result.statusCode! == 401) {
