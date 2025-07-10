@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../core/error/failures.dart';
+import '../../../../core/shared/error/failures.dart';
 import '../entities/dash_portfolio.dart';
 import '../entities/payment_details.dart';
 

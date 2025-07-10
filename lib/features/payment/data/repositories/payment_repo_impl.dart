@@ -1,8 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/auth/data/datasources/auth_local_database.dart';
-import '../../../../core/error/failures.dart';
-import '../../../../core/platform/network_info.dart';
+import '../../../../core/shared/error/failures.dart';
+import '../../../../core/shared/platform/network_info.dart';
 import '../../domain/entities/dash_portfolio.dart';
 import '../../domain/entities/payment_details.dart';
 import '../../domain/repositories/payment_repository.dart';

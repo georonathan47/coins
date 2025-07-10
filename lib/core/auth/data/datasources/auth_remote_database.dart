@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:get/get_connect.dart';
 
 import '../../../../flavors.dart';
-import '../../../utils/encryption.dart';
+import '../../../shared/utils/encryption.dart';
 import '../models/auth_response.dart';
 import '../../domain/entities/user.dart';
-import '../../../constants/env.dart';
-import '../../../error/exception.dart';
-import '../../../utils/logger.dart';
+import '../../../shared/constants/env.dart';
+import '../../../shared/error/exception.dart';
+import '../../../shared/utils/logger.dart';
 import '../models/reset_password.dart';
 import '../models/verify_otp_model.dart';
 

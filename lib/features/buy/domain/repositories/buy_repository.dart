@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../core/error/failures.dart';
+import '../../../../core/shared/error/failures.dart';
 import '../../data/models/buy_history_model.dart';
 import '../../data/models/create_order_response.dart';
 import '../../data/models/currency.dart';

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../../auth/presentation/widgets/widgets.dart';
+import '../../../../auth/presentation/widgets/widgets.dart';
 import '../../animations/animated_gradient_coloring.dart';
 
 class LogoutCard extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'core/data/routes.dart';
-import 'core/theme/theme.dart';
-import 'core/utils/bindings/general_bindings.dart';
+import 'core/shared/data/routes.dart';
+import 'core/shared/theme/theme.dart';
+import 'core/shared/utils/bindings/general_bindings.dart';
 import 'flavors.dart';
 
 class Bitcoins extends StatelessWidget {

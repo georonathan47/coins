@@ -1,6 +1,6 @@
-import '../../../../features/homepage/presentation/widgets/widgets.dart';
-import '../../../../features/kyc/presentation/controller/kyc_controller.dart';
-import '../../../../flavors.dart';
+import '../../../../../features/homepage/presentation/widgets/widgets.dart';
+import '../../../../../features/kyc/presentation/controller/kyc_controller.dart';
+import '../../../../../flavors.dart';
 import '../../../middleware/auth_guard.dart';
 import '../../../utils/logger.dart';
 import 'logout_card.dart';

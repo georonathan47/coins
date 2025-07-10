@@ -1,7 +1,7 @@
 import '../../../../core/auth/domain/usecases/fetch_user_info_usecase.dart';
 import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/auth/domain/usecases/save_user_usecase.dart';
-import '../../../../core/usecase/usecase.dart';
+import '../../../../core/shared/usecase/usecase.dart';
 import '../../../buy/data/models/currency.dart';
 import '../../../buy/domain/entities/country.dart';
 import '../../../buy/domain/usecases/fetch_countries_usecase.dart';

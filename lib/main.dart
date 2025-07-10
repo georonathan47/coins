@@ -1,4 +1,4 @@
-import 'core/data/hive_adapters.dart';
+import 'core/shared/data/hive_adapters.dart';
 import 'injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

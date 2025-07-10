@@ -1,0 +1,9 @@
+export '../../core/auth/auth_bindings.dart';
+export '../../core/onboarding/onboarding_bindings.dart';
+export '../../core/shared/utils/bindings/base_bindings.dart';
+export '../../core/shared/utils/bindings/general_bindings.dart';
+export '../../features/buy/buy_bindings.dart';
+export '../../features/homepage/homepage_bindings.dart';
+export '../../features/kyc/kyc_bindings.dart';
+export '../../features/payment/payment_bindings.dart';
+export '../../features/sell/sell_bindings.dart';

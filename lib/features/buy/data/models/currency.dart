@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:hive_ce/hive.dart';
 
-import '../../../../core/data/hive_adapters.dart';
+import '../../../../core/shared/data/hive_adapters.dart';
 
 part 'currency.g.dart';
 

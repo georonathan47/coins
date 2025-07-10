@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/colors.dart';
+import '../../../shared/constants/colors.dart';
 
 class DotIndicator extends StatelessWidget {
   const DotIndicator({

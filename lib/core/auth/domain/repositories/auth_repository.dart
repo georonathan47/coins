@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../error/failures.dart';
+import '../../../shared/error/failures.dart';
 import '../../data/models/auth_response.dart';
 import '../../data/models/reset_password.dart';
 import '../../data/models/verify_otp_model.dart';

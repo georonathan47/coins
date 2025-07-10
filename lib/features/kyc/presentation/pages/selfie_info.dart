@@ -1,6 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/constants/text_strings.dart';
+import '../../../../core/shared/constants/text_strings.dart';
 import '../widgets/widgets.dart';
 
 class KycSelfieInfo extends StatefulWidget {

@@ -1,7 +1,7 @@
-import '../../features/kyc/data/datasources/kyc_local_database.dart';
-import '../../features/kyc/domain/entities/kyc_status.enum.dart';
-import '../auth/data/datasources/auth_local_database.dart';
-import '../auth/presentation/widgets/widgets.dart';
+import '../../../features/kyc/data/datasources/kyc_local_database.dart';
+import '../../../features/kyc/domain/entities/kyc_status.enum.dart';
+import '../../auth/data/datasources/auth_local_database.dart';
+import '../../auth/presentation/widgets/widgets.dart';
 import '../utils/logger.dart';
 
 class AuthGuard {

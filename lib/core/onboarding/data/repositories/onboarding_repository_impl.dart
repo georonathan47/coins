@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../core/error/exception.dart';
-import '../../../data/result.dart';
+import '../../../shared/error/exception.dart';
+import '../../../shared/data/result.dart';
 import '../../domain/repositories/onboarding_repo.dart';
 import '../datasources/local_database.dart';
 

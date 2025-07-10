@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../../../core/presentation/widgets/success_screen/error.dart';
+import '../../../../core/shared/presentation/widgets/success_screen/error.dart';
 import 'dashboard/trending_assets_shimmer.dart';
 import 'widgets.dart';
 

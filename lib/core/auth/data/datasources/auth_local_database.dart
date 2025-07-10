@@ -1,8 +1,8 @@
 import 'package:hive_ce/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../error/exception.dart';
-import '../../../utils/logger.dart';
+import '../../../shared/error/exception.dart';
+import '../../../shared/utils/logger.dart';
 import '../../domain/entities/user.dart';
 import '../models/auth_response.dart';
 

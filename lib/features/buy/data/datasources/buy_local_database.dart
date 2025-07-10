@@ -1,7 +1,7 @@
 import 'package:hive_ce/hive.dart';
 
-import '../../../../core/error/exception.dart';
-import '../../../../core/utils/logger.dart';
+import '../../../../core/shared/error/exception.dart';
+import '../../../../core/shared/utils/logger.dart';
 import '../../domain/entities/country.dart';
 
 abstract class BuyLocalDatabase {

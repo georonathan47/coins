@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import '../../../../../core/utils/logger.dart';
+import '../../../../../core/shared/utils/logger.dart';
 import '../../../data/models/currency.dart';
 import '../widgets.dart';
 

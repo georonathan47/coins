@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 import 'dart:convert';
 
-import '../../../../core/data/hive_adapters.dart';
+import '../../../../core/shared/data/hive_adapters.dart';
 
 part 'country.freezed.dart';
 part 'country.g.dart';

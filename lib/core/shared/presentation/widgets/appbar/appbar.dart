@@ -1,4 +1,4 @@
-import '../../../auth/presentation/widgets/widgets.dart';
+import '../../../../auth/presentation/widgets/widgets.dart';
 import '../../animations/animated_appbar.dart';
 
 class TAppBar extends StatelessWidget implements PreferredSizeWidget {

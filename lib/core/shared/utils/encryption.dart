@@ -1,4 +1,4 @@
-import '../auth/presentation/widgets/widgets.dart' hide Key;
+import '../../auth/presentation/widgets/widgets.dart' hide Key;
 import 'package:encrypt/encrypt.dart';
 
 Encrypted encryptField(String field) {

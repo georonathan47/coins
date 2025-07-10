@@ -1,4 +1,4 @@
-import '../../hive_registrar.g.dart';
+import '../../../hive_registrar.g.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
 

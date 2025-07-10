@@ -3,14 +3,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../flavors.dart';
-import '../../auth/data/datasources/auth_local_database.dart';
+import '../../../../flavors.dart';
+import '../../../auth/data/datasources/auth_local_database.dart';
 import '../../constants/colors.dart';
 import '../../constants/sizes.dart';
 import '../../constants/time.dart';
 import '../../constants/image_strings.dart';
 import '../../data/routes.dart';
-import '../../onboarding/data/datasources/local_database.dart';
+import '../../../onboarding/data/datasources/local_database.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

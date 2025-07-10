@@ -1,4 +1,4 @@
-import '../../../auth/presentation/widgets/widgets.dart';
+import '../../../../auth/presentation/widgets/widgets.dart';
 
 class SidebarCategory extends StatelessWidget {
   const SidebarCategory({

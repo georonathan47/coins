@@ -1,4 +1,4 @@
-import '../../auth/presentation/widgets/widgets.dart';
+import '../../../auth/presentation/widgets/widgets.dart';
 
 class FoldableOptions extends StatefulWidget {
   const FoldableOptions({super.key, required this.onTap});

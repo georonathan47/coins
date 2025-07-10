@@ -1,9 +1,9 @@
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/auth/data/datasources/auth_local_database.dart';
-import '../../../../core/error/exception.dart';
-import '../../../../core/error/failures.dart';
-import '../../../../core/platform/network_info.dart';
+import '../../../../core/shared/error/exception.dart';
+import '../../../../core/shared/error/failures.dart';
+import '../../../../core/shared/platform/network_info.dart';
 import '../../domain/entities/bank.dart';
 import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';

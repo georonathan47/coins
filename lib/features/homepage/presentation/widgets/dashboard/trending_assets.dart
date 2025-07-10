@@ -1,6 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../../core/utils/extensions.dart';
+import '../../../../../core/shared/utils/extensions.dart';
 import '../widgets.dart';
 
 class TrendingAsset extends StatefulWidget {

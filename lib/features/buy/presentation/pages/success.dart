@@ -1,4 +1,4 @@
-import '../../../../core/constants/svg_assets.dart';
+import '../../../../core/shared/constants/svg_assets.dart';
 import '../widgets/widgets.dart';
 
 class BuySuccessPage extends StatelessWidget {

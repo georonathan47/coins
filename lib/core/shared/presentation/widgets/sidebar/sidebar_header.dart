@@ -1,5 +1,5 @@
-import '../../../../flavors.dart';
-import '../../../auth/presentation/widgets/widgets.dart';
+import '../../../../../flavors.dart';
+import '../../../../auth/presentation/widgets/widgets.dart';
 
 class NavDrawerHeader extends StatelessWidget {
   const NavDrawerHeader({super.key});

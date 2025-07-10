@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:get/get_connect.dart';
 
 import '../../../../core/auth/data/datasources/auth_remote_database.dart';
-import '../../../../core/constants/env.dart';
-import '../../../../core/error/exception.dart';
-import '../../../../core/utils/logger.dart';
+import '../../../../core/shared/constants/env.dart';
+import '../../../../core/shared/error/exception.dart';
+import '../../../../core/shared/utils/logger.dart';
 import '../../domain/entities/bank.dart';
 import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';

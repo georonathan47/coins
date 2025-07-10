@@ -2,9 +2,9 @@ import 'dart:developer' show log;
 
 import 'package:fpdart/fpdart.dart';
 
-import '../../../error/exception.dart';
-import '../../../error/failures.dart';
-import '../../../platform/network_info.dart';
+import '../../../shared/error/exception.dart';
+import '../../../shared/error/failures.dart';
+import '../../../shared/platform/network_info.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_local_database.dart';
