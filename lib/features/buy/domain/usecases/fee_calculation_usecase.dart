@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../data/models/ree_calc_response.dart';
+import '../../data/models/fee_calc_response.dart';
 import '../entities/fee_calculation.dart';
 import '../repositories/buy_repository.dart';
 

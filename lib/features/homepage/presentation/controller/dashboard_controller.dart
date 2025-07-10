@@ -10,6 +10,8 @@ import '../../../buy/domain/usecases/fetch_listings_usecase.dart';
 import '../../../buy/domain/usecases/fetch_tradable_usecase.dart';
 import '../../../buy/presentation/widgets/widgets.dart';
 import '../../../kyc/domain/usecases/check_status_usecase.dart';
+import '../../../payment/domain/entities/dash_portfolio.dart';
+import '../../../payment/domain/usecases/fetch_dash_portfolio_usecase.dart';
 import '../widgets/widgets.dart';
 
 class DashboardController extends GetxController {
@@ -23,6 +25,7 @@ class DashboardController extends GetxController {
   final CheckKycStatusUsecase checkKycStatusUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
+  final FetchDashPortfolioUsecase fetchDashPortfolioUsecase;
   final FetchTradableCoinsUsecase fetchTradableCoinsUsecase;
 
   DashboardController({
@@ -33,6 +36,7 @@ class DashboardController extends GetxController {
     required this.checkKycStatusUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
+    required this.fetchDashPortfolioUsecase,
     required this.fetchTradableCoinsUsecase,
   });
 
@@ -227,6 +231,14 @@ class DashboardController extends GetxController {
           ],
         ),
       ),
+    );
+  }
+
+  Future<DashPortfolio> portfolio() async {
+    final result = await fetchDashPortfolioUsecase(NoParams());
+    return result.fold(
+      (failure) => Future.error(failure.message),
+      (success) => success,
     );
   }
 }

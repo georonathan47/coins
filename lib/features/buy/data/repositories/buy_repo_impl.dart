@@ -14,8 +14,10 @@ import '../../domain/repositories/buy_repository.dart';
 import '../datasources/buy_local_database.dart';
 import '../datasources/buy_remote_database.dart';
 import '../datasources/currency_local_database.dart';
+import '../models/buy_history_model.dart';
+import '../models/create_order_response.dart';
 import '../models/currency.dart';
-import '../models/ree_calc_response.dart';
+import '../models/fee_calc_response.dart';
 
 class BuyRepositoryImpl implements BuyRepository {
   final NetworkInfo networkInfo;
@@ -162,7 +164,9 @@ class BuyRepositoryImpl implements BuyRepository {
   }
 
   @override
-  Future<Either<Failure, dynamic>> createBuyOrder(CreateBuyOrder order) async {
+  Future<Either<Failure, CreateBuyOrderResponse>> createBuyOrder(
+    CreateBuyOrder order,
+  ) async {
     try {
       if (await networkInfo.hasInternet()) {
         final tokens = await authLocalDatabase.fetchTokens();
@@ -225,7 +229,7 @@ class BuyRepositoryImpl implements BuyRepository {
   }
 
   @override
-  Future<Either<Failure, List<Momo>>> fetchMomo() async {
+  Future<Either<Failure, List<Bank>>> fetchMomo() async {
     try {
       if (await networkInfo.hasInternet()) {
         final tokens = await authLocalDatabase.fetchTokens();
@@ -233,12 +237,36 @@ class BuyRepositoryImpl implements BuyRepository {
         return Right(response);
       } else {
         return Left(
-          Failure(
+          NetworkFailure(
             'No internet connection. Please check your internet connection and try again!',
           ),
         );
       }
     } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BuyHistoryModel>>> fetchOrderHistory() async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await authLocalDatabase.fetchTokens();
+        final response = await remoteDatabase.fetchHistory(tokens);
+        return Right(response);
+      } else {
+        return Left(
+          NetworkFailure(
+            'No internet connection. Please check your internet connection and try again!',
+          ),
+        );
+      }
+    } catch (e) {
+      if (e is ServerException) {
+        return Left(ServerFailure(e.toString()));
+      } else if (e is DeviceException) {
+        return Left(DeviceFailure(e.toString()));
+      }
       return Left(Failure(e.toString()));
     }
   }

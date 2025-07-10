@@ -1,4 +1,3 @@
-
 import '../widgets.dart';
 
 class PortfolioSummary extends StatefulWidget {
@@ -11,7 +10,7 @@ class PortfolioSummary extends StatefulWidget {
 class PortfolioSummaryState extends State<PortfolioSummary> {
   final textTheme = Get.textTheme;
   final showPortfolio = ValueNotifier(false);
-  final size = MediaQuery.of(Get.context!).size;
+  final instance = DashboardController.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +41,10 @@ class PortfolioSummaryState extends State<PortfolioSummary> {
                       children: [
                         Text(
                           'Portfolio Summary',
-                          style: textTheme.titleMedium!.copyWith(
+                          style: textTheme.titleSmall!.copyWith(
                             letterSpacing: .75,
                             color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         ValueListenableBuilder(
@@ -68,65 +68,101 @@ class PortfolioSummaryState extends State<PortfolioSummary> {
                     ),
                   ),
                   SizedBox(height: TSizes.spaceBtwItems),
-                  ValueListenableBuilder(
-                    valueListenable: showPortfolio,
-                    builder: (context, value, child) {
-                      return Center(
-                        child: AnimatedCrossFade(
-                          duration: const Duration(milliseconds: 500),
-                          crossFadeState: value
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
-                          firstChild: RichText(
-                            text: TextSpan(
-                              text: '5000',
-                              style: GoogleFonts.raleway(
-                                textStyle: textTheme.displaySmall!.copyWith(
-                                  color: TColors.light,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: '.75',
-                                  style: GoogleFonts.raleway(
-                                    textStyle: textTheme.displaySmall!.copyWith(
-                                      color: Colors.white54,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                  FutureBuilder(
+                    future: instance.portfolio(),
+                    builder: (context, snapshot) {
+                      return ValueListenableBuilder(
+                        valueListenable: showPortfolio,
+                        builder: (context, value, child) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const ShimmerAnimation(
+                              child: SizedBox(
+                                height: 50,
+                                width: double.infinity,
+                                child: Center(
+                                  child: Text(
+                                    '',
+                                    style: TextStyle(color: Colors.white),
                                   ),
                                 ),
-                                TextSpan(
-                                  text: ' USD',
+                              ),
+                            );
+                          }
+
+                          if (snapshot.hasError) {
+                            return Center(
+                              child: Text(
+                                'Error loading portfolio',
+                                style: textTheme.bodyLarge,
+                              ),
+                            );
+                          }
+                          final portfolio = snapshot.requireData;
+                          return Center(
+                            child: AnimatedCrossFade(
+                              duration: const Duration(milliseconds: 500),
+                              crossFadeState: value
+                                  ? CrossFadeState.showFirst
+                                  : CrossFadeState.showSecond,
+                              firstChild: RichText(
+                                text: TextSpan(
+                                  text: portfolio.balance.toString().substring(
+                                    0,
+                                    portfolio.balance.toString().indexOf('.'),
+                                  ),
                                   style: GoogleFonts.raleway(
-                                    textStyle: textTheme.bodyLarge!.copyWith(
+                                    textStyle: textTheme.displaySmall!.copyWith(
                                       color: TColors.light,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          '.${portfolio.balance.toStringAsFixed(2).substring(portfolio.balance.toString().indexOf('.') + 1)} ',
+                                      style: GoogleFonts.raleway(
+                                        textStyle: textTheme.displaySmall!
+                                            .copyWith(
+                                              color: Colors.white54,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: portfolio.currency,
+                                      style: GoogleFonts.raleway(
+                                        textStyle: textTheme.bodyLarge!
+                                            .copyWith(
+                                              color: TColors.light,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          secondChild: RichText(
-                            text: TextSpan(
-                              text: '*****',
-                              style: textTheme.displaySmall!.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
                               ),
-                              children: [
-                                TextSpan(
-                                  text: '.**',
+                              secondChild: RichText(
+                                text: TextSpan(
+                                  text: '****',
                                   style: textTheme.displaySmall!.copyWith(
-                                    color: Colors.white54,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
+                                  children: [
+                                    TextSpan(
+                                      text: '.**',
+                                      style: textTheme.displaySmall!.copyWith(
+                                        color: Colors.white54,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       );
                     },
                   ),

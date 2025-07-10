@@ -170,6 +170,7 @@ class AuthController extends GetxController {
             title: 'Login Failed...',
             bgColor: TColors.error,
           );
+          Get.back();
         },
         (success) {
           switch (success.mfaEnabled) {

@@ -23,6 +23,16 @@ class PaymentSelectionPageState extends State<PaymentSelectionPage> {
           ),
         ),
         body: PaymentSelectionBody(),
+        persistentFooterAlignment: AlignmentDirectional.bottomCenter,
+        persistentFooterButtons: [
+          SizedBox(
+            width: Get.width * 0.95,
+            child: ElevatedButton(
+              onPressed: () => Get.toNamed(Routers.transactionInfo),
+              child: Text('Continue'),
+            ),
+          ),
+        ],
       ),
     );
   }

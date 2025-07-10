@@ -62,4 +62,12 @@ abstract class Env {
   static const String paymentModesUrl = _Env.paymentModesUrl;
   @EnviedField(varName: 'MOMO_LIST')
   static const String momoListUrl = _Env.momoListUrl;
+  @EnviedField(varName: 'PAYMENT_DETAILS')
+  static const String paymentDetailsUrl = _Env.paymentDetailsUrl;
+  @EnviedField(varName: 'CREATE_BUY_ORDER')
+  static const String createBuyOrderUrl = _Env.createBuyOrderUrl;
+  @EnviedField(varName: 'BUY_ORDER_HISTORY')
+  static const String buyHistoryUrl = _Env.buyHistoryUrl;
+  @EnviedField(varName: 'WALLET_DETAILS')
+  static const String walletInfoUrl = _Env.walletInfoUrl;
 }

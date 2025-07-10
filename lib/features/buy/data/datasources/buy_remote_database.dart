@@ -12,19 +12,25 @@ import '../../domain/entities/country.dart';
 import '../../domain/entities/create_buy_order.dart';
 import '../../domain/entities/fee_calculation.dart';
 import '../../domain/entities/payment_mode.dart';
+import '../models/buy_history_model.dart';
+import '../models/create_order_response.dart';
 import '../models/currency.dart';
-import '../models/ree_calc_response.dart';
+import '../models/fee_calc_response.dart';
 
 abstract class BuyRemoteDatabase {
   Future<List<Bank>> fetchBanks(Map tokens);
-  Future<List<Momo>> fetchMomoList(Map tokens);
+  Future<List<Bank>> fetchMomoList(Map tokens);
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
-  Future createOrder(CreateBuyOrder request, Map tokens);
+  Future<List<BuyHistoryModel>> fetchHistory(Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
   Future<List<PaymentMode>> fetchPaymentModes(String country, Map tokens);
   Future<FeeCalcResponse> calculateFees(FeeCalculation request, Map tokens);
+  Future<CreateBuyOrderResponse> createOrder(
+    CreateBuyOrder request,
+    Map tokens,
+  );
 }
 
 class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
@@ -257,21 +263,24 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
   }
 
   @override
-  Future createOrder(CreateBuyOrder request, Map tokens) async {
+  Future<CreateBuyOrderResponse> createOrder(
+    CreateBuyOrder request,
+    Map tokens,
+  ) async {
     try {
       final result = await client.post(
-        Env.listingsUrl,
+        Env.createBuyOrderUrl,
         body: jsonEncode(request.toJson()),
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
       );
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         TLoggerHelper.logApiResult(
           httpMethod: 'POST',
-          method: 'createOrder',
+          method: 'createBuyOrder',
           code: result.statusCode!,
-          message:
-              'Created Buy Order for ${request.buyAmount} of ${request.eCurrency}',
+          message: result.bodyString!,
         );
+        return createBuyOrderResponseFromJson(result.bodyString!);
       } else if (result.statusCode! == 401 || result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'createOrder',
@@ -390,14 +399,14 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
       TLoggerHelper.logEvent(
         e,
         stackTrace: s,
-        eventName: 'Error Fetching Tradables',
+        eventName: 'Error Fetching Banks',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }
   }
 
   @override
-  Future<List<Momo>> fetchMomoList(Map tokens) async {
+  Future<List<Bank>> fetchMomoList(Map tokens) async {
     try {
       final result = await client.get(
         Env.momoListUrl,
@@ -406,9 +415,16 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
 
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         final List<dynamic> responseData = result.body;
-        List<Momo> momo = responseData
-            .map((coin) => momoFromJson(jsonEncode(coin)))
-            .toList();
+        List<Bank> momo = responseData.map((coin) {
+          TLoggerHelper.logEvent(coin, eventName: 'Momo Network');
+          return Bank(
+            id: coin['id'],
+            bankName: coin['name'],
+            countryId: coin['countryId'],
+            bankCode: coin['networkCode'],
+            countryName: coin['countryName'],
+          );
+        }).toList();
         TLoggerHelper.logApiResult(
           httpMethod: 'GET',
           method: 'fetchMomoList',
@@ -437,7 +453,56 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
       TLoggerHelper.logEvent(
         e,
         stackTrace: s,
-        eventName: 'Error Fetching Tradables',
+        eventName: 'Error Fetching Momo List',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<BuyHistoryModel>> fetchHistory(Map tokens) async {
+     try {
+      final result = await client.get(
+        '${Env.buyHistoryUrl}=${tokens['userId']}',
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<BuyHistoryModel> history = responseData
+            .map((coin) => buyHistoryModelFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
+          method: 'fetchBuyHistory',
+          code: result.statusCode!,
+          message: 'Fetched ${history.length} orders',
+        );
+        return history;
+      } else if (result.statusCode! == 401) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchBuyHistory',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchHistory(tokens);
+        } catch (e) {
+          throw ServerException();
+        }
+      } else {
+        throw ServerException();
+      }
+    } catch (e, s) {
+      TLoggerHelper.logError(
+        error: e,
+        stackTrace: s,
+        method: 'fetchBuyHistory',
+        eventName: 'Buy History',
+        message: 'Error fetching buy history',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

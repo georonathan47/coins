@@ -1,4 +1,3 @@
-
 import '../../../../core/constants/svg_assets.dart';
 import '../widgets/widgets.dart';
 
@@ -21,7 +20,7 @@ class BuySuccessPage extends StatelessWidget {
             Text(
               'Success',
               textAlign: TextAlign.center,
-              style: textTheme.headlineMedium!.copyWith(
+              style: textTheme.headlineSmall!.copyWith(
                 letterSpacing: .5,
                 fontWeight: FontWeight.bold,
               ),
@@ -41,15 +40,15 @@ class BuySuccessPage extends StatelessWidget {
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
             ElevatedButton(
-              onPressed: () => Get.offNamed(Routers.buy),
+              onPressed: () => Get.offAllNamed(Routers.index),
               child: Text(
-                'Buy More Crypto',
+                'Go To Homepage',
                 style: textTheme.titleLarge?.copyWith(color: Colors.white),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwItems),
             OutlinedButton(
-              onPressed: () => Get.offNamed(Routers.buyHistory),
+              onPressed: () => Get.offAllNamed(Routers.buyHistory),
               child: Text(
                 'View Order History',
                 style: textTheme.titleLarge?.copyWith(),

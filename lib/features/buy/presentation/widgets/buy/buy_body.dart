@@ -30,45 +30,9 @@ class BuyBodyState extends State<BuyBody> {
     return Form(
       key: formKey,
       child: ScrollableWidget(
+        padding: 8,
         physics: const BouncingScrollPhysics(),
         children: [
-          DropdownButtonFormField(
-            isDense: true,
-            value: 'REGULAR',
-            items: [
-              DropdownMenuItem(
-                value: 'PRIORITY',
-                child: Text('Express', style: textTheme.bodyLarge),
-              ),
-              DropdownMenuItem(
-                value: 'REGULAR',
-                child: Text('Regular', style: textTheme.bodyLarge),
-              ),
-            ],
-            onChanged: (value) {
-              instance.network.value = value!;
-              instance.eCurrency.value = widget.coinData.name;
-              TLoggerHelper.logEvent(
-                instance.network.value,
-                eventName: 'Network Fee Type',
-              );
-            },
-            decoration: InputDecoration(
-              filled: true,
-              isDense: true,
-              labelText: 'Network Fee Type',
-              labelStyle: textTheme.bodyLarge,
-              prefixIcon: const Icon(Iconsax.money),
-              contentPadding: const EdgeInsets.all(16),
-              hint: Text('Select Network Fee Type', style: textTheme.bodyLarge),
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-          ),
-          const SizedBox(height: TSizes.spaceBtwItems),
           Stack(
             fit: StackFit.loose,
             children: [
@@ -104,6 +68,60 @@ class BuyBodyState extends State<BuyBody> {
             size: TSizes.iconLg * 1.5,
           ),
           const DollarRate(),
+          const SizedBox(height: TSizes.spaceBtwItems),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Text(
+                  'Network Fee Type',
+                  style: textTheme.titleMedium?.copyWith(fontSize: 18),
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: DropdownButtonFormField(
+                  isDense: true,
+                  isExpanded: true,
+                  value: 'REGULAR',
+                  items: [
+                    DropdownMenuItem(
+                      value: 'PRIORITY',
+                      child: Text('Express', style: textTheme.bodyLarge),
+                    ),
+                    DropdownMenuItem(
+                      value: 'REGULAR',
+                      child: Text('Regular', style: textTheme.bodyLarge),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    instance.network.value = value!;
+                    instance.eCurrency.value = widget.coinData.name;
+                    TLoggerHelper.logEvent(
+                      instance.network.value,
+                      eventName: 'Network Fee Type',
+                    );
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    isDense: true,
+                    prefixIcon: const Icon(Iconsax.money),
+                    contentPadding: const EdgeInsets.all(16),
+                    hint: Text(
+                      'Select Network Fee',
+                      style: textTheme.bodyLarge,
+                    ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: TSizes.spaceBtwItems),
           Obx(
             () => Card(
@@ -223,6 +241,9 @@ class BuyBodyState extends State<BuyBody> {
           ElevatedButton.icon(
             onPressed: () {
               if (formKey.currentState!.validate()) {
+                instance.order.value.copyWith(
+                  walletAddress: instance.wallet.value.text,
+                );
                 Get.toNamed(Routers.buySummary);
               }
             },

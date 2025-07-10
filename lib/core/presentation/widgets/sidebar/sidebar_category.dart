@@ -4,12 +4,14 @@ class SidebarCategory extends StatelessWidget {
   const SidebarCategory({
     super.key,
     this.icon,
+    this.bgColor,
     required this.title,
     required this.children,
   });
 
   final String title;
   final IconData? icon;
+  final Color? bgColor;
   final List<Widget> children;
 
   @override
@@ -17,7 +19,8 @@ class SidebarCategory extends StatelessWidget {
     final textTheme = Get.textTheme;
     final isDark = Get.isDarkMode;
     return ExpansionTile(
-      backgroundColor: Get.isDarkMode?  TColors.secondary : TColors.accent,
+      backgroundColor:
+          bgColor ?? (Get.isDarkMode ? TColors.secondary : TColors.accent),
       title: Text(
         title,
         style: textTheme.titleMedium?.copyWith(

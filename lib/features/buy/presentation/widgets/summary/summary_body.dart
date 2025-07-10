@@ -9,6 +9,7 @@ class BuySummaryBody extends StatelessWidget {
     final instance = BuyController.instance;
     final size = MediaQuery.of(context).size;
     return ScrollableWidget(
+      padding: 8,
       children: [
         Card(
           elevation: 2,
@@ -204,7 +205,8 @@ class BuySummaryBody extends StatelessWidget {
           onPressed: () async {
             showDialog(
               context: context,
-              builder: (context) => const Center(child: CircularProgressIndicator())
+              builder: (context) =>
+                  const Center(child: CircularProgressIndicator()),
             );
             await instance.fetchPaymentModes();
           },
