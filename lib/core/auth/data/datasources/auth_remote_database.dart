@@ -48,7 +48,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         return AuthResponse.fromJson(result.body);
       } else if (result.statusCode! == 400) {
-        final body = jsonDecode(result.body);
+        final body = jsonDecode(result.bodyString!);
         throw BadRequestException(body['message']);
       } else if (result.statusCode! == 404) {
         final body = jsonDecode(result.body);

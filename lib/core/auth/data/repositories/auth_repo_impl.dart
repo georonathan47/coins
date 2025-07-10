@@ -38,8 +38,8 @@ class AuthRepoImpl implements AuthRepository {
           ),
         );
       }
-    } on BadRequestException {
-      return Left(Failure('The password you entered is incorrect!'));
+    } on BadRequestException catch (e) {
+      return Left(ServerFailure(e.message));
     } on ServerException {
       return Left(Failure('Server error. Please try again later.'));
     } on NoInternetException {
