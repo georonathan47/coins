@@ -58,7 +58,7 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
         return details;
       } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
-          'fetchCurrencies',
+          'getPaymentDetails',
           statusCode: result.statusCode!,
         );
         try {
@@ -90,7 +90,7 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
         TLoggerHelper.logApiResult(
           httpMethod: 'GET',
           code: result.statusCode!,
-          method: 'getPaymentDetails',
+          method: 'fetchPortfolio',
           message: 'Fetched portfolio for user ${resultJson.userId}',
         );
         return resultJson;

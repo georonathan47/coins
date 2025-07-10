@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/auth/data/datasources/auth_local_database.dart';
 import '../../../../core/error/failures.dart';
