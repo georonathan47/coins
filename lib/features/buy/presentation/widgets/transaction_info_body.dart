@@ -35,9 +35,7 @@ class TransactionInfoBodyState extends State<TransactionInfoBody> {
               ],
             ),
           ),
-          const SizedBox(height: TSizes.spaceBtwItems),
           DeclarationWidget(),
-          const SizedBox(height: TSizes.spaceBtwItems),
           Card(
             elevation: 2,
             child: ScrollableWidget(
@@ -50,7 +48,6 @@ class TransactionInfoBodyState extends State<TransactionInfoBody> {
                   keyboardType: TextInputType.name,
                   hintText: 'Enter name on account',
                 ),
-                const SizedBox(height: TSizes.spaceBtwInputFields),
                 ETextFormField(
                   icon: Iconsax.mobile,
                   labelText: 'Mobile Number',
@@ -58,7 +55,6 @@ class TransactionInfoBodyState extends State<TransactionInfoBody> {
                   keyboardType: TextInputType.phone,
                   controller: instance.number.value,
                 ),
-                const SizedBox(height: TSizes.spaceBtwInputFields),
                 DropdownButtonFormField(
                   items: instance.paymentMode.contains('BANK')
                       ? instance.banks
@@ -116,7 +112,6 @@ class TransactionInfoBodyState extends State<TransactionInfoBody> {
                     ),
                   ),
                 ),
-                const SizedBox(height: TSizes.spaceBtwInputFields),
                 ETextFormField(
                   icon: Iconsax.wallet_2,
                   labelText: 'Transaction ID',
@@ -124,7 +119,6 @@ class TransactionInfoBodyState extends State<TransactionInfoBody> {
                   keyboardType: TextInputType.number,
                   controller: instance.transactionId.value,
                 ),
-                const SizedBox(height: TSizes.spaceBtwInputFields),
               ],
             ),
           ),

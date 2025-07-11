@@ -31,7 +31,6 @@ class BuySummaryBody extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwSections),
         Card(
           elevation: 4,
           child: Container(
@@ -57,7 +56,7 @@ class BuySummaryBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -72,7 +71,6 @@ class BuySummaryBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -98,8 +96,6 @@ class BuySummaryBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -114,7 +110,6 @@ class BuySummaryBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -129,7 +124,7 @@ class BuySummaryBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -148,14 +143,11 @@ class BuySummaryBody extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: TSizes.spaceBtwItems),
                   const Divider(thickness: 2),
-                  const SizedBox(height: TSizes.spaceBtwItems),
                   Text(
                     'Totals (Includes all fees)',
                     style: textTheme.titleSmall,
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -172,7 +164,6 @@ class BuySummaryBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: TSizes.spaceBtwItems),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -198,7 +189,6 @@ class BuySummaryBody extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwSections * 2),
         ElevatedButton.icon(
           iconAlignment: IconAlignment.end,
           icon: Icon(Icons.chevron_right, size: TSizes.iconLg),

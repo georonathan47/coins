@@ -1,6 +1,7 @@
 import '../../../../features/buy/presentation/controller/buy_controller.dart';
 import '../../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../../../features/kyc/presentation/controller/kyc_controller.dart';
+import '../../../../features/sell/presentation/controller/sell_controller.dart';
 import '../../../onboarding/presentation/controller/onboarding_controller.dart';
 
 class GeneralBindings extends Bindings {
@@ -59,6 +60,12 @@ class GeneralBindings extends Bindings {
           initiateKycUsecase: Get.find(),
           retrieveUserUsecase: Get.find(),
           checkKycStatusUsecase: Get.find(),
+        ),
+      )
+      ..put(
+        SellController(
+          calculateFeeUsecase: Get.find(),
+          retrieveUserUsecase: Get.find(),
         ),
       )
       //? Onboarding Controller

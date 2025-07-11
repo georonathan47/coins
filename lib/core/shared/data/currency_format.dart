@@ -10,7 +10,7 @@ class CurrencyFormatter {
 
   /// returns amount in thousands or hundreds
   static String ghana(double amount) {
-    final formatter = NumberFormat('${_ghanaSymbol()} #,##0.00', 'en_US');
+    final formatter = NumberFormat('${_ghanaSymbol()}#,##0.00', 'en_US');
     if (amount == 0.0 || amount == 0.00) {
       return 'GH¢ 0.00';
     }
@@ -23,7 +23,7 @@ class CurrencyFormatter {
 
   /// returns amount in thousands or hundreds
   static String dollar(double amount) {
-    final formatter = NumberFormat('${_dollarSymbol()} #,##0.00', 'en_US');
+    final formatter = NumberFormat('${_dollarSymbol()}#,##0.00', 'en_US');
     return formatter.format(amount);
   }
 

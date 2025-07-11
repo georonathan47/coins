@@ -9,8 +9,10 @@ class TTexts {
   static const String submit = "Submit";
   static const String appName = "T-Store";
   static const String tContinue = "Continue";
-  static const String shortLorem = 'Lorem ipsum dolor sit amet consectetur adispicing';
   static const String longLorem = 'Lorem ipsum dolor sit amet consectetur adispicing';
+  static const String shortLorem = 'Lorem ipsum dolor sit amet consectetur adispicing';
+  static const String noInternetMessage = "No internet connection. Please check your internet connection and try again!";
+  static const String riskWarning = 'Cryptocurrency trading carries high market risk; while eBitcoinics.com strives to select high-quality coins, it is not liable for trading losses. Exercise caution and be vigilant against phishing sites, ensuring you access the official eBitcoinics.com website when entering sensitive data.';
 
 
 

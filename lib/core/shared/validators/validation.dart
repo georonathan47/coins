@@ -313,4 +313,14 @@ class TValidator {
     }
     return null;
   }
+
+  static String? validateTransactionHash(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Transaction hash is required';
+    }
+    if (value.length < 64) {
+      return 'Transaction hash must be at least 64 characters long';
+    }
+    return null;
+  }
 }

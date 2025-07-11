@@ -1,1 +1,37 @@
+export 'package:cached_network_image/cached_network_image.dart';
+export 'package:flutter/material.dart';
+export 'package:flutter_svg/svg.dart';
+export 'package:flutter/services.dart';
 export 'package:get/get.dart';
+export 'package:iconsax/iconsax.dart';
+
+export '../../../../banner.dart';
+export '../../../../core/auth/domain/usecases/retrieve_user.dart';
+export '../../../../core/shared/presentation/widgets/layouts/scrollable_widget.dart';
+export '../../../../core/shared/constants/colors.dart';
+export '../../../../core/shared/constants/image_strings.dart';
+export '../../../../core/shared/constants/sizes.dart';
+export '../../../../core/shared/constants/text_strings.dart' show TTexts;
+export '../../../../core/shared/data/routes.dart';
+export '../../../../core/shared/formatters/formatter.dart';
+export '../../../../core/shared/helpers/helper_functions.dart';
+export '../../../../core/shared/presentation/widgets/appbar/appbar.dart';
+export '../../../../core/shared/presentation/animations/animated_gradient_coloring.dart';
+export '../../../../core/shared/presentation/widgets/success_screen/error.dart';
+export '../../../../core/shared/validators/validation.dart';
+export '../../../buy/presentation/widgets/currency/currency_card_shimmer.dart';
+export '../../../buy/presentation/widgets/currency/currency_grid_card.dart';
+export '../../../buy/data/models/currency.dart';
+export '../../../buy/data/models/fee_calc_response.dart';
+export '../../../buy/domain/entities/coin_data.dart';
+export '../../../buy/domain/usecases/fee_calculation_usecase.dart';
+export '../../../homepage/presentation/controller/dashboard_controller.dart';
+export '../controller/sell_controller.dart';
+
+export 'sell/confirmation.dart';
+export 'sell/instructions.dart';
+export 'sell/local_rate.dart';
+export 'sell/payment_stepper.dart';
+export 'sell/recipient.dart';
+export 'sell/sell_body.dart';
+export 'sell/summary.dart';

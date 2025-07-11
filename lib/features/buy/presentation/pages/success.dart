@@ -16,7 +16,6 @@ class BuySuccessPage extends StatelessWidget {
               aspectRatio: 1,
               child: SvgPicture.asset(SvgAssets.success, fit: BoxFit.contain),
             ),
-            const SizedBox(height: 16),
             Text(
               'Success',
               textAlign: TextAlign.center,
@@ -25,7 +24,6 @@ class BuySuccessPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: TSizes.spaceBtwItems),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
@@ -38,7 +36,6 @@ class BuySuccessPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: TSizes.spaceBtwItems),
             ElevatedButton(
               onPressed: () => Get.offAllNamed(Routers.index),
               child: Text(
@@ -46,7 +43,6 @@ class BuySuccessPage extends StatelessWidget {
                 style: textTheme.titleLarge?.copyWith(color: Colors.white),
               ),
             ),
-            const SizedBox(height: TSizes.spaceBtwItems),
             OutlinedButton(
               onPressed: () => Get.offAllNamed(Routers.buyHistory),
               child: Text(

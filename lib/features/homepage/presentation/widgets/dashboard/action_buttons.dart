@@ -39,7 +39,7 @@ class ActionButtonsState extends State<ActionButtons> {
                   case 'Buy':
                     Get.toNamed(Routers.actionBuy);
                   case 'Sell':
-                    break;
+                    Get.toNamed(Routers.actionSell);
                   case 'PayAccount':
                     break;
                   case 'More':

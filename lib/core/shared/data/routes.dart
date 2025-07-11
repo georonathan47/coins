@@ -1,38 +1,11 @@
-import 'package:get/get.dart';
-
-import '../../../features/buy/presentation/pages/actionable_buy.dart';
-import '../../../features/buy/presentation/pages/buy_otp.dart';
-import '../../../features/buy/presentation/pages/buy_page.dart';
-import '../../../features/buy/presentation/pages/buy_summary.dart';
-import '../../../features/buy/presentation/pages/buyable_assets.dart';
-import '../../../features/buy/presentation/pages/history.dart';
-import '../../../features/buy/presentation/pages/payment_selection.dart';
-import '../../../features/buy/presentation/pages/success.dart';
-import '../../../features/buy/presentation/pages/transaction_info.dart';
-import '../../../features/homepage/presentation/pages/index.dart';
-import '../../../features/kyc/presentation/pages/home.dart';
-import '../../../features/kyc/presentation/pages/id_upload.dart';
-import '../../../features/kyc/presentation/pages/personal_details.dart';
-import '../../../features/kyc/presentation/pages/selfie_info.dart';
-import '../../../features/kyc/presentation/pages/selfie_upload.dart';
-import '../../../features/kyc/presentation/pages/success.dart';
-import '../../auth/presentation/pages/captcha.dart';
-import '../../auth/presentation/pages/check_mail.dart';
-import '../../auth/presentation/pages/legacy.dart';
-import '../../auth/presentation/pages/mfa_otp.dart';
-import '../../auth/presentation/pages/login.dart';
-import '../../auth/presentation/pages/otp.dart';
-import '../../onboarding/presentation/pages/onboarding.dart';
-import '../../auth/presentation/pages/reg_otp.dart';
-import '../../auth/presentation/pages/signup.dart';
-import '../../auth/presentation/pages/signup_captcha.dart';
-import '../presentation/animations/splash.dart';
+import 'data.dart';
 
 class Routers {
   static const buy = '/buy';
   static const kyc = '/kyc';
   static const otp = '/otp';
   static const mfa = '/mfa';
+  static const sell = '/sell';
   static const edit = '/edit';
   static const index = '/index';
   static const login = '/login';
@@ -44,11 +17,13 @@ class Routers {
   static const captcha = '/captcha';
   static const onboard = '/onboard';
   static const profile = '/profile';
+  static const sellPay = '/sellPay';
   static const register = '/register';
   static const homepage = '/homepage';
   static const settings = '/settings';
   static const docUpload = '/docUpload';
   static const actionBuy = '/actionBuy';
+  static const actionSell = '/actionSell';
   static const buyHistory = '/buyHistory';
   static const buySuccess = '/buySuccess';
   static const buySummary = '/buySummary';
@@ -141,6 +116,7 @@ class RouteManager {
         page: () => const CheckEmail(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
+      /// Buy
       GetPage(
         name: Routers.buy,
         page: () => const BuyPage(),
@@ -231,6 +207,25 @@ class RouteManager {
         name: Routers.transactionInfo,
         transition: Transition.fadeIn,
         page: () => const TransactionInfoPage(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      /// Sell
+      GetPage(
+        name: Routers.actionSell,
+        transition: Transition.fadeIn,
+        page: () => const ActionableSell(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.sell,
+        page: () => const SellPage(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.sellPay,
+        transition: Transition.fadeIn,
+        page: () => const SellPaymentPage(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

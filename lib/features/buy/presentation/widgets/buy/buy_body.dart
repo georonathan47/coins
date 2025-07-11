@@ -68,7 +68,6 @@ class BuyBodyState extends State<BuyBody> {
             size: TSizes.iconLg * 1.5,
           ),
           const DollarRate(),
-          const SizedBox(height: TSizes.spaceBtwItems),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -122,7 +121,6 @@ class BuyBodyState extends State<BuyBody> {
               ),
             ],
           ),
-          const SizedBox(height: TSizes.spaceBtwItems),
           Obx(
             () => Card(
               elevation: 4,
@@ -161,7 +159,6 @@ class BuyBodyState extends State<BuyBody> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: TSizes.spaceBtwItems),
                     TextButton.icon(
                       onPressed: () {},
                       iconAlignment: IconAlignment.end,
@@ -171,7 +168,6 @@ class BuyBodyState extends State<BuyBody> {
                       ),
                       icon: const Icon(Iconsax.info_circle),
                     ),
-                    const SizedBox(height: TSizes.spaceBtwItems),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -191,7 +187,6 @@ class BuyBodyState extends State<BuyBody> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: TSizes.spaceBtwItems),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -208,7 +203,6 @@ class BuyBodyState extends State<BuyBody> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: TSizes.spaceBtwSections),
                     TextFormField(
                       maxLength: 32,
                       controller: instance.wallet.value,
@@ -237,7 +231,6 @@ class BuyBodyState extends State<BuyBody> {
               ),
             ),
           ),
-          const SizedBox(height: TSizes.spaceBtwItems),
           ElevatedButton.icon(
             onPressed: () {
               if (formKey.currentState!.validate()) {

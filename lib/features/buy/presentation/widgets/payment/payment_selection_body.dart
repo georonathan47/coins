@@ -29,7 +29,6 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         RichText(
           text: TextSpan(
             style: DefaultTextStyle.of(context).style,
@@ -48,7 +47,6 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
             ],
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         // DropdownButtonFormField<PaymentMode>(
         //   isDense: true,
         //   isExpanded: true,
@@ -214,12 +212,10 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
           ),
           autovalidateMode: AutovalidateMode.onUserInteraction,
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         Text(
           'Select a preferred account for this trade'.capitalize!,
           style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         ValueListenableBuilder(
           valueListenable: prefAcc,
           builder: (context, value, child) {
@@ -289,15 +285,14 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
             );
           },
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         Divider(height: 1, color: TColors.accent),
-        const SizedBox(height: TSizes.spaceBtwItems),
         Visibility(
           visible: selectedAccount != null,
           child: Obx(
             () => ExpandableCard(
               isExpanded: selectedAccount != null,
               child: Column(
+                spacing: 8,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -348,16 +343,13 @@ class _PaymentSelectionBodyState extends State<PaymentSelectionBody> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: TSizes.spaceBtwItems),
                             Divider(height: 1, color: TColors.accent),
-                            const SizedBox(height: TSizes.spaceBtwItems),
                             Text(
                               'Notes',
                               style: textTheme.titleSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: TSizes.spaceBtwItems),
                             Text(
                               detail.note.capitalize!,
                               style: textTheme.bodyLarge,

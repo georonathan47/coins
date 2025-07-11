@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/sizes.dart';
+
 class ScrollableWidget extends StatelessWidget {
   final double? padding;
   final List<Widget> children;
@@ -16,9 +18,10 @@ class ScrollableWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(padding ?? 20),
+      padding: EdgeInsets.all(padding ?? 16),
       physics: physics ?? const NeverScrollableScrollPhysics(),
       child: Column(
+        spacing: TSizes.spaceBtwItems,
         crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.stretch,
         children: children,
       ),
