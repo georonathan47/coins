@@ -54,13 +54,13 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
         final body = jsonDecode(result.body);
         throw BadRequestException(body['message']);
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       if (error is BadRequestException) {
         throw BadRequestException(error.message);
       } else if (error is ServerException) {
-        throw ServerException();
+        throw ServerException(error.message);
       }
       throw Exception();
     }
@@ -93,7 +93,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         return AuthResponse.fromJson(result.body);
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -118,7 +118,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
 
         return data;
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -136,7 +136,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
         final data = AuthResponse.fromJson(result.body);
         return data;
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -153,7 +153,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         return;
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -170,7 +170,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         return 'Password changed successfully!';
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -205,7 +205,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         return "User profile updated successfully!";
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -222,7 +222,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
         // this returns full user data
         return 'OTP sent successfully!';
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -243,7 +243,7 @@ class AuthRemoteDatabaseImpl implements AuthRemoteDatabase {
         // this returns full user data
         return 'OTP successfully verified!';
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');

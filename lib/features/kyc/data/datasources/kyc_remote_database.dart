@@ -55,10 +55,10 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return checkStatus(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -125,10 +125,10 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return initiateKyc(request, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error, stack) {
       TLoggerHelper.logEvent(
@@ -139,7 +139,7 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
       if (error is BadRequestException) {
         throw BadRequestException(error.message);
       } else if (error is ServerException) {
-        throw ServerException();
+        throw ServerException(error.message);
       }
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

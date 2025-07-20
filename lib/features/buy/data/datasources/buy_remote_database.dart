@@ -67,10 +67,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchCountries(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -108,10 +108,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchListings(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -161,10 +161,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return calculateFees(request, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -204,10 +204,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchCurrencies(countryId, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -247,10 +247,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchTradableCoins(countryId, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -293,10 +293,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return createOrder(request, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -343,10 +343,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchPaymentModes(country, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -390,10 +390,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchBanks(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -444,10 +444,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchMomoList(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -461,7 +461,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
 
   @override
   Future<List<BuyHistoryModel>> fetchHistory(Map tokens) async {
-     try {
+    try {
       final result = await client.get(
         '${Env.buyHistoryUrl}=${tokens['userId']}',
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
@@ -491,10 +491,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchHistory(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logError(

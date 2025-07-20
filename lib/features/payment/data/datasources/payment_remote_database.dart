@@ -68,10 +68,10 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return getPaymentDetails(mode, country, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -106,10 +106,10 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchPortfolio(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');

@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/auth/data/datasources/auth_local_database.dart';
+import '../../../../core/shared/constants/text_strings.dart';
 import '../../../../core/shared/error/exception.dart';
 import '../../../../core/shared/error/failures.dart';
 import '../../../../core/shared/platform/network_info.dart';
@@ -44,11 +45,7 @@ class KycRepositoryImpl implements KycRepository {
         final response = await remoteDatabase.initiateKyc(request, tokens);
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } on BadRequestException catch (e) {
       return Left(Failure(e.message));

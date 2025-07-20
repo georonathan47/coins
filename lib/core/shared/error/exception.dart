@@ -21,7 +21,10 @@ class DeviceException implements Exception {
 
 class CacheException implements Exception {}
 
-class ServerException implements Exception {}
+class ServerException implements Exception {
+  ServerException(this.message);
+  final String message;
+}
 
 class NoResultException implements Exception {
   NoResultException(this.message);
