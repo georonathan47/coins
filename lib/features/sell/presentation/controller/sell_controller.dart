@@ -1,14 +1,25 @@
+import 'dart:developer';
+
 import '../../../../core/auth/domain/entities/user.dart';
 import '../../../../core/shared/usecase/usecase.dart';
+import '../../../../core/shared/utils/logger.dart';
 import '../../../buy/domain/entities/fee_calculation.dart';
 import '../../../buy/presentation/controller/buy_controller.dart';
+import '../../../payment/data/models/user_payment_details.dart';
+import '../../../payment/domain/usecases/user_payment_details_usecase.dart';
+import '../../data/models/sell_order_response.dart';
+import '../../domain/entities/create_sell_order.dart';
+import '../../domain/entities/set_transaction_hash.dart';
+import '../../domain/usecases/create_sell_order_usecase.dart';
+import '../../domain/usecases/set_hash_usecase.dart';
+import '../../domain/usecases/verify_hash_usecase.dart';
 import '../widgets/widgets.dart';
 
 class SellController extends GetxController {
   final eCurrency = ''.obs;
   final currencyId = 0.obs;
   final network = 'REGULAR'.obs;
-  final selectedRecipient = ''.obs;
+  final order = SellOrder.empty().obs;
   final currentUser = User.empty().obs;
   final paymentMode = 'BANK_TRANSFER'.obs;
   final hash = TextEditingController().obs;
@@ -17,8 +28,12 @@ class SellController extends GetxController {
   final dollar = TextEditingController().obs;
   final accName = TextEditingController().obs;
   final accType = TextEditingController().obs;
+  final accNumber = TextEditingController().obs;
   final calcResponse = FeeCalcResponse.empty().obs;
   static SellController get instance => Get.find();
+  final setHashRqst = SetTransactionHash.empty().obs;
+  final userPaymentDetails = <UserPaymentDetail>[].obs;
+  final selectedRecipient = UserPaymentDetail.empty().obs;
 
   // Add your methods and properties here
   int currentStep = 0;
@@ -29,17 +44,27 @@ class SellController extends GetxController {
     GlobalKey<FormState>(),
   ];
 
+  final SetHashUsecase setHashUsecase;
+  final VerifyHashUsecase verifyHashUsecase;
   final CalculateFeeUsecase calculateFeeUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
+  final CreateSellOrderUsecase createSellOrderUsecase;
+  final FetchUserPaymentDetailsUseCase fetchUserPaymentDetailsUseCase;
 
   SellController({
+    required this.setHashUsecase,
+    required this.verifyHashUsecase,
     required this.calculateFeeUsecase,
     required this.retrieveUserUsecase,
+    required this.createSellOrderUsecase,
+    required this.fetchUserPaymentDetailsUseCase,
   });
+
   @override
   void onInit() {
     super.onInit();
     retrieveUser();
+    fetchUserPaymentDetails();
   }
 
   void onStepTapped(int step) {
@@ -47,9 +72,9 @@ class SellController extends GetxController {
     update();
   }
 
-  void onStepContinue() {
+  void onStepContinue() async {
     final isLastStep = currentStep == 3;
-    if (currentStep == 0 && selectedRecipient.value.isEmpty) {
+    if (currentStep == 0 && selectedRecipient.value.id < 1) {
       THelperFunctions.showSnackBar(
         title: 'Error!',
         bgColor: TColors.error,
@@ -64,7 +89,7 @@ class SellController extends GetxController {
             return const Center(child: CircularProgressIndicator());
           },
         );
-        // submit form
+        await createOrder();
         return;
       }
       currentStep += 1;
@@ -123,32 +148,127 @@ class SellController extends GetxController {
         calcResponse.value = success;
         local.value.text = success.amountLocalCurrency!.toStringAsFixed(2);
         dollar.value.text = success.amountStandardCurrency!.toStringAsFixed(2);
-        // order.value = order.value.copyWith(
-        //   eCurrency: eCurrency.value,
-        //   paymentMode: paymentMode.value,
-        //   // walletAddress: wallet.value.text.trim(),
-        //   total: double.parse(success.usdTotal!.toStringAsFixed(2)),
-        //   buyAmount: double.parse(
-        //     success.amountStandardCurrency!.toStringAsFixed(2),
-        //   ),
-        //   localCurrencyTotal: double.parse(
-        //     success.amountLocalCurrency!.toStringAsFixed(2),
-        //   ),
-        //   networkFee: network.value == 'REGULAR'
-        //       ? double.parse(success.regularNetworkFee!.toStringAsFixed(2))
-        //       : double.parse(success.priorityNetworkFee!.toStringAsFixed(2)),
-        // );
-        // TLoggerHelper.logEvent(
-        //   order.value.toJson(),
-        //   eventName: 'Sell Order Request',
-        // );
         update();
         return success;
       },
     );
   }
 
-  void setSelectedRecipient(String value) {
+  void setSelectedRecipient(UserPaymentDetail value) {
     selectedRecipient.value = value;
+  }
+
+  Future<String> verifyHash() async {
+    final result = await verifyHashUsecase(ObjectParams(hash.value.text));
+    return result.fold(
+      (failure) {
+        Get.back();
+        log(failure.toString());
+        THelperFunctions.showSnackBar(
+          title: 'Error',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return failure.message;
+      },
+      (success) async {
+        if (success.contains('Valid')) {
+          await createOrder();
+        } else {
+          Get.back();
+          THelperFunctions.showSnackBar(
+            title: 'Error',
+            message: '$success transaction Id',
+            bgColor: TColors.error,
+          );
+        }
+        return success;
+      },
+    );
+  }
+
+  Future<SellOrderResponse> createOrder() async {
+    final user = await retrieveUser();
+    final request = order.value.copyWith(
+      userId: user.userId,
+      ecurrency: eCurrency.value,
+      paymentMode: paymentMode.value,
+      bankName: accName.value.text.trim(),
+      phoneNumber: phone.value.text.trim(),
+      accountType: accType.value.text.trim(),
+      senderSName: currentUser.value.fullName,
+      nameOnAccount: accName.value.text.trim(),
+      accountNumber: accNumber.value.text.trim(),
+      overAllTotal: double.parse(
+        calcResponse.value.usdTotal!.toStringAsFixed(2),
+      ),
+      sellAmount: double.parse(
+        calcResponse.value.amountStandardCurrency!.toStringAsFixed(2),
+      ),
+      localCurrencyTotal: double.parse(
+        calcResponse.value.amountLocalCurrency!.toStringAsFixed(2),
+      ),
+      networkFee: double.parse(
+        calcResponse.value.regularNetworkFee!.toStringAsFixed(2),
+      ),
+    );
+    final result = await createSellOrderUsecase(ObjectParams(request));
+    Get.back();
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) async {
+        THelperFunctions.showSnackBar(
+          title: 'Success',
+          bgColor: TColors.success,
+          message: 'Order created successfully!',
+        );
+        await setHash(success.orderId);
+        return success;
+      },
+    );
+  }
+
+  Future setHash(String orderId) async {
+    final result = await setHashUsecase(
+      ObjectParams(
+        setHashRqst.value.copyWith(orderId: orderId, hashId: hash.value.text),
+      ),
+    );
+    return result.fold(
+      (failure) => Future.error(failure.message),
+      (success) {
+        Get.offNamed(Routers.sellSuccess);
+        return success;},
+    );
+  }
+
+  Future<List<UserPaymentDetail>> fetchUserPaymentDetails() async {
+    final result = await fetchUserPaymentDetailsUseCase(NoParams());
+    return result.fold(
+      (failure) {
+        THelperFunctions.showSnackBar(
+          title: 'Error',
+          message: failure.message,
+          bgColor: TColors.error,
+        );
+        return Future.error(failure.message);
+      },
+      (success) {
+        userPaymentDetails.value = success;
+        TLoggerHelper.logEvent(
+          success.map((e) => e.toJson()).toList(),
+          eventName: 'User Payment Details',
+        );
+        update();
+        return success;
+      },
+    );
   }
 }

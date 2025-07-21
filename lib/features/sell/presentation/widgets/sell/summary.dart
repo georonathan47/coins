@@ -1,7 +1,8 @@
 import '../widgets.dart';
 
 class SellSummary extends StatefulWidget {
-  const SellSummary({super.key});
+  const SellSummary({super.key, required this.currency});
+  final Currency currency;
 
   @override
   State<SellSummary> createState() => SellSummaryState();
@@ -230,17 +231,8 @@ class SellSummaryState extends State<SellSummary> {
                                   children: [
                                     TextSpan(
                                       text:
-                                          "By sending the DASH (DASH), you agree that you've been informed that you'll be paid for the USD value at time of transaction (live rates on Dash explorer) and also after we have received at least 1 - 3 confirmations (for value below 999 USD) or 3 - 6 confirmations (for value above 1000 USD) from the DASH (DASH) network - eBitcoinics.com do NOT determine how fast your transaction gets confirmed on the Dash network, its all done by miners! Risk warning: Cryptocurrency trading is subject to high market risk. eBitcoinics.com will make the best efforts to choose high-quality coins, but will not be responsible for your trading losses. Please trade with caution and we also encourage you to be aware of phishing sites and always make sure you are visiting the official eBitcoinics.com website when entering sensitive data!",
+                                          "By sending the ${widget.currency.currencyName.toUpperCase()}, you agree that you've been informed that you'll be paid for the USD value at time of transaction (live rates on ${widget.currency.currencyName.toUpperCase()} explorer) and also after we have received at least 1 - 3 confirmations (for value below 999 USD) or 3 - 6 confirmations (for value above 1000 USD) from the ${widget.currency.currencyName.toUpperCase()} network - eBitcoinics.com do NOT determine how fast your transaction gets confirmed on the ${widget.currency.currencyName.toUpperCase()} network, its all done by miners! Risk warning: Cryptocurrency trading is subject to high market risk. eBitcoinics.com will make the best efforts to choose high-quality coins, but will not be responsible for your trading losses. Please trade with caution and we also encourage you to be aware of phishing sites and always make sure you are visiting the official eBitcoinics.com website when entering sensitive data!",
                                       style: textTheme.titleSmall,
-                                    ),
-                                    TextSpan(
-                                      text: TFormatter.formatDollar(
-                                        instance
-                                                .calcResponse
-                                                .value
-                                                .amountStandardCurrency ??
-                                            0,
-                                      ),
                                     ),
                                   ],
                                 ),

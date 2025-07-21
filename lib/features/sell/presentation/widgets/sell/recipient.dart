@@ -24,85 +24,66 @@ class Recipient extends StatelessWidget {
                   padding: 0,
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    Obx(
-                      () => RadioListTile.adaptive(
-                        value: 'BankAccount',
-                        activeColor: TColors.secondary,
-                        selectedTileColor: TColors.secondary,
-                        useCupertinoCheckmarkStyle: GetPlatform.isIOS,
-                        groupValue: controller.selectedRecipient.value,
-                        onChanged: (value) =>
-                            controller.setSelectedRecipient(value!),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              controller.currentUser.value.fullName,
-                              style: textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              controller.currentUser.value.phoneNumber!,
-                              style: textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: Text(
-                                'ECO Bank',
-                                style: textTheme.bodyMedium,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                'Business Account',
-                                style: textTheme.bodyMedium?.copyWith(
-                                  color: TColors.accent,
+                    ...controller.userPaymentDetails.map(
+                      (paymentDetail) => Obx(
+                        () => Card(
+                          surfaceTintColor: Colors.white54,
+                          child: RadioListTile.adaptive(
+                            value: paymentDetail,
+                            activeColor: TColors.secondary,
+                            selectedTileColor: TColors.secondary,
+                            useCupertinoCheckmarkStyle: GetPlatform.isIOS,
+                            groupValue: controller.selectedRecipient.value,
+                            onChanged: (value) =>
+                                controller.setSelectedRecipient(value!),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  paymentDetail.nameOnAccount,
+                                  style: textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
+                                Text(
+                                  paymentDetail.accountNumber,
+                                  style: textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        visualDensity: const VisualDensity(
-                          vertical: VisualDensity.minimumDensity,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    Obx(
-                      () => RadioListTile.adaptive(
-                        value: 'CryptoWallet',
-                        activeColor: TColors.secondary,
-                        selectedTileColor: TColors.secondary,
-                        useCupertinoCheckmarkStyle: GetPlatform.isIOS,
-                        groupValue: controller.selectedRecipient.value,
-                        onChanged: (value) =>
-                            controller.setSelectedRecipient(value!),
-                        title: Text(
-                          'Crypto Wallet',
-                          style: textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w700,
+                            subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  flex: 2,
+                                  child: Text(
+                                    paymentDetail.bankName,
+                                    style: textTheme.bodyMedium,
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    paymentDetail.paymentMode.replaceAll(
+                                      '_',
+                                      " ",
+                                    ),
+                                    style: textTheme.bodySmall?.copyWith(
+                                      color: TColors.accent,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            visualDensity: const VisualDensity(
+                              vertical: VisualDensity.minimumDensity,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
-                        ),
-                        subtitle: Text(
-                          'Personal Account',
-                          style: textTheme.bodyMedium,
-                        ),
-                        visualDensity: const VisualDensity(
-                          vertical: VisualDensity.minimumDensity,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                     ),

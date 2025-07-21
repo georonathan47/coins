@@ -35,7 +35,11 @@ class TransactionConfirmationState extends State<TransactionConfirmation> {
                 Expanded(
                   flex: 4,
                   child: Text(
-                    controller.currentUser.value.fullName.capitalize!,
+                    controller
+                        .selectedRecipient
+                        .value
+                        .nameOnAccount
+                        .capitalize!,
                     style: textTheme.bodyLarge?.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.w600,
@@ -55,7 +59,7 @@ class TransactionConfirmationState extends State<TransactionConfirmation> {
                 Expanded(
                   flex: 4,
                   child: Text(
-                    controller.currentUser.value.phoneNumber!.capitalize!,
+                    controller.selectedRecipient.value.accountNumber,
                     style: textTheme.bodyLarge?.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.w600,
@@ -75,7 +79,7 @@ class TransactionConfirmationState extends State<TransactionConfirmation> {
                 Expanded(
                   flex: 4,
                   child: Text(
-                    'ECO Bank',
+                    controller.selectedRecipient.value.bankName,
                     style: textTheme.bodyLarge?.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.w600,
@@ -94,7 +98,9 @@ class TransactionConfirmationState extends State<TransactionConfirmation> {
                 Expanded(
                   flex: 4,
                   child: Text(
-                    'Business Account',
+                    controller.selectedRecipient.value.paymentMode
+                        .replaceAll('_', ' ')
+                        .capitalize!,
                     style: textTheme.bodyLarge?.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.w600,

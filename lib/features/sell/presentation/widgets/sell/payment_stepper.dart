@@ -71,7 +71,7 @@ class PaymentStepper extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              content: Form(key: controller.formKeys[1], child: SellSummary()),
+              content: Form(key: controller.formKeys[1], child: SellSummary(currency: currency)),
             ),
             Step(
               isActive: controller.currentStep >= 2,

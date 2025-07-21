@@ -51,9 +51,6 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
           upgrader: Upgrader(
             debugLogging: kDebugMode,
             debugDisplayAlways: kDebugMode,
-            durationUntilAlertAgain: kDebugMode
-                ? Duration(days: 5)
-                : Duration(days: 3),
           ),
           child: Stack(
             children: [
@@ -68,7 +65,7 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
                   Center(child: Text('Account')),
                 ],
               ),
-              Positioned(
+              Positioned( 
                 right: MediaQuery.of(context).size.width * 0.015,
                 bottom: MediaQuery.of(context).size.height * 0.015,
                 child: FoldableOptions(
