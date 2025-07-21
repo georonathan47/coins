@@ -93,13 +93,6 @@ class _SidebarState extends State<Sidebar> {
                               // Navigate to settings
                             },
                           ),
-                          // NavDrawerItem(
-                          //   icon: Icons.history,
-                          //   text: 'Order History',
-                          //   onTap: () {
-                          //     // Navigate to settings
-                          //   },
-                          // ),
                           Card(
                             child: SidebarCategory(
                               icon: Icons.history,
@@ -107,16 +100,14 @@ class _SidebarState extends State<Sidebar> {
                               bgColor: Colors.transparent,
                               children: [
                                 NavDrawerItem(
-                                  icon: Icons.swap_horiz,
                                   text: 'Buy History',
+                                  icon: Icons.swap_horiz,
                                   onTap: () => Get.toNamed(Routers.buyHistory),
                                 ),
                                 NavDrawerItem(
                                   text: 'Sell History',
                                   icon: Icons.swap_horiz,
-                                  onTap: () {
-                                    // Navigate to settings
-                                  },
+                                  onTap: () => Get.toNamed(Routers.sellHistory),
                                 ),
                               ],
                             ),

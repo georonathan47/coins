@@ -72,6 +72,8 @@ abstract class Env {
   static const String setHashIdUrl = _Env.setHashIdUrl;
   @EnviedField(varName: 'BUY_ORDER_HISTORY')
   static const String buyHistoryUrl = _Env.buyHistoryUrl;
+  @EnviedField(varName: 'SELL_ORDER_HISTORY')
+  static const String sellHistoryUrl = _Env.sellHistoryUrl;
   @EnviedField(varName: 'WALLET_DETAILS')
   static const String walletInfoUrl = _Env.walletInfoUrl;
   @EnviedField(varName: 'FETCH_PAYMENT_DETAILS')

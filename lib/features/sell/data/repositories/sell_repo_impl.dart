@@ -5,6 +5,7 @@ import '../../../../core/shared/constants/text_strings.dart';
 import '../../../../core/shared/error/exception.dart';
 import '../../../../core/shared/error/failures.dart';
 import '../../../../core/shared/platform/network_info.dart';
+import '../../../buy/data/models/buy_history_model.dart';
 import '../../domain/entities/create_sell_order.dart';
 import '../../domain/entities/set_transaction_hash.dart';
 import '../../domain/repositories/sell_repository.dart';
@@ -73,6 +74,25 @@ class SellRepositoryImpl implements SellRepository {
       }
     } on ConflictException catch (e) {
       return Left(ConflictFailure(e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on BadRequestException catch (e) {
+      return Left(Failure(e.message));
+    } catch (e) {
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BuyHistoryModel>>> fetchOrderHistory() async {
+    try {
+      if (await networkInfo.hasInternet()) {
+        final tokens = await authLocalDatabase.fetchTokens();
+        final response = await remoteDatabase.fetchOrderHistory(tokens);
+        return Right(response);
+      } else {
+        return Left(NetworkFailure(TTexts.noInternetMessage));
+      }
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on BadRequestException catch (e) {

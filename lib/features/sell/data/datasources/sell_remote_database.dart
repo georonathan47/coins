@@ -6,11 +6,13 @@ import '../../../../core/auth/data/datasources/auth_remote_database.dart';
 import '../../../../core/shared/constants/env.dart';
 import '../../../../core/shared/error/exception.dart';
 import '../../../../core/shared/utils/logger.dart';
+import '../../../buy/data/models/buy_history_model.dart';
 import '../../domain/entities/create_sell_order.dart';
 import '../../domain/entities/set_transaction_hash.dart';
 import '../models/sell_order_response.dart';
 
 abstract class SellRemoteDatabase {
+  Future<List<BuyHistoryModel>> fetchOrderHistory(Map tokens);
   Future<String> setHash(SetTransactionHash order, Map tokens);
   Future<String> verifyHash(String transactionHash, Map tokens);
   Future<SellOrderResponse> createOrder(SellOrder order, Map tokens);
@@ -55,7 +57,7 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
         } catch (e) {
           throw ServerException(result.statusText!);
         }
-      }  else if (result.statusCode == 409) {
+      } else if (result.statusCode == 409) {
         final message = jsonDecode(result.bodyString!);
         throw ConflictException(message['message']);
       } else {
@@ -170,6 +172,55 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
         message: 'Request failed',
         method: 'Create Sell Order',
         eventName: 'Sell Order',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<BuyHistoryModel>> fetchOrderHistory(Map tokens) async {
+    try {
+      final result = await client.get(
+        '${Env.sellHistoryUrl}=${tokens['userId']}',
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<BuyHistoryModel> history = responseData
+            .map((coin) => buyHistoryModelFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
+          method: 'fetchBuyHistory',
+          code: result.statusCode!,
+          message: 'Fetched ${history.length} orders',
+        );
+        return history;
+      } else if (result.statusCode! == 401) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchBuyHistory',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchOrderHistory(tokens);
+        } catch (e) {
+          throw ServerException(result.statusText!);
+        }
+      } else {
+        throw ServerException(result.statusText!);
+      }
+    } catch (e, s) {
+      TLoggerHelper.logError(
+        error: e,
+        stackTrace: s,
+        method: 'fetchSellHistory',
+        eventName: 'Sell History',
+        message: 'Error fetching sell history',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

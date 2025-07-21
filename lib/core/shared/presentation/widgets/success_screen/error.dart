@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/colors.dart';
-import '../../../constants/sizes.dart';
 import '../../../constants/svg_assets.dart';
 import '../layouts/scrollable_widget.dart';
 
@@ -25,7 +24,6 @@ class FetchError extends StatelessWidget {
         child: ScrollableWidget(
           children: [
             SvgPicture.asset(SvgAssets.noAsset, width: Get.width * 0.4),
-            const SizedBox(height: TSizes.spaceBtwItems),
             Text(
               title?.capitalize ??
                   "Oops... You've run into an issue".capitalize!,
@@ -34,7 +32,6 @@ class FetchError extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: TSizes.spaceBtwItems),
             Text(
               message,
               style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),

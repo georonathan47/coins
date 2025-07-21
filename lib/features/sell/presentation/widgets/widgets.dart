@@ -25,6 +25,8 @@ export '../../../buy/data/models/currency.dart';
 export '../../../buy/data/models/fee_calc_response.dart';
 export '../../../buy/domain/entities/coin_data.dart';
 export '../../../buy/domain/usecases/fee_calculation_usecase.dart';
+export '../../../buy/presentation/widgets/history_card.dart';
+export '../../../buy/presentation/widgets/history_card_shimmer.dart';
 export '../../../homepage/presentation/controller/dashboard_controller.dart';
 export '../controller/sell_controller.dart';
 
@@ -35,3 +37,4 @@ export 'sell/payment_stepper.dart';
 export 'sell/recipient.dart';
 export 'sell/sell_body.dart';
 export 'sell/summary.dart';
+export 'sell_history_body.dart';

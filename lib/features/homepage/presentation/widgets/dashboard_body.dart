@@ -62,7 +62,7 @@ class _DashboardBodyState extends State<DashboardBody> {
       children: [
         Obx(
           () => Text(
-            'Hello, ${instance.currentUser.value.firstname}!',
+            'Hello, ${Get.find<AuthController>().currentUser.value.firstname}!',
             style: textTheme.titleLarge,
           ),
         ),

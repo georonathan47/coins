@@ -3,6 +3,7 @@ import 'dart:developer';
 import '../../../../core/auth/domain/entities/user.dart';
 import '../../../../core/shared/usecase/usecase.dart';
 import '../../../../core/shared/utils/logger.dart';
+import '../../../buy/data/models/buy_history_model.dart';
 import '../../../buy/domain/entities/fee_calculation.dart';
 import '../../../buy/presentation/controller/buy_controller.dart';
 import '../../../payment/data/models/user_payment_details.dart';
@@ -11,6 +12,7 @@ import '../../data/models/sell_order_response.dart';
 import '../../domain/entities/create_sell_order.dart';
 import '../../domain/entities/set_transaction_hash.dart';
 import '../../domain/usecases/create_sell_order_usecase.dart';
+import '../../domain/usecases/fetch_sell_history_usecase.dart';
 import '../../domain/usecases/set_hash_usecase.dart';
 import '../../domain/usecases/verify_hash_usecase.dart';
 import '../widgets/widgets.dart';
@@ -49,6 +51,7 @@ class SellController extends GetxController {
   final CalculateFeeUsecase calculateFeeUsecase;
   final RetrieveUserUsecase retrieveUserUsecase;
   final CreateSellOrderUsecase createSellOrderUsecase;
+  final FetchSellHistoryUsecase fetchSellHistoryUsecase;
   final FetchUserPaymentDetailsUseCase fetchUserPaymentDetailsUseCase;
 
   SellController({
@@ -57,6 +60,7 @@ class SellController extends GetxController {
     required this.calculateFeeUsecase,
     required this.retrieveUserUsecase,
     required this.createSellOrderUsecase,
+    required this.fetchSellHistoryUsecase,
     required this.fetchUserPaymentDetailsUseCase,
   });
 
@@ -270,5 +274,17 @@ class SellController extends GetxController {
         return success;
       },
     );
+  }
+
+  Future<List<BuyHistoryModel>> history() async {
+    final result = await fetchSellHistoryUsecase(NoParams());
+    return result.fold((failure) {
+      THelperFunctions.showSnackBar(
+        title: 'Error!',
+        message: failure.message,
+        bgColor: TColors.error,
+      );
+      return Future.error(failure.message);
+    }, (success) => success);
   }
 }

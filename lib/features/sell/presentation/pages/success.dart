@@ -44,7 +44,7 @@ class SellSuccessPage extends StatelessWidget {
               ),
             ),
             OutlinedButton(
-              onPressed: () => Get.offAllNamed(Routers.buyHistory),
+              onPressed: () => Get.offAllNamed(Routers.sellHistory),
               child: Text(
                 'View Order History',
                 style: textTheme.titleLarge?.copyWith(),
