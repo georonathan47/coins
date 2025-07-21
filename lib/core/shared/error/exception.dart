@@ -35,6 +35,10 @@ class BadRequestException implements Exception {
   BadRequestException(this.message);
   final String message;
 }
+class ConflictException implements Exception {
+  ConflictException(this.message);
+  final String message;
+}
 
 class NoInternetException implements Exception {
   NoInternetException(this.message);

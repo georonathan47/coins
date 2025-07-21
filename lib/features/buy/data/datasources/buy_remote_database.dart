@@ -55,7 +55,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
             .toSet()
             .toList();
         return countries;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchCountries',
           statusCode: result.statusCode!,
@@ -96,7 +96,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${coinData.length} listed currencies',
         );
         return coinData;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchListings',
           statusCode: result.statusCode!,
@@ -149,7 +149,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         throw NoResultException(
           'Buy/Sell rate with the provided parameters does not exist',
         );
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'calculateFees',
           statusCode: result.statusCode!,
@@ -192,7 +192,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${currencies.length} currencies for country $countryId',
         );
         return currencies;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchCurrencies',
           statusCode: result.statusCode!,
@@ -235,7 +235,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${coinData.length} tradable coins for country $countryId',
         );
         return coinData;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchTradableCoins',
           statusCode: result.statusCode!,
@@ -281,10 +281,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: result.bodyString!,
         );
         return createBuyOrderResponseFromJson(result.bodyString!);
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
-          'createOrder',
-          statusCode: result.statusCode!,
+        'createOrder',
+        statusCode: result.statusCode!,
         );
         try {
           final token = await authRemoteDatabase.refreshToken(tokens);
@@ -299,10 +299,12 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         throw ServerException(result.statusText!);
       }
     } catch (e, s) {
-      TLoggerHelper.logEvent(
-        e,
+      TLoggerHelper.logError(
+        error: e,
         stackTrace: s,
-        eventName: 'Error Fetching Listings',
+        message: 'Request failed',
+        method: 'Create Buy Order',
+        eventName: 'Buy Order',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

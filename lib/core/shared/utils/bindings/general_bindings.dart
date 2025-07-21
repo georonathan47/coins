@@ -64,8 +64,12 @@ class GeneralBindings extends Bindings {
       )
       ..put(
         SellController(
+          setHashUsecase: Get.find(),
+          verifyHashUsecase: Get.find(),
           calculateFeeUsecase: Get.find(),
           retrieveUserUsecase: Get.find(),
+          createSellOrderUsecase: Get.find(),
+          fetchUserPaymentDetailsUseCase: Get.find(),
         ),
       )
       //? Onboarding Controller

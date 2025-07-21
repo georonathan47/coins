@@ -38,6 +38,10 @@ class DeviceFailure extends Failure {
   const DeviceFailure(super.message);
 }
 
+class ConflictFailure extends Failure {
+  const ConflictFailure(super.message);
+}
+
 class InvalidInputFailure extends Failure {
   const InvalidInputFailure() : super('Invalid input');
 }

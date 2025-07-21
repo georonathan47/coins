@@ -1,3 +1,4 @@
+import '../../../features/sell/presentation/pages/success.dart';
 import 'data.dart';
 
 class Routers {
@@ -31,6 +32,7 @@ class Routers {
   static const regCaptcha = '/regCaptcha';
   static const selfieInfo = '/selfieInfo';
   static const legacyEmail = '/legacyEmail';
+  static const sellSuccess = '/sellSuccess';
   static const selfieUpload = '/selfieUpload';
   static const buyableAssets = '/buyableAssets';
   static const transactionInfo = '/transactionInfo';
@@ -226,6 +228,12 @@ class RouteManager {
         name: Routers.sellPay,
         transition: Transition.fadeIn,
         page: () => const SellPaymentPage(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: Routers.sellSuccess,
+        transition: Transition.fadeIn,
+        page: () => const SellSuccessPage(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

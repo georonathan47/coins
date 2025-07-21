@@ -43,7 +43,7 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
           eventName: 'checkStatus',
         );
         return KycStatus.fromJson(resultData['response']);
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'checkStatus',
           statusCode: result.statusCode!,

@@ -5,6 +5,7 @@ import 'data/repositories/payment_repo_impl.dart';
 import 'domain/repositories/payment_repository.dart';
 import 'domain/usecases/fetch_dash_portfolio_usecase.dart';
 import 'domain/usecases/get_payment_details_usecase.dart';
+import 'domain/usecases/user_payment_details_usecase.dart';
 
 class PaymentBindings extends Bindings {
   @override
@@ -34,6 +35,8 @@ class PaymentBindings extends Bindings {
       // ..lazyPut(() => FetchCurrenciesUsecase(Get.find()))
       // ..lazyPut(() => FetchPaymentModesUsecase(Get.find()))
       ..lazyPut(() => GetPaymentDetailsUsecase(Get.find()))
-      ..lazyPut(() => FetchDashPortfolioUsecase(Get.find()));
+      ..lazyPut(() => FetchDashPortfolioUsecase(Get.find()))
+      ..lazyPut(() => FetchUserPaymentDetailsUseCase(Get.find()))
+      ;
   }
 }
