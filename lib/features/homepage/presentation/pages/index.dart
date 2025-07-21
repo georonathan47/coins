@@ -1,6 +1,5 @@
 import 'package:upgrader/upgrader.dart';
 
-import '../../data/models/data.dart';
 import '../widgets/widgets.dart';
 
 class Index extends StatefulWidget {
@@ -61,11 +60,11 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
                 children: [
                   Dashboard(),
                   Center(child: Text('Market')),
-                  Center(child: Text('News')),
+                  NewsPage(),
                   Center(child: Text('Account')),
                 ],
               ),
-              Positioned( 
+              Positioned(
                 right: MediaQuery.of(context).size.width * 0.015,
                 bottom: MediaQuery.of(context).size.height * 0.015,
                 child: FoldableOptions(
