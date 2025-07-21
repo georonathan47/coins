@@ -5,11 +5,11 @@ import '../../../../core/shared/constants/text_strings.dart';
 import '../../../../core/shared/error/exception.dart';
 import '../../../../core/shared/error/failures.dart';
 import '../../../../core/shared/platform/network_info.dart';
-import '../../../buy/data/models/buy_history_model.dart';
 import '../../domain/entities/create_sell_order.dart';
 import '../../domain/entities/set_transaction_hash.dart';
 import '../../domain/repositories/sell_repository.dart';
 import '../datasources/sell_remote_database.dart';
+import '../models/sell_history_model.dart';
 import '../models/sell_order_response.dart';
 
 class SellRepositoryImpl implements SellRepository {
@@ -84,7 +84,7 @@ class SellRepositoryImpl implements SellRepository {
   }
 
   @override
-  Future<Either<Failure, List<BuyHistoryModel>>> fetchOrderHistory() async {
+  Future<Either<Failure, List<SellHistoryModel>>> fetchOrderHistory() async {
     try {
       if (await networkInfo.hasInternet()) {
         final tokens = await authLocalDatabase.fetchTokens();

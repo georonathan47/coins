@@ -38,3 +38,4 @@ export 'sell/recipient.dart';
 export 'sell/sell_body.dart';
 export 'sell/summary.dart';
 export 'sell_history_body.dart';
+export 'sell_history_card.dart';

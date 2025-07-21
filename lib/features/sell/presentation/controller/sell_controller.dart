@@ -3,11 +3,11 @@ import 'dart:developer';
 import '../../../../core/auth/domain/entities/user.dart';
 import '../../../../core/shared/usecase/usecase.dart';
 import '../../../../core/shared/utils/logger.dart';
-import '../../../buy/data/models/buy_history_model.dart';
 import '../../../buy/domain/entities/fee_calculation.dart';
 import '../../../buy/presentation/controller/buy_controller.dart';
 import '../../../payment/data/models/user_payment_details.dart';
 import '../../../payment/domain/usecases/user_payment_details_usecase.dart';
+import '../../data/models/sell_history_model.dart';
 import '../../data/models/sell_order_response.dart';
 import '../../domain/entities/create_sell_order.dart';
 import '../../domain/entities/set_transaction_hash.dart';
@@ -276,7 +276,7 @@ class SellController extends GetxController {
     );
   }
 
-  Future<List<BuyHistoryModel>> history() async {
+  Future<List<SellHistoryModel>> history() async {
     final result = await fetchSellHistoryUsecase(NoParams());
     return result.fold((failure) {
       THelperFunctions.showSnackBar(

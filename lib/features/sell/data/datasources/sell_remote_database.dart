@@ -6,13 +6,13 @@ import '../../../../core/auth/data/datasources/auth_remote_database.dart';
 import '../../../../core/shared/constants/env.dart';
 import '../../../../core/shared/error/exception.dart';
 import '../../../../core/shared/utils/logger.dart';
-import '../../../buy/data/models/buy_history_model.dart';
 import '../../domain/entities/create_sell_order.dart';
 import '../../domain/entities/set_transaction_hash.dart';
+import '../models/sell_history_model.dart';
 import '../models/sell_order_response.dart';
 
 abstract class SellRemoteDatabase {
-  Future<List<BuyHistoryModel>> fetchOrderHistory(Map tokens);
+  Future<List<SellHistoryModel>> fetchOrderHistory(Map tokens);
   Future<String> setHash(SetTransactionHash order, Map tokens);
   Future<String> verifyHash(String transactionHash, Map tokens);
   Future<SellOrderResponse> createOrder(SellOrder order, Map tokens);
@@ -178,7 +178,7 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
   }
 
   @override
-  Future<List<BuyHistoryModel>> fetchOrderHistory(Map tokens) async {
+  Future<List<SellHistoryModel>> fetchOrderHistory(Map tokens) async {
     try {
       final result = await client.get(
         '${Env.sellHistoryUrl}=${tokens['userId']}',
@@ -187,12 +187,12 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
 
       if (result.statusCode! >= 200 && result.statusCode! < 300) {
         final List<dynamic> responseData = result.body;
-        List<BuyHistoryModel> history = responseData
-            .map((coin) => buyHistoryModelFromJson(jsonEncode(coin)))
+        List<SellHistoryModel> history = responseData
+            .map((coin) => sellHistoryModelFromJson(jsonEncode(coin)))
             .toList();
         TLoggerHelper.logApiResult(
           httpMethod: 'GET',
-          method: 'fetchBuyHistory',
+          method: 'fetchSellHistory',
           code: result.statusCode!,
           message: 'Fetched ${history.length} orders',
         );

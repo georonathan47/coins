@@ -9,58 +9,6 @@ class SellOrderHistoryBody extends StatelessWidget {
     return GetBuilder<SellController>(
       builder: (instance) => Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.all(16),
-          //   child: SingleChildScrollView(
-          //     scrollDirection: Axis.horizontal,
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children:
-          //           [
-          //                 'Approved',
-          //                 'Canceled',
-          //                 'Completed',
-          //                 'Pending Payment',
-          //                 'Rejected',
-          //               ]
-          //               .map(
-          //                 (status) => Padding(
-          //                   padding: const EdgeInsets.only(right: 8.0),
-          //                   child: FilterChip.elevated(
-          //                     // selected:
-          //                     // instance.filterStatus.value ==
-          //                     // status.replaceAll(' ', '_').toUpperCase(),
-          //                     onSelected: (value) {
-          //                       // setState(() {
-          //                       //   if (value) {
-          //                       //     instance.filterStatus.value = status
-          //                       //         .replaceAll(' ', '_')
-          //                       //         .toUpperCase();
-          //                       //     instance.filterBool.value = true;
-          //                       //   } else {
-          //                       //     instance.filterStatus.value = '';
-          //                       //     instance.filterBool.value = false;
-          //                       //   }
-          //                       // });
-          //                     },
-          //                     selectedColor: TColors.secondary,
-          //                     backgroundColor: TColors.secondary.withOpacity(
-          //                       0.2,
-          //                     ),
-          //                     label: Text(
-          //                       status,
-          //                       style: textTheme.bodyLarge?.copyWith(
-          //                         fontSize: 20,
-          //                         letterSpacing: .5,
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               )
-          //               .toList(),
-          //     ),
-          //   ),
-          // ),
           Expanded(
             child: FutureBuilder(
               future: instance.history(),
@@ -114,7 +62,7 @@ class SellOrderHistoryBody extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     final order = snapshot.requireData[index];
-                    return Card(child: BuyHistoryCard(order: order));
+                    return Card(child: SellHistoryCard(order: order));
                   },
                 );
               },
