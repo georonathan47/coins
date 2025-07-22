@@ -222,7 +222,7 @@ class SellSummaryState extends State<SellSummary> {
                               const SizedBox(height: TSizes.spaceBtwItems),
                               RichText(
                                 text: TextSpan(
-                                  text: 'Risk Warning: ',
+                                  text: 'Note : ',
                                   style: textTheme.bodyLarge?.copyWith(
                                     height: 1.5,
                                     fontSize: 18,
