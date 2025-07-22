@@ -80,7 +80,7 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
     try {
       final result = await client.post(
         Env.setHashIdUrl,
-        body: jsonEncode({'transactionHas': transactionHash}),
+        body: jsonEncode({'transactionHash': transactionHash}),
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
       );
       if (result.statusCode! >= 200 && result.statusCode! < 300) {

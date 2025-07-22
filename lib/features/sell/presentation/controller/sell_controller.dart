@@ -245,12 +245,10 @@ class SellController extends GetxController {
         setHashRqst.value.copyWith(orderId: orderId, hashId: hash.value.text),
       ),
     );
-    return result.fold(
-      (failure) => Future.error(failure.message),
-      (success) {
-        Get.offNamed(Routers.sellSuccess);
-        return success;},
-    );
+    return result.fold((failure) => Future.error(failure.message), (success) {
+      Get.offNamed(Routers.sellSuccess);
+      return success;
+    });
   }
 
   Future<List<UserPaymentDetail>> fetchUserPaymentDetails() async {

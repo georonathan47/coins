@@ -60,7 +60,7 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
         return details;
       } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
-          'getPaymentDetails',
+          'fetchPaymentDetails',
           statusCode: result.statusCode!,
         );
         try {

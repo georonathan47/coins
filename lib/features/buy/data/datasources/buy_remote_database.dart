@@ -283,8 +283,8 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         return createBuyOrderResponseFromJson(result.bodyString!);
       } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
-        'createOrder',
-        statusCode: result.statusCode!,
+          'createOrder',
+          statusCode: result.statusCode!,
         );
         try {
           final token = await authRemoteDatabase.refreshToken(tokens);
