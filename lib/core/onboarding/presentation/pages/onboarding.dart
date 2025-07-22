@@ -2,7 +2,7 @@ import '../../../auth/presentation/widgets/widgets.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:upgrader/upgrader.dart';
 
-import '../../../constants/svg_assets.dart';
+import '../../../shared/constants/svg_assets.dart';
 import '../controller/onboarding_controller.dart';
 import '../widgets/widgets.dart';
 

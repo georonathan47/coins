@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../core/usecase/usecase.dart';
-import '../../../data/result.dart';
+import '../../../shared/usecase/usecase.dart';
+import '../../../shared/data/result.dart';
 import '../repositories/onboarding_repo.dart';
 
 /// Save Onboarding usecase

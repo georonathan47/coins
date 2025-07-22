@@ -1,4 +1,4 @@
-import '../../../../core/middleware/auth_guard.dart';
+import '../../../../core/shared/middleware/auth_guard.dart';
 import 'widgets.dart';
 
 class TradeModalSheet extends StatelessWidget {

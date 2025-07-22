@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_ce/hive.dart';
 
-import '../../../../core/data/hive_adapters.dart';
+import '../../../shared/data/hive_adapters.dart';
 
 part 'onboarding.freezed.dart';
 part 'onboarding.g.dart';

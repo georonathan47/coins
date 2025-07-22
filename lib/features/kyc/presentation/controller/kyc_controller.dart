@@ -1,8 +1,8 @@
 import '../../../../core/auth/domain/entities/user.dart';
 import '../../../../core/auth/domain/usecases/retrieve_user.dart';
-import '../../../../core/usecase/open_image_camera.dart';
-import '../../../../core/usecase/open_image_gallery.dart';
-import '../../../../core/usecase/usecase.dart';
+import '../../../../core/shared/usecase/open_image_camera.dart';
+import '../../../../core/shared/usecase/open_image_gallery.dart';
+import '../../../../core/shared/usecase/usecase.dart';
 import '../../domain/entities/kyc_entity.dart';
 import '../../domain/entities/kyc_status.enum.dart';
 import '../../domain/usecases/check_status_usecase.dart';

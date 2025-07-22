@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../core/error/failures.dart';
-import '../../../../core/usecase/usecase.dart';
+import '../../../../core/shared/error/failures.dart';
+import '../../../../core/shared/usecase/usecase.dart';
 import '../entities/dash_portfolio.dart';
 import '../repositories/payment_repository.dart';
 

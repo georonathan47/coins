@@ -1,6 +1,5 @@
 import 'package:upgrader/upgrader.dart';
 
-import '../../data/models/data.dart';
 import '../widgets/widgets.dart';
 
 class Index extends StatefulWidget {
@@ -51,9 +50,6 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
           upgrader: Upgrader(
             debugLogging: kDebugMode,
             debugDisplayAlways: kDebugMode,
-            durationUntilAlertAgain: kDebugMode
-                ? Duration(days: 5)
-                : Duration(days: 3),
           ),
           child: Stack(
             children: [
@@ -64,7 +60,7 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
                 children: [
                   Dashboard(),
                   Center(child: Text('Market')),
-                  Center(child: Text('News')),
+                  NewsPage(),
                   Center(child: Text('Account')),
                 ],
               ),

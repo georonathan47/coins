@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'core/constants/colors.dart';
+import 'core/shared/constants/colors.dart';
 import 'flavors.dart';
 
 class FlavorBanner extends StatelessWidget {

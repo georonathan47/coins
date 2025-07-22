@@ -1,7 +1,7 @@
 import '../../../../core/auth/domain/usecases/fetch_user_info_usecase.dart';
 import '../../../../core/auth/domain/usecases/retrieve_user.dart';
 import '../../../../core/auth/domain/usecases/save_user_usecase.dart';
-import '../../../../core/usecase/usecase.dart';
+import '../../../../core/shared/usecase/usecase.dart';
 import '../../../buy/data/models/currency.dart';
 import '../../../buy/domain/entities/country.dart';
 import '../../../buy/domain/usecases/fetch_countries_usecase.dart';
@@ -152,15 +152,21 @@ class DashboardController extends GetxController {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  currency.name,
-                  style: textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  flex: 6,
+                  child: Text(
+                    currency.name,
+                    style: textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
+                Expanded(
+                  flex: 2,
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close),
+                  ),
                 ),
               ],
             ),
@@ -213,6 +219,7 @@ class DashboardController extends GetxController {
               data: currency.sparkline,
               cubicSmoothingFactor: 0.2,
               averageLineColor: TColors.accent,
+              gridLineColor: Colors.black.withOpacity(0.1),
               lineColor: Get.isDarkMode ? Colors.white : TColors.primary,
               fillGradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -226,7 +233,6 @@ class DashboardController extends GetxController {
                   Color(int.parse(currency.color.replaceAll('#', '0x0D'))),
                 ],
               ),
-              gridLineColor: Colors.black.withOpacity(0.1),
             ),
           ],
         ),

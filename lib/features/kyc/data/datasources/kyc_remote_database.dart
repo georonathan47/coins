@@ -3,9 +3,9 @@ import 'dart:io' as io;
 import 'package:get/get_connect.dart';
 
 import '../../../../core/auth/data/datasources/auth_remote_database.dart';
-import '../../../../core/constants/env.dart';
-import '../../../../core/error/exception.dart';
-import '../../../../core/utils/logger.dart';
+import '../../../../core/shared/constants/env.dart';
+import '../../../../core/shared/error/exception.dart';
+import '../../../../core/shared/utils/logger.dart';
 import '../../domain/entities/kyc_entity.dart';
 import '../../domain/entities/kyc_status.enum.dart';
 
@@ -43,7 +43,7 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
           eventName: 'checkStatus',
         );
         return KycStatus.fromJson(resultData['response']);
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'checkStatus',
           statusCode: result.statusCode!,
@@ -55,10 +55,10 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return checkStatus(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -125,10 +125,10 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return initiateKyc(request, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (error, stack) {
       TLoggerHelper.logEvent(
@@ -139,7 +139,7 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
       if (error is BadRequestException) {
         throw BadRequestException(error.message);
       } else if (error is ServerException) {
-        throw ServerException();
+        throw ServerException(error.message);
       }
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

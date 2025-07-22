@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../../core/auth/presentation/widgets/widgets.dart';
-import '../../../../core/data/static_files.dart';
+import '../../../../core/shared/data/static_files.dart';
 
 const indexList = [
   {"name": "Home", "icon": CupertinoIcons.home},

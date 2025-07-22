@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/error/exception.dart';
+import '../../../../core/shared/error/exception.dart';
 import '../../domain/entities/kyc_status.enum.dart';
 
 abstract class KycLocalDatabase {

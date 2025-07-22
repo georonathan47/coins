@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../../core/error/failures.dart';
-import '../../../../core/usecase/usecase.dart';
+import '../../../../core/shared/error/failures.dart';
+import '../../../../core/shared/usecase/usecase.dart';
 import '../../data/models/buy_history_model.dart';
 import '../repositories/buy_repository.dart';
 

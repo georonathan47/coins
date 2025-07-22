@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:get/get_connect.dart';
 
 import '../../../../core/auth/data/datasources/auth_remote_database.dart';
-import '../../../../core/constants/env.dart';
-import '../../../../core/error/exception.dart';
-import '../../../../core/utils/logger.dart';
+import '../../../../core/shared/constants/env.dart';
+import '../../../../core/shared/error/exception.dart';
+import '../../../../core/shared/utils/logger.dart';
 import '../../domain/entities/bank.dart';
 import '../../domain/entities/coin_data.dart';
 import '../../domain/entities/country.dart';
@@ -55,7 +55,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
             .toSet()
             .toList();
         return countries;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchCountries',
           statusCode: result.statusCode!,
@@ -67,10 +67,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchCountries(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -96,7 +96,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${coinData.length} listed currencies',
         );
         return coinData;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchListings',
           statusCode: result.statusCode!,
@@ -108,10 +108,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchListings(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -149,7 +149,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         throw NoResultException(
           'Buy/Sell rate with the provided parameters does not exist',
         );
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'calculateFees',
           statusCode: result.statusCode!,
@@ -161,10 +161,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return calculateFees(request, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -192,7 +192,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${currencies.length} currencies for country $countryId',
         );
         return currencies;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchCurrencies',
           statusCode: result.statusCode!,
@@ -204,10 +204,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchCurrencies(countryId, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e) {
       throw DeviceException('Unexpected Error!\nPlease try again later');
@@ -235,7 +235,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${coinData.length} tradable coins for country $countryId',
         );
         return coinData;
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'fetchTradableCoins',
           statusCode: result.statusCode!,
@@ -247,10 +247,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchTradableCoins(countryId, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -281,7 +281,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: result.bodyString!,
         );
         return createBuyOrderResponseFromJson(result.bodyString!);
-      } else if (result.statusCode! == 401 || result.statusCode! == 403) {
+      } else if (result.statusCode! == 401) {
         TLoggerHelper.logRefreshAttempt(
           'createOrder',
           statusCode: result.statusCode!,
@@ -293,16 +293,18 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return createOrder(request, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
-      TLoggerHelper.logEvent(
-        e,
+      TLoggerHelper.logError(
+        error: e,
         stackTrace: s,
-        eventName: 'Error Fetching Listings',
+        message: 'Request failed',
+        method: 'Create Buy Order',
+        eventName: 'Buy Order',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }
@@ -343,10 +345,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchPaymentModes(country, tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -390,10 +392,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchBanks(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -444,10 +446,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchMomoList(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logEvent(
@@ -461,7 +463,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
 
   @override
   Future<List<BuyHistoryModel>> fetchHistory(Map tokens) async {
-     try {
+    try {
       final result = await client.get(
         '${Env.buyHistoryUrl}=${tokens['userId']}',
         headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
@@ -491,10 +493,10 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           tokens['refreshToken'] = token.refreshToken;
           return fetchHistory(tokens);
         } catch (e) {
-          throw ServerException();
+          throw ServerException(result.statusText!);
         }
       } else {
-        throw ServerException();
+        throw ServerException(result.statusText!);
       }
     } catch (e, s) {
       TLoggerHelper.logError(

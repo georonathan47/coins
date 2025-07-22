@@ -9,7 +9,7 @@ import '../../domain/usecases/logout_usecase.dart';
 import '../../domain/usecases/refresh_token_usecase.dart';
 import '../../domain/usecases/reset_password_usecase.dart';
 import '../../domain/usecases/retrieve_user.dart';
-import '../../../usecase/usecase.dart';
+import '../../../shared/usecase/usecase.dart';
 import '../../domain/usecases/save_user_usecase.dart';
 import '../../domain/usecases/send_login_otp_usecase.dart';
 import '../../domain/usecases/signup_usecase.dart';

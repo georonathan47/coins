@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../core/usecase/usecase.dart';
+import '../../../shared/usecase/usecase.dart';
 import '../../domain/usecases/save_onboarding.dart';
 
 class OnboardingController extends GetxController {

@@ -2,9 +2,10 @@ import 'dart:developer' show log;
 
 import 'package:fpdart/fpdart.dart';
 
-import '../../../error/exception.dart';
-import '../../../error/failures.dart';
-import '../../../platform/network_info.dart';
+import '../../../shared/constants/text_strings.dart';
+import '../../../shared/error/exception.dart';
+import '../../../shared/error/failures.dart';
+import '../../../shared/platform/network_info.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/auth_local_database.dart';
@@ -32,20 +33,14 @@ class AuthRepoImpl implements AuthRepository {
         await localDatabase.saveTokens(response);
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } on BadRequestException catch (e) {
       return Left(ServerFailure(e.message));
     } on ServerException {
       return Left(Failure('Server error. Please try again later.'));
     } on NoInternetException {
-      return Left(
-        Failure('No internet connection. Please check your connection.'),
-      );
+      return Left(NetworkFailure(TTexts.noInternetMessage));
     } catch (e) {
       return Left(Failure(e.toString()));
     }
@@ -59,11 +54,7 @@ class AuthRepoImpl implements AuthRepository {
         await localDatabase.saveTokens(response);
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -79,11 +70,7 @@ class AuthRepoImpl implements AuthRepository {
         await localDatabase.saveUserInfo(response);
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -109,11 +96,7 @@ class AuthRepoImpl implements AuthRepository {
         await localDatabase.saveTokens(response);
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -130,11 +113,7 @@ class AuthRepoImpl implements AuthRepository {
         await localDatabase.logoutUser();
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -148,11 +127,7 @@ class AuthRepoImpl implements AuthRepository {
         final response = await remoteDatabase.resetPassword(request);
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -169,11 +144,7 @@ class AuthRepoImpl implements AuthRepository {
         log(response.toString(), name: 'Update User Response');
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -190,11 +161,7 @@ class AuthRepoImpl implements AuthRepository {
         );
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));
@@ -212,11 +179,7 @@ class AuthRepoImpl implements AuthRepository {
         // fetchUserInfo(request.userId!);
         return Right(response);
       } else {
-        return Left(
-          Failure(
-            'No internet connection. Please check your internet connection and try again!',
-          ),
-        );
+        return Left(NetworkFailure(TTexts.noInternetMessage));
       }
     } catch (e) {
       return Left(Failure(e.toString()));

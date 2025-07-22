@@ -1,5 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import '../../../../core/error/failures.dart';
+import '../../../../core/shared/error/failures.dart';
 import '../entities/kyc_entity.dart';
 import '../entities/kyc_status.enum.dart';
 

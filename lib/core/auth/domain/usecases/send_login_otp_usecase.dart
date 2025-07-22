@@ -1,7 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 
-import '../../../error/failures.dart';
-import '../../../usecase/usecase.dart';
+import '../../../shared/error/failures.dart';
+import '../../../shared/usecase/usecase.dart';
 import '../repositories/auth_repository.dart';
 
 class SendLoginOtpUseCase extends UseCase<String, ObjectParams<int>> {

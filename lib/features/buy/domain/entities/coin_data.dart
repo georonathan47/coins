@@ -72,4 +72,18 @@ class CoinData {
     "displaySection": List<dynamic>.from(displaySection.map((x) => x)),
     "sparkline": List<dynamic>.from(sparkline.map((x) => x)),
   };
+
+  factory CoinData.empty() {
+    return CoinData(
+      id: 0,
+      name: '',
+      symbol: '',
+      price: '0.00',
+      percentageChange: '0.00',
+      icon: '',
+      color: '#000000',
+      displaySection: [],
+      sparkline: [],
+    );
+  }
 }

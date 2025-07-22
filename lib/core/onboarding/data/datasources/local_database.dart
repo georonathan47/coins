@@ -1,6 +1,6 @@
 import 'package:hive_ce/hive.dart';
 
-import '../../../../core/error/exception.dart';
+import '../../../shared/error/exception.dart';
 import '../../domain/entities/onboarding.dart';
 
 abstract class OnboardingLocalDatabase {

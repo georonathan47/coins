@@ -1,4 +1,4 @@
-import '../../../../core/presentation/widgets/sidebar/sidebar.dart';
+import '../../../../core/shared/presentation/widgets/sidebar/sidebar.dart';
 import '../widgets/widgets.dart';
 
 class Dashboard extends StatefulWidget {

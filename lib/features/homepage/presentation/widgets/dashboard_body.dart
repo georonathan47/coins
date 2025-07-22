@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../../../../core/presentation/widgets/success_screen/error.dart';
+import '../../../../core/shared/presentation/widgets/success_screen/error.dart';
 import 'dashboard/trending_assets_shimmer.dart';
 import 'widgets.dart';
 
@@ -62,20 +62,16 @@ class _DashboardBodyState extends State<DashboardBody> {
       children: [
         Obx(
           () => Text(
-            'Hello, ${instance.currentUser.value.firstname}!',
+            'Hello, ${Get.find<AuthController>().currentUser.value.firstname}!',
             style: textTheme.titleLarge,
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         const PortfolioSummary(),
-        const SizedBox(height: TSizes.spaceBtwItems),
         const ActionButtons(),
-        const SizedBox(height: TSizes.spaceBtwSections),
         Text(
           'Trending Assets',
           style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         SizedBox(
           height: Get.height / 14,
           child: FutureBuilder(
@@ -152,12 +148,11 @@ class _DashboardBodyState extends State<DashboardBody> {
             },
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwSections),
+        const SizedBox(height: TSizes.spaceBtwItems),
         Text(
           'Assets',
           style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
         SizedBox(
           height: Get.height / 2.5,
           child: FutureBuilder(
@@ -189,25 +184,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                 itemCount: snapshot.requireData.length,
                 itemBuilder: (context, index) {
                   final coinData = snapshot.requireData[index];
-                  return InkWell(
-                    onTap: () async {
-                      showDialog(
-                        context: context,
-                        builder: (_) =>
-                            const Center(child: CircularProgressIndicator()),
-                      );
-                      final result = await instance.fetchCurrencies();
-                      final currency = result.firstWhere(
-                        (element) => element.currencyName == coinData.name,
-                      );
-                      Get.back();
-                      Get.toNamed(
-                        Routers.buy,
-                        arguments: {'coinData': coinData, 'currency': currency},
-                      );
-                    },
-                    child: CurrencyCard(currency: coinData),
-                  );
+                  return CurrencyCard(coinData: coinData);
                 },
               );
             },
