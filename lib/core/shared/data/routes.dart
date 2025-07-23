@@ -1,3 +1,4 @@
+import '../../../features/news/presentation/pages/news_details.dart';
 import '../../../features/sell/presentation/pages/history.dart';
 import '../../../features/sell/presentation/pages/success.dart';
 import 'data.dart';
@@ -33,6 +34,7 @@ class Routers {
   static const regCaptcha = '/regCaptcha';
   static const selfieInfo = '/selfieInfo';
   static const legacyEmail = '/legacyEmail';
+  static const newsDetails = '/newsDetails';
   static const sellHistory = '/sellHistory';
   static const sellSuccess = '/sellSuccess';
   static const selfieUpload = '/selfieUpload';
@@ -47,7 +49,7 @@ class RouteManager {
 
   static List<GetPage> getPages() {
     return [
-      // Onboarding
+      // Onboarding and Auth
       GetPage(
         name: Routers.splash,
         transition: Transition.fadeIn,
@@ -120,6 +122,7 @@ class RouteManager {
         page: () => const CheckEmail(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
+
       /// Buy
       GetPage(
         name: Routers.buy,
@@ -213,6 +216,7 @@ class RouteManager {
         page: () => const TransactionInfoPage(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
+
       /// Sell
       GetPage(
         name: Routers.actionSell,
@@ -242,6 +246,14 @@ class RouteManager {
         name: Routers.sellHistory,
         transition: Transition.fadeIn,
         page: () => const SellOrderHistory(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+
+      /// News
+       GetPage(
+        name: Routers.newsDetails,
+        transition: Transition.fadeIn,
+        page: () => const NewsDetails(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];

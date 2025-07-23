@@ -1,6 +1,7 @@
 import '../../../../features/buy/presentation/controller/buy_controller.dart';
 import '../../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../../../features/kyc/presentation/controller/kyc_controller.dart';
+import '../../../../features/news/presentation/controller/news_controller.dart';
 import '../../../../features/sell/presentation/controller/sell_controller.dart';
 import '../../../onboarding/presentation/controller/onboarding_controller.dart';
 
@@ -74,6 +75,12 @@ class GeneralBindings extends Bindings {
         ),
       )
       //? Onboarding Controller
+      ..put(
+        NewsController(
+          searchNewsUsecase: Get.find(),
+          fetchAllNewsUsecase: Get.find(),
+        ),
+      )
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
   }
 }
