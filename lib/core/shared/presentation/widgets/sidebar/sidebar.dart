@@ -86,12 +86,24 @@ class _SidebarState extends State<Sidebar> {
                         title: 'Transactions',
                         icon: Iconsax.transaction_minus,
                         children: [
-                          NavDrawerItem(
-                            icon: Icons.swap_horiz,
-                            text: 'Trade',
-                            onTap: () {
-                              // Navigate to settings
-                            },
+                          Card(
+                            child: SidebarCategory(
+                              icon: Icons.swap_horiz,
+                              title: 'Trade',
+                              bgColor: Colors.transparent,
+                              children: [
+                                NavDrawerItem(
+                                  text: 'Buy',
+                                  icon: Icons.swap_horiz,
+                                  onTap: () => Get.toNamed(Routers.actionBuy),
+                                ),
+                                NavDrawerItem(
+                                  text: 'Sell',
+                                  icon: Icons.swap_horiz,
+                                  onTap: () => Get.toNamed(Routers.actionSell),
+                                ),
+                              ],
+                            ),
                           ),
                           Card(
                             child: SidebarCategory(
