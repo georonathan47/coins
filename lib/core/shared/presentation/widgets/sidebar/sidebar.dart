@@ -59,7 +59,6 @@ class _SidebarState extends State<Sidebar> {
                             text: 'Verify Account',
                             onTap: () {
                               Get.back();
-
                               Get.find<AuthGuard>().checkKycAndExecute(() {});
                             },
                           ),
@@ -67,7 +66,8 @@ class _SidebarState extends State<Sidebar> {
                             icon: Iconsax.money_2,
                             text: 'Payment Methods',
                             onTap: () {
-                              // Navigate to settings
+                              Get.back();
+                              Get.toNamed(Routers.payAccounts);
                             },
                           ),
                           NavDrawerItem(

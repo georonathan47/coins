@@ -1,4 +1,5 @@
 import '../../../features/news/presentation/pages/news_details.dart';
+import '../../../features/payaccounts/presentation/pages/welcome_page.dart';
 import '../../../features/sell/presentation/pages/history.dart';
 import '../../../features/sell/presentation/pages/success.dart';
 import 'data.dart';
@@ -35,6 +36,7 @@ class Routers {
   static const selfieInfo = '/selfieInfo';
   static const legacyEmail = '/legacyEmail';
   static const newsDetails = '/newsDetails';
+  static const payAccounts = '/payAccounts';
   static const sellHistory = '/sellHistory';
   static const sellSuccess = '/sellSuccess';
   static const selfieUpload = '/selfieUpload';
@@ -254,6 +256,14 @@ class RouteManager {
         name: Routers.newsDetails,
         transition: Transition.fadeIn,
         page: () => const NewsDetails(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+
+      ///  PayAccounts
+      GetPage(
+        name: Routers.payAccounts,
+        transition: Transition.fadeIn,
+        page: () => const PayAccountsWelcomePage(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
     ];
