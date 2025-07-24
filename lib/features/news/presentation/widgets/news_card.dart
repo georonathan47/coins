@@ -10,7 +10,7 @@ class NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Get.textTheme;
     return InkWell(
-      onTap: () => Get.toNamed(Routers.newsDetails),
+      onTap: () => Get.toNamed(Routers.newsDetails, arguments: news),
       child: Card(
         elevation: 4,
         margin: const EdgeInsets.all(8.0),

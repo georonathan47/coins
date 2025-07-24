@@ -12,20 +12,17 @@ class NewsController extends GetxController {
   static NewsController get instance => Get.find();
 
   List<News> _allNews = [];
-  List<News> _displayedNews = [];
+  final displayedNews = <News>[].obs;
   int _currentPage = 0;
   final int _pageSize = 10;
-  bool _isLoadingMore = false;
-  bool _hasMoreData = true;
+  final isLoadingMore = false.obs;
+  final hasMoreData = true.obs;
+  final isInitialLoading = true.obs;
 
   NewsController({
     required this.searchNewsUsecase,
     required this.fetchAllNewsUsecase,
   });
-
-  List<News> get displayedNews => _displayedNews;
-  bool get isLoadingMore => _isLoadingMore;
-  bool get hasMoreData => _hasMoreData;
 
   @override
   void onInit() {
@@ -33,41 +30,43 @@ class NewsController extends GetxController {
     fetchAll();
   }
 
-  Future<List<News>> fetchAll() async {
+  Future<void> fetchAll() async {
+    if (_allNews.isNotEmpty) return; // Prevent multiple calls
+    
+    isInitialLoading.value = true;
     final result = await fetchAllNewsUsecase(NoParams());
-    return result.fold(
+    
+    result.fold(
       (failure) {
+        isInitialLoading.value = false;
         THelperFunctions.showSnackBar(
           title: 'Error!',
           message: failure.message,
           bgColor: TColors.error,
         );
-        return Future.error(failure.message);
       },
       (success) {
         _allNews = success;
         _currentPage = 0;
-        _displayedNews = _getPageData();
-        _hasMoreData = _displayedNews.length < _allNews.length;
-        return success;
+        displayedNews.value = _getPageData();
+        hasMoreData.value = displayedNews.length < _allNews.length;
+        isInitialLoading.value = false;
       },
     );
   }
 
   void loadMore() {
-    if (_isLoadingMore || !_hasMoreData) return;
+    if (isLoadingMore.value || !hasMoreData.value) return;
 
-    _isLoadingMore = true;
-    update();
+    isLoadingMore.value = true;
 
-    // Simulate loading delay
-    Future.delayed(const Duration(milliseconds: 500), () {
+    // Simulate loading delay for better UX
+    Future.delayed(const Duration(milliseconds: 800), () {
       _currentPage++;
       final newItems = _getPageData();
-      _displayedNews.addAll(newItems);
-      _hasMoreData = _displayedNews.length < _allNews.length;
-      _isLoadingMore = false;
-      update();
+      displayedNews.addAll(newItems);
+      hasMoreData.value = displayedNews.length < _allNews.length;
+      isLoadingMore.value = false;
     });
   }
 
@@ -77,6 +76,15 @@ class NewsController extends GetxController {
 
     if (startIndex >= _allNews.length) return [];
     return _allNews.sublist(startIndex, endIndex);
+  }
+
+  void refreshData() {
+    _allNews.clear();
+    displayedNews.clear();
+    _currentPage = 0;
+    hasMoreData.value = true;
+    isLoadingMore.value = false;
+    fetchAll();
   }
 
   Future<List<News>> search(String query) async {

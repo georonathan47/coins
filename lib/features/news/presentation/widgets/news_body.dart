@@ -1,8 +1,6 @@
 import '../controller/news_controller.dart';
-import 'news_card.dart';
 import 'news_card_shimmer.dart';
 import 'widget.dart';
-import '../../domain/entities/news.dart';
 
 class NewsBody extends StatelessWidget {
   const NewsBody({super.key});
@@ -10,102 +8,73 @@ class NewsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Get.textTheme;
-    return GetBuilder<NewsController>(
-      builder: (instance) => FutureBuilder<List<News>>(
-        future: instance.fetchAll(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return ListView.builder(
-              itemCount: 5,
-              itemBuilder: (ctx, index) {
-                return const NewsCardShimmer();
-              },
-            );
-          }
+    final controller = NewsController.instance;
 
-          if (snapshot.hasError) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
-                  const SizedBox(height: 16),
-                  Text('Error loading news', style: textTheme.titleLarge),
-                  const SizedBox(height: 8),
-                  Text(
-                    snapshot.error.toString(),
-                    style: textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => instance.update(),
-                    child: const Text('Retry'),
-                  ),
-                ],
+    return Obx(() {
+      // Initial loading state
+      if (controller.isInitialLoading.value) {
+        return ListView.builder(
+          itemCount: 5,
+          itemBuilder: (ctx, index) {
+            return const NewsCardShimmer();
+          },
+        );
+      }
+
+      // Empty state
+      if (controller.displayedNews.isEmpty) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.article_outlined, size: 64, color: Colors.grey[400]),
+              const SizedBox(height: 16),
+              Text('No news available', style: textTheme.titleLarge),
+              const SizedBox(height: 8),
+              Text('Check back later for updates', style: textTheme.bodyMedium),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () => controller.refreshData(),
+                child: const Text('Refresh'),
               ),
-            );
-          }
+            ],
+          ),
+        );
+      }
 
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.article_outlined,
-                    size: 64,
-                    color: Colors.grey[400],
-                  ),
-                  const SizedBox(height: 16),
-                  Text('No news available', style: textTheme.titleLarge),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Check back later for updates',
-                    style: textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-            );
+      // News list with pagination
+      return NotificationListener<ScrollNotification>(
+        onNotification: (ScrollNotification scrollInfo) {
+          if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+              controller.hasMoreData.value == true &&
+              controller.isLoadingMore.value == false) {
+            controller.loadMore();
           }
-
-          return GetBuilder<NewsController>(
-            builder: (controller) {
-              final displayedNews = controller.displayedNews;
-              return NotificationListener<ScrollNotification>(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels ==
-                          scrollInfo.metrics.maxScrollExtent &&
-                      controller.hasMoreData &&
-                      !controller.isLoadingMore) {
-                    controller.loadMore();
-                  }
-                  return false;
-                },
-                child: ListView.builder(
-                  itemBuilder: (ctx, index) {
-                    if (index < displayedNews.length) {
-                      final news = displayedNews[index];
-                      return NewsCard(news: news);
-                    } else {
-                      // Loading indicator for more items
-                      return controller.isLoadingMore
-                          ? const Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            )
-                          : const SizedBox.shrink();
-                    }
-                  },
-                  itemCount:
-                      displayedNews.length + (controller.hasMoreData ? 1 : 0),
-                  physics: const BouncingScrollPhysics(),
-                ),
-              );
-            },
-          );
+          return false;
         },
-      ),
-    );
+        child: ListView.builder(
+          itemBuilder: (ctx, index) {
+            if (index < controller.displayedNews.length) {
+              final news = controller.displayedNews[index];
+              return NewsCard(news: news);
+            } else {
+              // Loading shimmer cards for pagination
+              return controller.isLoadingMore.value
+                  ? Column(
+                      children: List.generate(
+                        1, // Show 1 shimmer card while loading more
+                        (shimmerIndex) => const NewsCardShimmer(),
+                      ),
+                    )
+                  : const SizedBox.shrink();
+            }
+          },
+          itemCount:
+              controller.displayedNews.length +
+              (controller.hasMoreData.value == true ? 1 : 0),
+          physics: const BouncingScrollPhysics(),
+        ),
+      );
+    });
   }
 }
