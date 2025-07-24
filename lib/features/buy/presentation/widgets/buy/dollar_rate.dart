@@ -1,7 +1,10 @@
+import '../../../data/models/currency.dart';
 import '../widgets.dart';
 
 class DollarRate extends StatefulWidget {
-  const DollarRate({super.key});
+  const DollarRate({super.key, required this.coinData, required this.currency});
+  final CoinData coinData;
+  final Currency currency;
 
   @override
   State<DollarRate> createState() => _DollarRateState();
@@ -117,18 +120,49 @@ class _DollarRateState extends State<DollarRate> {
                                         color: Colors.white,
                                       ),
                                       onChanged: (amount) {
-                                        setState(() => _isLoading = true);
-                                        THelperFunctions.debounce(() async {
-                                          try {
-                                            await instance.calculate();
-                                          } finally {
-                                            if (mounted) {
-                                              setState(
-                                                () => _isLoading = false,
+                                        final amount = instance
+                                            .dollar
+                                            .value
+                                            .text
+                                            .trim();
+                                        final amountIsValid =
+                                            amount.isNotEmpty &&
+                                            double.tryParse(amount) != null &&
+                                            double.parse(amount) >= 10.0;
+                                        if (amountIsValid) {
+                                          THelperFunctions.debounce(() async {
+                                            if (instance
+                                                .network
+                                                .value
+                                                .isEmpty) {
+                                              THelperFunctions.showSnackBar(
+                                                bgColor: TColors.error,
+                                                title: 'Validation Error!',
+                                                message:
+                                                    'Please select network fee type.',
                                               );
+                                              return;
                                             }
-                                          }
-                                        });
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) => const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              ),
+                                            );
+                                            instance.currencyId.value =
+                                                widget.currency.id;
+                                            await instance.calculate();
+                                          });
+                                        } else {
+                                          THelperFunctions.showSnackBar(
+                                            bgColor: TColors.error,
+                                            title: 'Validation Error!',
+                                            message:
+                                                'Please enter a valid amount greater than or equal to \$ 10.00',
+                                          );
+                                          return;
+                                        }
                                       },
                                     ),
                                   ),

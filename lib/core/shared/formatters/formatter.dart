@@ -36,4 +36,13 @@ class TFormatter {
     // Add more custom phone number formatting logic for different formats if needed.
     return phoneNumber;
   }
+
+   static String formatDateString(String dateString) {
+    try {
+      final date = DateTime.parse(dateString);
+      return DateFormat('MMM dd, yyyy • HH:mm').format(date);
+    } catch (e) {
+      return dateString;
+    }
+  }
 }

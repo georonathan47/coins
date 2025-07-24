@@ -67,7 +67,7 @@ class BuyBodyState extends State<BuyBody> {
             color: TColors.accent,
             size: TSizes.iconLg * 1.5,
           ),
-          const DollarRate(),
+          DollarRate(coinData: widget.coinData, currency: widget.currency),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
