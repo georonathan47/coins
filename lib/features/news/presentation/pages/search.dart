@@ -8,18 +8,18 @@ class NewsSearchDelegate extends SearchDelegate<String> {
   final instance = NewsController.instance;
   @override
   String get searchFieldLabel => 'Search news...';
-  List<News> filterSearch(String query) {
+  Future<void> performSearch(String query) async {
     if (query.isEmpty) {
-      return instance.newsList;
+      searchResults.clear();
+      return;
     }
 
-    return instance.newsList.where((session) {
-      final lowercaseQuery = query.toLowerCase();
-      final lowercaseHeadline = session.headline.toLowerCase();
-
-      return lowercaseHeadline
-          .contains(lowercaseQuery.toLowerCase());
-    }).toList();
+    try {
+      final results = await instance.search(query);
+      searchResults.value = results;
+    } catch (e) {
+      searchResults.clear();
+    }
   }
 
   @override
@@ -54,8 +54,7 @@ class NewsSearchDelegate extends SearchDelegate<String> {
     return StatefulBuilder(
       builder: (context, setState) {
         THelperFunctions.debounce(() {
-          final filteredSessions = filterSearch(query);
-          searchResults.value = filteredSessions;
+          performSearch(query);
         });
 
         if (searchResults.isEmpty && query.isNotEmpty) {
@@ -65,7 +64,10 @@ class NewsSearchDelegate extends SearchDelegate<String> {
               children: [
                 Icon(Icons.article_outlined, size: 64, color: Colors.grey[400]),
                 const SizedBox(height: 16),
-                Text('No news match your search query', style: Get.textTheme.titleLarge),
+                Text(
+                  'No news match your search query',
+                  style: Get.textTheme.titleLarge,
+                ),
                 const SizedBox(height: 8),
                 Text(
                   'Kindly search for something else...',
@@ -76,10 +78,9 @@ class NewsSearchDelegate extends SearchDelegate<String> {
           );
         }
         return Obx(() {
-          return ListView.separated(
+          return ListView.builder(
             itemCount: searchResults.length,
             padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
-            separatorBuilder: (context, index) => SizedBox(height: TSizes.md),
             itemBuilder: (context, index) {
               final result = searchResults[index];
               return NewsCard(news: result);
