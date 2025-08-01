@@ -184,7 +184,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                 itemCount: snapshot.requireData.length,
                 itemBuilder: (context, index) {
                   final coinData = snapshot.requireData[index];
-                  return CurrencyCard(coinData: coinData);
+                  return NewCurrencyCard(coinData: coinData);
                 },
               );
             },
