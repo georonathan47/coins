@@ -1,5 +1,6 @@
 import '../../../features/news/presentation/pages/news_details.dart';
-import '../../../features/payaccounts/presentation/pages/welcome_page.dart';
+import '../../../features/payment/presentation/pages/add_bank_account.dart';
+import '../../../features/payment/presentation/pages/welcome_page.dart';
 import '../../../features/sell/presentation/pages/history.dart';
 import '../../../features/sell/presentation/pages/success.dart';
 import 'data.dart';
@@ -41,6 +42,8 @@ class Routers {
   static const sellSuccess = '/sellSuccess';
   static const selfieUpload = '/selfieUpload';
   static const buyableAssets = '/buyableAssets';
+  static const addMomoAccount = '/addMomoAccount';
+  static const addBankAccount = '/addBankAccount';
   static const transactionInfo = '/transactionInfo';
   static const paymentSelection = '/paymentSelection';
   static const kycPersonalDetails = '/kycPersonalDetails';
@@ -266,6 +269,18 @@ class RouteManager {
         page: () => const PayAccountsWelcomePage(),
         transitionDuration: const Duration(milliseconds: 500),
       ),
+      GetPage(
+        name: Routers.addBankAccount,
+        transition: Transition.fadeIn,
+        page: () => const AddBankAccount(),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+      // GetPage(
+      //   name: Routers.addMomoAccount,
+      //   transition: Transition.fadeIn,
+      //   page: () => const AddMomoAccount(),
+      //   transitionDuration: const Duration(milliseconds: 500),
+      // ),
     ];
   }
 }

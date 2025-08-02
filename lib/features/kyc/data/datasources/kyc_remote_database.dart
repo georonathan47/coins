@@ -43,7 +43,7 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
           eventName: 'checkStatus',
         );
         return KycStatus.fromJson(resultData['response']);
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'checkStatus',
           statusCode: result.statusCode!,
@@ -113,7 +113,7 @@ class KycRemoteDatabaseImpl implements KycRemoteDatabase {
         );
         final response = jsonDecode(result.bodyString!);
         return response['response'];
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'initiateKyc',
           statusCode: result.statusCode!,

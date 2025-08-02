@@ -2,6 +2,7 @@ import '../../../../features/buy/presentation/controller/buy_controller.dart';
 import '../../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../../../features/kyc/presentation/controller/kyc_controller.dart';
 import '../../../../features/news/presentation/controller/news_controller.dart';
+import '../../../../features/payment/presentation/controller/pay_accounts_controller.dart';
 import '../../../../features/sell/presentation/controller/sell_controller.dart';
 import '../../../onboarding/presentation/controller/onboarding_controller.dart';
 
@@ -79,6 +80,16 @@ class GeneralBindings extends Bindings {
         NewsController(
           searchNewsUsecase: Get.find(),
           fetchAllNewsUsecase: Get.find(),
+        ),
+      )
+      ..put(
+        PayAccountsController(
+          fetchMomoUsecase: Get.find(),
+          fetchBanksUsecase: Get.find(),
+          retrieveUserUsecase: Get.find(),
+          addPayAccountUsecase: Get.find(),
+          fetchCountriesUsecase: Get.find(),
+          fetchUserPaymentDetailsUseCase: Get.find(),
         ),
       )
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));
