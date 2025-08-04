@@ -12,9 +12,8 @@ abstract class PaymentRepository {
     String country,
   );
 
+  Future<Either<Failure, void>> deletePayAccount(int id);
   Future<Either<Failure, DashPortfolio>> fetchPortfolio();
-
   Future<Either<Failure, PayAccount>> addPayAccount(PayAccount request);
-
   Future<Either<Failure, List<UserPaymentDetail>>> fetchPaymentDetails();
 }

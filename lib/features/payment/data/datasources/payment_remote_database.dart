@@ -18,8 +18,8 @@ abstract class PaymentRemoteDatabase {
     String country,
     Map tokens,
   );
-
   Future<DashPortfolio> fetchPortfolio(Map tokens);
+  Future<void> deletePayAccount(int id, Map tokens);
   Future<PayAccount> addPayAccount(PayAccount request, Map tokens);
   Future<List<UserPaymentDetail>> fetchPaymentDetails(Map tokens);
 }
@@ -190,6 +190,43 @@ class PaymentRemoteDatabaseImpl implements PaymentRemoteDatabase {
           tokens['accessToken'] = token.accessToken;
           tokens['refreshToken'] = token.refreshToken;
           return addPayAccount(request, tokens);
+        } catch (e) {
+          throw ServerException(result.statusText!);
+        }
+      } else {
+        throw ServerException(result.statusText!);
+      }
+    } catch (e) {
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<void> deletePayAccount(int id, Map tokens) async {
+    try {
+      final result = await client.delete(
+        '${Env.deletePayAccountUrl}=$id',
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        TLoggerHelper.logApiResult(
+          httpMethod: 'DELETE',
+          code: result.statusCode!,
+          method: 'deletePayAccount',
+          message: 'Deleted pay account with id $id for user ${tokens['userId']}',
+        );
+        return;
+      } else if (result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'deletePayAccount',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return deletePayAccount(id, tokens);
         } catch (e) {
           throw ServerException(result.statusText!);
         }

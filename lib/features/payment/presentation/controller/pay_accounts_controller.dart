@@ -7,6 +7,7 @@ import '../../../buy/domain/usecases/fetch_momo_list_usecase.dart';
 import '../../data/models/user_payment_details.dart';
 import '../../domain/entities/pay_account.dart';
 import '../../domain/usecases/add_pay_account_usecase.dart';
+import '../../domain/usecases/delete_account_usecase.dart';
 import '../../domain/usecases/user_payment_details_usecase.dart';
 import '../widgets/widgets.dart';
 
@@ -16,6 +17,7 @@ class PayAccountsController extends GetxController {
   final RetrieveUserUsecase retrieveUserUsecase;
   final AddPayAccountUsecase addPayAccountUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
+  final DeletePayAccountUsecase deletePayAccountUsecase;
   final FetchUserPaymentDetailsUseCase fetchUserPaymentDetailsUseCase;
 
   PayAccountsController({
@@ -24,6 +26,7 @@ class PayAccountsController extends GetxController {
     required this.retrieveUserUsecase,
     required this.addPayAccountUsecase,
     required this.fetchCountriesUsecase,
+    required this.deletePayAccountUsecase,
     required this.fetchUserPaymentDetailsUseCase,
   });
 
@@ -106,6 +109,18 @@ class PayAccountsController extends GetxController {
         return success;
       },
     );
+  }
+
+  Future<void> deleteAccount(int id) async {
+    final result = await deletePayAccountUsecase(ObjectParams(id));
+    return result.fold((failure) {
+      THelperFunctions.showSnackBar(
+        title: 'Error',
+        message: failure.message,
+        bgColor: TColors.error,
+      );
+      return Future.error(failure.message);
+    }, (success) => success);
   }
 
   Future<List<UserPaymentDetail>> fetchUserPaymentDetails() async {

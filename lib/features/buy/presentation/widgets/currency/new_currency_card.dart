@@ -46,7 +46,7 @@ class NewCurrencyCard extends StatelessWidget {
           curve: Curves.easeInOut,
           child: Card(
             elevation: 4,
-            shadowColor: Colors.black.withOpacity(0.1),
+            shadowColor: Colors.black.withOpacity(0.3),
             margin: EdgeInsets.only(
               bottom: isSmallScreen ? 12 : 16,
               left: isSmallScreen ? 8 : 0,

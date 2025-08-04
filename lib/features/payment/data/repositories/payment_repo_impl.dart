@@ -86,4 +86,21 @@ class PaymentRepositoryImpl implements PaymentRepository {
       return Left(Failure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deletePayAccount(int id) async {
+    try {
+      await networkInfo.hasInternet();
+      final tokens = await authLocalDatabase.fetchTokens();
+      await remoteDatabase.deletePayAccount(id, tokens);
+      return const Right(null);
+    } catch (e) {
+      if (e is ServerException) {
+        return Left(ServerFailure(e.message));
+      } else if (e is BadRequestException) {
+        return Left(Failure(e.message));
+      }
+      return Left(Failure(e.toString()));
+    }
+  }
 }

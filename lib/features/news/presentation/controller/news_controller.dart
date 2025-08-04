@@ -1,4 +1,5 @@
 import '../../../../core/shared/helpers/helper_functions.dart';
+import '../../../../core/shared/usecase/open_share.dart';
 import '../../../../core/shared/usecase/usecase.dart';
 import '../../domain/entities/news.dart';
 import '../../domain/usecases/fetch_all_news_usecase.dart';
@@ -7,6 +8,7 @@ import '../widgets/widget.dart';
 
 class NewsController extends GetxController {
   final newsList = <News>[].obs;
+  final OpenShare openShareUsecase;
   final SearchNewsUsecase searchNewsUsecase;
   final FetchAllNewsUsecase fetchAllNewsUsecase;
   static NewsController get instance => Get.find();
@@ -20,6 +22,7 @@ class NewsController extends GetxController {
   final isInitialLoading = true.obs;
 
   NewsController({
+    required this.openShareUsecase,
     required this.searchNewsUsecase,
     required this.fetchAllNewsUsecase,
   });
@@ -30,12 +33,17 @@ class NewsController extends GetxController {
     fetchAll();
   }
 
+  Future<void> share() async {
+    final result = await openShareUsecase(ObjectParams(TTexts.shareText));
+    result.fold((failure) => failure.message, (success) => success);
+  }
+
   Future<void> fetchAll() async {
     if (_allNews.isNotEmpty) return; // Prevent multiple calls
-    
+
     isInitialLoading.value = true;
     final result = await fetchAllNewsUsecase(NoParams());
-    
+
     result.fold(
       (failure) {
         isInitialLoading.value = false;

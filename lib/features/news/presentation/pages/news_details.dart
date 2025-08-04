@@ -1,5 +1,6 @@
 import '../../../../core/shared/formatters/formatter.dart';
 import '../../domain/entities/news.dart';
+import '../controller/news_controller.dart';
 import '../widgets/widget.dart';
 
 class NewsDetails extends StatelessWidget {
@@ -40,22 +41,26 @@ class NewsDetails extends StatelessWidget {
                 ),
               ),
               actions: [
-                Container(
-                  margin: const EdgeInsets.all(TSizes.sm),
-                  decoration: BoxDecoration(
-                    color: TColors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.share,
-                      color: TColors.white,
-                      size: TSizes.iconMd,
-                    ),
-                    onPressed: () {
-                      // TODO: Implement share functionality
-                    },
-                  ),
+                GetBuilder<NewsController>(
+                  builder: (instance) {
+                    return Container(
+                      margin: const EdgeInsets.all(TSizes.sm),
+                      decoration: BoxDecoration(
+                        color: TColors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(
+                          TSizes.borderRadiusMd,
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.share,
+                          color: TColors.white,
+                          size: TSizes.iconMd,
+                        ),
+                        onPressed: () => instance.share(),
+                      ),
+                    );
+                  },
                 ),
               ],
               flexibleSpace: FlexibleSpaceBar(

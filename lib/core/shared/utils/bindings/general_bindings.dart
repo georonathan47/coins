@@ -78,6 +78,7 @@ class GeneralBindings extends Bindings {
       //? Onboarding Controller
       ..put(
         NewsController(
+          openShareUsecase: Get.find(),
           searchNewsUsecase: Get.find(),
           fetchAllNewsUsecase: Get.find(),
         ),
@@ -89,6 +90,7 @@ class GeneralBindings extends Bindings {
           retrieveUserUsecase: Get.find(),
           addPayAccountUsecase: Get.find(),
           fetchCountriesUsecase: Get.find(),
+          deletePayAccountUsecase: Get.find(),
           fetchUserPaymentDetailsUseCase: Get.find(),
         ),
       )

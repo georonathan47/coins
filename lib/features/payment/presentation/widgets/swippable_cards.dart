@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../homepage/presentation/widgets/widgets.dart';
 import '../../data/models/user_payment_details.dart';
 import 'widgets.dart';
 
@@ -42,7 +43,7 @@ class _SwippablePayAccountCardState extends State<SwippablePayAccountCard> {
           onPanUpdate: (details) {
             final deltaY = details.localPosition.dy - _lastPanY;
             // Detect downward swipe with minimum threshold
-            if (deltaY > 55) {
+            if (deltaY > 75) {
               _cycleToNext();
               _lastPanY = details
                   .localPosition
@@ -56,133 +57,129 @@ class _SwippablePayAccountCardState extends State<SwippablePayAccountCard> {
             margin: const EdgeInsets.symmetric(horizontal: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF5A7A8A), // Blue-gray top
-                  Color(0xFF8B9A5A), // Olive middle
-                  Color(0xFF2A2A2A), // Dark bottom
-                ],
-                stops: [0.0, 0.3, 1.0],
-              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
                   blurRadius: 10,
                   offset: const Offset(0, 5),
+                  color: Colors.black.withOpacity(0.3),
                 ),
               ],
             ),
-            child: Stack(
-              children: [
-                // Background pattern - curved lines
-                Positioned.fill(
-                  child: CustomPaint(painter: CardPatternPainter()),
-                ),
+            child: AnimatedGradientColoring(
+              endColor: TColors.accent,
+              startColor: TColors.primary,
+              child: Stack(
+                children: [
+                  // Background pattern - curved lines
+                  Positioned.fill(
+                    child: CustomPaint(painter: CardPatternPainter()),
+                  ),
 
-                // Card content
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Header with bank name and status indicator
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 32,
-                                height: 20,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    '≡≡≡',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
+                  // Card content
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header with bank name and status indicator
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 32,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      '≡≡≡',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                currentAccount.bankName,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                                const SizedBox(width: 12),
+                                Text(
+                                  currentAccount.bankName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 12,
-                            height: 12,
-                            decoration: const BoxDecoration(
-                              color: Colors.green,
-                              shape: BoxShape.circle,
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-
-                      const Spacer(),
-
-                      // Card number
-                      Text(
-                        _formatCardNumber(currentAccount.accountNumber),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: 2,
+                            Container(
+                              width: 12,
+                              height: 12,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: currentAccount.isActivated
+                                    ? Colors.green
+                                    : Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
 
-                      const SizedBox(height: 20),
+                        const Spacer(),
 
-                      // Cardholder name and logo
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            currentAccount.nameOnAccount,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
+                        // Card number
+                        Text(
+                          _formatCardNumber(currentAccount.accountNumber),
+                          style: const TextStyle(
+                            fontSize: 30,
+                            letterSpacing: 2,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Cardholder name and logo
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              currentAccount.nameOnAccount,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Image.asset(
-                                TImages.logoWhite,
-                                height: Get.height * 0.025,
-                              ),
-                              const SizedBox(width: 8),
-                              const Text(
-                                'eBitcoinics',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
+                            Row(
+                              children: [
+                                Image.asset(
+                                  TImages.logoWhite,
+                                  height: Get.height * 0.025,
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                                const SizedBox(width: 8),
+                                const Text(
+                                  'eBitcoinics',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
