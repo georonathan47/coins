@@ -54,10 +54,10 @@ class KycController extends GetxController {
     final result = await retrieveUserUsecase(NoParams());
     return result.fold((failure) => User.empty(), (success) {
       currentUser.value = success;
-      emailController.value.text = success.email!;
-      lnameController.value.text = success.lastname!;
-      fnameController.value.text = success.firstname!;
-      phoneController.value.text = success.phoneNumber!;
+      emailController.value.text = success.email ?? '';
+      lnameController.value.text = success.lastname ?? '';
+      fnameController.value.text = success.firstname ?? '';
+      phoneController.value.text = success.phoneNumber ?? '';
       update();
       return success;
     });

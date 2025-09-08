@@ -5,6 +5,7 @@ export 'package:flutter_svg/svg.dart';
 export 'package:flutter/services.dart';
 export 'package:get/get.dart';
 export 'package:iconsax/iconsax.dart';
+export 'package:intl_phone_field/intl_phone_field.dart';
 
 export '../../../../banner.dart';
 export '../../../../core/auth/domain/usecases/retrieve_user.dart';

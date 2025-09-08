@@ -81,18 +81,34 @@ class AddAccountForm extends StatelessWidget {
                 ),
               ),
               Obx(
-                () => TextFormField(
-                  controller: instance.accountNumberController,
-                  decoration: InputDecoration(
-                    labelText: instance.isBankAccount.value
-                        ? 'Account Number'
-                        : 'Mobile Number',
-                    border: OutlineInputBorder(),
-                    labelStyle: textTheme.bodyLarge?.copyWith(
-                      color: TColors.light,
-                    ),
-                  ),
-                ),
+                () => instance.isBankAccount.value
+                    ? TextFormField(
+                        controller: instance.accountNumberController,
+                        decoration: InputDecoration(
+                          labelText: instance.isBankAccount.value
+                              ? 'Account Number'
+                              : 'Mobile Number',
+                          border: OutlineInputBorder(),
+                          labelStyle: textTheme.bodyLarge?.copyWith(
+                            color: TColors.light,
+                          ),
+                        ),
+                      )
+                    : IntlPhoneField(
+                        initialCountryCode: 'GH',
+                        controller: instance.momoController,
+                        textInputAction: TextInputAction.done,
+                        validator: TValidator.validatePhoneNumber,
+                        decoration: const InputDecoration(
+                          filled: true,
+                          hintText: '024 *** ****',
+                          labelText: 'Phone Number',
+                        ),
+                        style: TextStyle(fontSize: 16),
+                        onChanged: (phone) {
+                          // Store phone number if needed
+                        },
+                      ),
               ),
               TextFormField(
                 controller: instance.accountNameController,
