@@ -1,0 +1,33 @@
+export 'package:get/get.dart';
+export 'package:getwidget/getwidget.dart';
+export 'package:flutter/material.dart';
+export 'package:iconsax/iconsax.dart';
+export 'package:lottie/lottie.dart';
+export 'package:chart_sparkline/chart_sparkline.dart';
+export 'package:cached_network_image/cached_network_image.dart';
+export 'package:flutter_svg/svg.dart';
+export 'package:intl_phone_field/intl_phone_field.dart';
+
+export '../../../../banner.dart';
+export '../../../../core/shared/constants/colors.dart';
+export '../../../../core/shared/constants/image_strings.dart';
+export '../../../../core/shared/constants/sizes.dart';
+export '../../../../core/shared/constants/svg_assets.dart';
+export '../../../../core/shared/data/routes.dart';
+export '../../../../core/shared/formatters/formatter.dart';
+export '../../../../core/shared/helpers/helper_functions.dart';
+export '../../../../core/shared/presentation/animations/animated_gradient_coloring.dart';
+export '../../../../core/shared/presentation/animations/shimmer.dart';
+export '../../../../core/shared/presentation/widgets/appbar/appbar.dart';
+export '../../../../core/shared/presentation/widgets/layouts/scrollable_widget.dart';
+export '../../../../core/shared/presentation/widgets/success_screen/error.dart';
+export '../../../../core/shared/utils/get_image_widget.dart';
+export '../../../../core/shared/validators/validation.dart';
+export '../../../../flavors.dart';
+export '../../domain/entities/gender.enum.dart';
+export '../controller/kyc_controller.dart';
+
+export 'doc_upload_form.dart';
+export 'instructions_widget.dart';
+export 'kyc_informatics.dart';
+export 'personal_details_form.dart';

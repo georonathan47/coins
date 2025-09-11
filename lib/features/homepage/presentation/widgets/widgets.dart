@@ -1,0 +1,34 @@
+export 'package:cached_network_image/cached_network_image.dart';
+export 'package:flutter/material.dart';
+export 'package:get/get.dart';
+export 'package:google_fonts/google_fonts.dart';
+export 'package:flutter/foundation.dart';
+export 'package:flutter/cupertino.dart' hide RefreshCallback;
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart'
+    hide IndexedWidgetBuilder;
+
+export '../../../buy/domain/entities/coin_data.dart';
+export '../../../buy/presentation/widgets/currency/currency_card.dart';
+export '../../../buy/presentation/widgets/currency/new_currency_card.dart';
+export '../../../buy/presentation/widgets/currency/currency_card_shimmer.dart';
+export '../../../news/presentation/pages/news_page.dart';
+export '/../../core/auth/presentation/widgets/widgets.dart';
+export '/../../core/shared/constants/colors.dart';
+export '/../../core/shared/data/currency_format.dart';
+export '/../../core/shared/data/routes.dart';
+export '/../../core/shared/formatters/formatter.dart';
+export '/../../core/shared/presentation/animations/animated_coloring.dart';
+export '/../../core/shared/presentation/animations/animated_gradient_coloring.dart';
+export '/../../core/shared/presentation/animations/foldable_buttons.dart';
+export '/../../core/shared/presentation/animations/shimmer.dart';
+export '../../data/models/data.dart';
+export '../controller/dashboard_controller.dart';
+export '../pages/dashboard.dart';
+export 'dashboard_body.dart';
+export 'dashboard/assets_tile.dart';
+export 'dashboard/action_buttons.dart';
+export 'dashboard/trending_assets.dart';
+export 'dashboard/portfolio_summary.dart';
+export 'trade_modal_sheet.dart';
+export 'trade_tile.dart';
