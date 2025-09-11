@@ -92,9 +92,63 @@ class PortfolioSummaryState extends State<PortfolioSummary> {
 
                           if (snapshot.hasError) {
                             return Center(
-                              child: Text(
-                                'Error loading portfolio',
-                                style: textTheme.bodyLarge,
+                              child: AnimatedCrossFade(
+                                duration: const Duration(milliseconds: 500),
+                                crossFadeState: value
+                                    ? CrossFadeState.showFirst
+                                    : CrossFadeState.showSecond,
+                                firstChild: RichText(
+                                  text: TextSpan(
+                                    text: '0',
+                                    style: GoogleFonts.raleway(
+                                      textStyle: textTheme.displaySmall!
+                                          .copyWith(
+                                            color: TColors.light,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: '.00 ',
+                                        style: GoogleFonts.raleway(
+                                          textStyle: textTheme.displaySmall!
+                                              .copyWith(
+                                                color: Colors.white54,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: 'GHS',
+                                        style: GoogleFonts.raleway(
+                                          textStyle: textTheme.bodyLarge!
+                                              .copyWith(
+                                                color: TColors.light,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                secondChild: RichText(
+                                  text: TextSpan(
+                                    text: '****',
+                                    style: textTheme.displaySmall!.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: '.**',
+                                        style: textTheme.displaySmall!.copyWith(
+                                          color: Colors.white54,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             );
                           }

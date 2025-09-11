@@ -3,6 +3,7 @@ import '../../../../features/homepage/presentation/widgets/widgets.dart';
 import '../../../../features/kyc/presentation/controller/kyc_controller.dart';
 import '../../../../features/news/presentation/controller/news_controller.dart';
 import '../../../../features/payment/presentation/controller/pay_accounts_controller.dart';
+import '../../../../features/profile/presentation/controller/profile_controller.dart';
 import '../../../../features/sell/presentation/controller/sell_controller.dart';
 import '../../../onboarding/presentation/controller/onboarding_controller.dart';
 
@@ -93,6 +94,13 @@ class GeneralBindings extends Bindings {
           activateAccountUsecase: Get.find(),
           deletePayAccountUsecase: Get.find(),
           fetchUserPaymentDetailsUseCase: Get.find(),
+        ),
+      )
+      ..put(
+        ProfileController(
+          openShareUsecase: Get.find(),
+          openImageCamera: Get.find(),
+          openImageGallery: Get.find(),
         ),
       )
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));

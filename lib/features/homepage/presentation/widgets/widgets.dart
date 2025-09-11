@@ -13,6 +13,7 @@ export '../../../buy/presentation/widgets/currency/currency_card.dart';
 export '../../../buy/presentation/widgets/currency/new_currency_card.dart';
 export '../../../buy/presentation/widgets/currency/currency_card_shimmer.dart';
 export '../../../news/presentation/pages/news_page.dart';
+export '../../../profile/presentation/pages/profile.dart';
 export '/../../core/auth/presentation/widgets/widgets.dart';
 export '/../../core/shared/constants/colors.dart';
 export '/../../core/shared/data/currency_format.dart';

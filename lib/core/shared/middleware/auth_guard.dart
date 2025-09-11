@@ -43,7 +43,8 @@ class AuthGuard {
         },
       );
     } else if (status == KycStatus.approved) {
-      Get.toNamed(Routers.kycSuccess);
+      // Get.toNamed(Routers.kycSuccess);
+      action();
     } else {
       showAdaptiveDialog(
         context: Get.context!,

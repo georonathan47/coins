@@ -1,5 +1,6 @@
 import 'package:upgrader/upgrader.dart';
 
+
 import '../widgets/widgets.dart';
 
 class Index extends StatefulWidget {
@@ -61,7 +62,7 @@ class IndexState extends State<Index> with AutomaticKeepAliveClientMixin {
                   Dashboard(),
                   Center(child: Text('Market')),
                   NewsPage(),
-                  Center(child: Text('Account')),
+                  ProfilePage(),
                 ],
               ),
               Positioned(
