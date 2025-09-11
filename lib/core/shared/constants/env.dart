@@ -82,4 +82,9 @@ abstract class Env {
   static const String fetchAllNewsUrl = _Env.fetchAllNewsUrl;
   @EnviedField(varName: 'SEARCH_NEWS')
   static const String searchNewsUrl = _Env.searchNewsUrl;
+  @EnviedField(varName: 'ADD_PAYMENT_DETAILS')
+  static const String addPayAccountUrl = _Env.addPayAccountUrl;
+  @EnviedField(varName: 'DELETE_PAYMENT_METHOD')
+  static const String deletePayAccountUrl = _Env.deletePayAccountUrl;
+
 }

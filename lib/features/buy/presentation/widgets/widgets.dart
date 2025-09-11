@@ -25,12 +25,13 @@ export '../../../../core/shared/validators/validation.dart';
 export '../../../../flavors.dart';
 export '../../../homepage/presentation/controller/dashboard_controller.dart';
 export '../../domain/entities/coin_data.dart';
+
 export '../controller/buy_controller.dart';
 export '../widgets/currency/currency_card.dart';
+export '../widgets/currency/new_currency_card.dart';
 export '../widgets/currency/currency_grid_card.dart';
 export '../widgets/currency/currency_card_shimmer.dart';
 export '../widgets/payment/payment_selection_body.dart';
-
 export 'buy/buy_body.dart';
 export 'history_body.dart';
 export 'history_card.dart';

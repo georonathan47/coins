@@ -55,7 +55,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
             .toSet()
             .toList();
         return countries;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchCountries',
           statusCode: result.statusCode!,
@@ -96,7 +96,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${coinData.length} listed currencies',
         );
         return coinData;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchListings',
           statusCode: result.statusCode!,
@@ -149,7 +149,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         throw NoResultException(
           'Buy/Sell rate with the provided parameters does not exist',
         );
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'calculateFees',
           statusCode: result.statusCode!,
@@ -192,7 +192,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${currencies.length} currencies for country $countryId',
         );
         return currencies;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchCurrencies',
           statusCode: result.statusCode!,
@@ -235,7 +235,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
               'Fetched ${coinData.length} tradable coins for country $countryId',
         );
         return coinData;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchTradableCoins',
           statusCode: result.statusCode!,
@@ -281,7 +281,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: result.bodyString!,
         );
         return createBuyOrderResponseFromJson(result.bodyString!);
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'createOrder',
           statusCode: result.statusCode!,
@@ -333,7 +333,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${modes.length} payment modes for country $country',
         );
         return modes;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchPaymentModes',
           statusCode: result.statusCode!,
@@ -380,7 +380,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${banks.length} banks',
         );
         return banks;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchBanks',
           statusCode: result.statusCode!,
@@ -434,7 +434,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${momo.length} momo networks',
         );
         return momo;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchMomoList',
           statusCode: result.statusCode!,
@@ -481,7 +481,7 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
           message: 'Fetched ${history.length} orders',
         );
         return history;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchBuyHistory',
           statusCode: result.statusCode!,

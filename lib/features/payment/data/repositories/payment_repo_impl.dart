@@ -5,6 +5,7 @@ import '../../../../core/shared/error/exception.dart';
 import '../../../../core/shared/error/failures.dart';
 import '../../../../core/shared/platform/network_info.dart';
 import '../../domain/entities/dash_portfolio.dart';
+import '../../domain/entities/pay_account.dart';
 import '../../domain/entities/payment_details.dart';
 import '../../domain/repositories/payment_repository.dart';
 import '../datasources/payment_remote_database.dart';
@@ -59,6 +60,40 @@ class PaymentRepositoryImpl implements PaymentRepository {
       final tokens = await authLocalDatabase.fetchTokens();
       final response = await remoteDatabase.fetchPaymentDetails(tokens);
       return Right(response);
+    } catch (e) {
+      if (e is ServerException) {
+        return Left(ServerFailure(e.message));
+      } else if (e is BadRequestException) {
+        return Left(Failure(e.message));
+      }
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PayAccount>> addPayAccount(PayAccount request) async{
+    try {
+      await networkInfo.hasInternet();
+      final tokens = await authLocalDatabase.fetchTokens();
+      final response = await remoteDatabase.addPayAccount(request, tokens);
+      return Right(response);
+    } catch (e) {
+      if (e is ServerException) {
+        return Left(ServerFailure(e.message));
+      } else if (e is BadRequestException) {
+        return Left(Failure(e.message));
+      }
+      return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deletePayAccount(int id) async {
+    try {
+      await networkInfo.hasInternet();
+      final tokens = await authLocalDatabase.fetchTokens();
+      await remoteDatabase.deletePayAccount(id, tokens);
+      return const Right(null);
     } catch (e) {
       if (e is ServerException) {
         return Left(ServerFailure(e.message));

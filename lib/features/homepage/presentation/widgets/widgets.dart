@@ -5,10 +5,12 @@ export 'package:google_fonts/google_fonts.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/cupertino.dart' hide RefreshCallback;
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
-export 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart' hide IndexedWidgetBuilder;
+export 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart'
+    hide IndexedWidgetBuilder;
 
 export '../../../buy/domain/entities/coin_data.dart';
 export '../../../buy/presentation/widgets/currency/currency_card.dart';
+export '../../../buy/presentation/widgets/currency/new_currency_card.dart';
 export '../../../buy/presentation/widgets/currency/currency_card_shimmer.dart';
 export '../../../news/presentation/pages/news_page.dart';
 export '/../../core/auth/presentation/widgets/widgets.dart';

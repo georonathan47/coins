@@ -46,9 +46,11 @@ class TValidator {
 
   static Future<String?> validatePhoneNumber(PhoneNumber? value) async {
     try {
-      final number = value!.number.replaceAll(' ', '').replaceAll('+', '');
-      final intNumber = int.tryParse(number);
-      if (intNumber!.abs() < 9) {
+      final number = (value?.number ?? '')
+          .replaceAll(' ', '')
+          .replaceAll('+', '');
+      final intNumber = int.tryParse(number) ?? 0;
+      if (intNumber.abs() < 9) {
         return 'Phone number is required.';
       }
 
@@ -289,12 +291,13 @@ class TValidator {
   static String? intlId(String? value) {
     const pattern = r'(^[a-zA-Z ]*$)';
     final regExp = RegExp(pattern);
-    if (regExp.hasMatch(value!) && value.trim().isNotEmpty) {
-      if (value.trim().length < 5) {
+    final safeValue = value ?? '';
+    if (regExp.hasMatch(safeValue) && safeValue.trim().isNotEmpty) {
+      if (safeValue.trim().length < 5) {
         return 'Invalid National ID Entered. ❌';
       }
       return null;
-    } else if (value.trim().isEmpty) {
+    } else if (safeValue.trim().isEmpty) {
       return 'National ID is required. ❌';
     }
     return null;

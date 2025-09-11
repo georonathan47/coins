@@ -43,7 +43,7 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
           message: result.bodyString!,
         );
         return result.bodyString!;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'setHash',
           statusCode: result.statusCode!,
@@ -91,7 +91,7 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
           message: result.bodyString!,
         );
         return result.bodyString!;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'setHash',
           statusCode: result.statusCode!,
@@ -148,7 +148,7 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
           message: result.bodyString!,
         );
         return sellOrderResponseFromJson(result.bodyString!);
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'createOrder',
           statusCode: result.statusCode!,
@@ -197,7 +197,7 @@ class SellRemoteDatabaseImpl implements SellRemoteDatabase {
           message: 'Fetched ${history.length} orders',
         );
         return history;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchBuyHistory',
           statusCode: result.statusCode!,

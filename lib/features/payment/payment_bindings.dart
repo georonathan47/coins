@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'data/datasources/payment_remote_database.dart';
 import 'data/repositories/payment_repo_impl.dart';
 import 'domain/repositories/payment_repository.dart';
+import 'domain/usecases/add_pay_account_usecase.dart';
+import 'domain/usecases/delete_account_usecase.dart';
 import 'domain/usecases/fetch_dash_portfolio_usecase.dart';
 import 'domain/usecases/get_payment_details_usecase.dart';
 import 'domain/usecases/user_payment_details_usecase.dart';
@@ -26,17 +28,10 @@ class PaymentBindings extends Bindings {
           authLocalDatabase: Get.find(),
         ),
       )
-      // ..lazyPut(() => FetchMomoUsecase(Get.find()))
-      // ..lazyPut(() => FetchBanksUsecase(Get.find()))
-      // ..lazyPut(() => CalculateFeeUsecase(Get.find()))
-      // ..lazyPut(() => FetchListingsUsecase(Get.find()))
-      // ..lazyPut(() => CreateBuyOrderUsecase(Get.find()))
-      // ..lazyPut(() => FetchCountriesUsecase(Get.find()))
-      // ..lazyPut(() => FetchCurrenciesUsecase(Get.find()))
-      // ..lazyPut(() => FetchPaymentModesUsecase(Get.find()))
+      ..lazyPut(() => AddPayAccountUsecase(Get.find()))
+      ..lazyPut(() => DeletePayAccountUsecase(Get.find()))
       ..lazyPut(() => GetPaymentDetailsUsecase(Get.find()))
       ..lazyPut(() => FetchDashPortfolioUsecase(Get.find()))
-      ..lazyPut(() => FetchUserPaymentDetailsUseCase(Get.find()))
-      ;
+      ..lazyPut(() => FetchUserPaymentDetailsUseCase(Get.find()));
   }
 }

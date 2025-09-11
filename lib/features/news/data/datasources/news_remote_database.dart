@@ -41,7 +41,7 @@ class NewsRemoteDatabaseImpl implements NewsRemoteDatabase {
           message: '${allNews.length} news items fetched!',
         );
         return allNews;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'fetchAll',
           statusCode: result.statusCode!,
@@ -77,7 +77,7 @@ class NewsRemoteDatabaseImpl implements NewsRemoteDatabase {
             .toSet()
             .toList();
         return search;
-      } else if (result.statusCode! == 401) {
+      } else if (result.statusCode! == 403) {
         TLoggerHelper.logRefreshAttempt(
           'search news',
           statusCode: result.statusCode!,

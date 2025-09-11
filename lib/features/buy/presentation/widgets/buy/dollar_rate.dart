@@ -14,7 +14,7 @@ class _DollarRateState extends State<DollarRate> {
   final isDark = Get.isDarkMode;
   final textTheme = Get.textTheme;
   final instance = BuyController.instance;
-  bool _isLoading = false;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class _DollarRateState extends State<DollarRate> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      if (_isLoading)
+                      if (isLoading)
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: SizedBox(
