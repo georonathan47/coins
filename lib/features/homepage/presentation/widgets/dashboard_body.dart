@@ -15,6 +15,8 @@ class _DashboardBodyState extends State<DashboardBody> {
   late Timer _timer;
   final textTheme = Get.textTheme;
   late ScrollController _scrollController;
+  late Future<List<CoinData>> listingsFuture;
+  late Future<List<CoinData>> tradablesFuture;
   final instance = DashboardController.instance;
 
   @override
@@ -23,6 +25,8 @@ class _DashboardBodyState extends State<DashboardBody> {
     instance.onInit();
     _scrollController = ScrollController();
     _startAutoScroll();
+    listingsFuture = instance.fetchListings();
+    tradablesFuture = instance.fetchTradables();
   }
 
   void _startAutoScroll() {
@@ -75,7 +79,7 @@ class _DashboardBodyState extends State<DashboardBody> {
         SizedBox(
           height: Get.height / 14,
           child: FutureBuilder(
-            future: instance.fetchListings(),
+            future: listingsFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return SingleChildScrollView(
@@ -148,7 +152,7 @@ class _DashboardBodyState extends State<DashboardBody> {
             },
           ),
         ),
-        const SizedBox(height: TSizes.spaceBtwItems),
+        const SizedBox(height: TSizes.spaceBtwItems / 4),
         Text(
           'Assets',
           style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
@@ -156,7 +160,7 @@ class _DashboardBodyState extends State<DashboardBody> {
         SizedBox(
           height: Get.height / 2.5,
           child: FutureBuilder(
-            future: instance.fetchTradables(),
+            future: tradablesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return ListView.builder(

@@ -98,9 +98,10 @@ class GeneralBindings extends Bindings {
       )
       ..put(
         ProfileController(
-          openShareUsecase: Get.find(),
           openImageCamera: Get.find(),
+          openShareUsecase: Get.find(),
           openImageGallery: Get.find(),
+          retrieveUserUsecase: Get.find(),
         ),
       )
       ..put(OnboardingController(saveOnboardingStatus: Get.find()));

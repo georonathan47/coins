@@ -11,7 +11,7 @@ class ProfileMenuList extends StatelessWidget {
           title: 'Personal Details',
           icon: Icons.person_outline,
           subtitle: 'Manage your personal information',
-          onTap: () {},
+          onTap: () => Get.toNamed(Routers.personalDetails),
         ),
         ProfileMenu(
           icon: Icons.security,
@@ -21,7 +21,7 @@ class ProfileMenuList extends StatelessWidget {
         ),
         ProfileMenu(
           icon: Icons.notifications_none,
-          title: 'Notification Preference Details',
+          title: 'Notification Preference',
           subtitle: 'Manage your notification preferences',
           onTap: () {},
         ),
