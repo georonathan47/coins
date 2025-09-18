@@ -88,5 +88,7 @@ abstract class Env {
   static const String activateAccountUrl = _Env.activateAccountUrl;
   @EnviedField(varName: 'DELETE_PAYMENT_METHOD')
   static const String deletePayAccountUrl = _Env.deletePayAccountUrl;
+  @EnviedField(varName: 'ALL_CURRENCIES')
+  static const String marketDataUrl = _Env.marketDataUrl;
 
 }

@@ -57,12 +57,12 @@ class Currency {
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
     id: json["id"],
-    currencyName: json["currencyName"],
+    note: json["note"],
     address: json["address"],
     buyStatus: json["buyStatus"],
-    sellStatus: json["sellStatus"],
     imageFile: json["imageFile"],
-    note: json["note"],
+    sellStatus: json["sellStatus"],
+    currencyName: json["currencyName"],
   );
 
   Map<String, dynamic> toJson() => {

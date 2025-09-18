@@ -7,6 +7,7 @@ import '../../../buy/domain/entities/country.dart';
 import '../../../buy/domain/usecases/fetch_countries_usecase.dart';
 import '../../../buy/domain/usecases/fetch_currencies_usecase.dart';
 import '../../../buy/domain/usecases/fetch_listings_usecase.dart';
+import '../../../buy/domain/usecases/fetch_market_data_usecase.dart';
 import '../../../buy/domain/usecases/fetch_tradable_usecase.dart';
 import '../../../buy/presentation/widgets/widgets.dart';
 import '../../../kyc/domain/usecases/check_status_usecase.dart';
@@ -25,6 +26,7 @@ class DashboardController extends GetxController {
   final CheckKycStatusUsecase checkKycStatusUsecase;
   final FetchCountriesUsecase fetchCountriesUsecase;
   final FetchCurrenciesUsecase fetchCurrenciesUsecase;
+  final FetchMarketDataUsecase fetchMarketDataUsecase;
   final FetchDashPortfolioUsecase fetchDashPortfolioUsecase;
   final FetchTradableCoinsUsecase fetchTradableCoinsUsecase;
 
@@ -36,6 +38,7 @@ class DashboardController extends GetxController {
     required this.checkKycStatusUsecase,
     required this.fetchCountriesUsecase,
     required this.fetchCurrenciesUsecase,
+    required this.fetchMarketDataUsecase,
     required this.fetchDashPortfolioUsecase,
     required this.fetchTradableCoinsUsecase,
   });
@@ -137,6 +140,18 @@ class DashboardController extends GetxController {
       (failure) => Future.error(failure.message),
       (success) => success,
     );
+  }
+
+  Future<List<CoinData>> fetchMarketData() async {
+    final result = await fetchMarketDataUsecase(NoParams());
+    return result.fold((failure) {
+      THelperFunctions.showSnackBar(
+        title: 'Error',
+        message: failure.message,
+        bgColor: TColors.error,
+      );
+      return Future.error(failure.message);
+    }, (success) => success);
   }
 
   Future<void> showListingInfo(CoinData currency) async {

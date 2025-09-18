@@ -2,8 +2,9 @@ import 'package:intl/intl.dart';
 
 class TFormatter {
   static String formatDate(DateTime date) {
-    return DateFormat('dd-MMM-yyyy')
-        .format(date); // Customize the date format as needed
+    return DateFormat(
+      'dd-MMM-yyyy',
+    ).format(date); // Customize the date format as needed
   }
 
   /// Formats date into year,month,day and time eg: September 4, 2021 11:00 am
@@ -17,13 +18,17 @@ class TFormatter {
   }
 
   static String formatCurrency(double amount) {
-    return NumberFormat.currency(locale: 'en_GH', symbol: 'GHS')
-        .format(amount); // Customize the currency locale and symbol as needed
+    return NumberFormat.currency(
+      locale: 'en_GH',
+      symbol: 'GHS ',
+    ).format(amount); // Customize the currency locale and symbol as needed
   }
 
   static String formatDollar(double amount) {
-    return NumberFormat.currency(locale: 'en_US', symbol: 'USD')
-        .format(amount); // Customize the currency locale and symbol as needed
+    return NumberFormat.currency(
+      locale: 'en_US',
+      symbol: 'USD ',
+    ).format(amount); // Customize the currency locale and symbol as needed
   }
 
   static String formatPhoneNumber(String phoneNumber) {
@@ -37,7 +42,7 @@ class TFormatter {
     return phoneNumber;
   }
 
-   static String formatDateString(String dateString) {
+  static String formatDateString(String dateString) {
     try {
       final date = DateTime.parse(dateString);
       return DateFormat('MMM dd, yyyy • HH:mm').format(date);

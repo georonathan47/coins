@@ -37,4 +37,7 @@ abstract class BuyRepository {
   Future<Either<Failure, CreateBuyOrderResponse>> createBuyOrder(
     CreateBuyOrder order,
   );
+
+  /// Fetch all currencies
+  Future<Either<Failure, List<CoinData>>> fetchMarketData();
 }

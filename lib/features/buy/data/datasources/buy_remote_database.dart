@@ -22,6 +22,7 @@ abstract class BuyRemoteDatabase {
   Future<List<Bank>> fetchMomoList(Map tokens);
   Future<List<Country>> fetchCountries(Map tokens);
   Future<List<CoinData>> fetchListings(Map tokens);
+  Future<List<CoinData>> fetchMarketData(Map tokens);
   Future<List<BuyHistoryModel>> fetchHistory(Map tokens);
   Future<List<Currency>> fetchCurrencies(int countryId, Map tokens);
   Future<List<CoinData>> fetchTradableCoins(int countryId, Map tokens);
@@ -505,6 +506,55 @@ class BuyRemoteDatabaseImpl implements BuyRemoteDatabase {
         method: 'fetchBuyHistory',
         eventName: 'Buy History',
         message: 'Error fetching buy history',
+      );
+      throw DeviceException('Unexpected Error!\nPlease try again later');
+    }
+  }
+
+  @override
+  Future<List<CoinData>> fetchMarketData(Map tokens) async {
+    try {
+      final result = await client.get(
+        Env.listingsUrl,
+        headers: {'Authorization': 'Bearer ${tokens['accessToken']}'},
+      );
+
+      if (result.statusCode! >= 200 && result.statusCode! < 300) {
+        final List<dynamic> responseData = result.body;
+        List<CoinData> marketData = responseData
+            .map((coin) => coinDataFromJson(jsonEncode(coin)))
+            .toList();
+        TLoggerHelper.logApiResult(
+          httpMethod: 'GET',
+          method: 'fetchMarketData',
+          code: result.statusCode!,
+          message: 'Fetched ${marketData.length} info',
+        );
+        return marketData;
+      } else if (result.statusCode! == 403) {
+        TLoggerHelper.logRefreshAttempt(
+          'fetchMarketData',
+          statusCode: result.statusCode!,
+        );
+        try {
+          final token = await authRemoteDatabase.refreshToken(tokens);
+          // Update the existing map instead of creating a new one
+          tokens['accessToken'] = token.accessToken;
+          tokens['refreshToken'] = token.refreshToken;
+          return fetchMarketData(tokens);
+        } catch (e) {
+          throw ServerException(result.statusText!);
+        }
+      } else {
+        throw ServerException(result.statusText!);
+      }
+    } catch (e, s) {
+      TLoggerHelper.logError(
+        error: e,
+        stackTrace: s,
+        method: 'fetchMarketData',
+        eventName: 'Market Data',
+        message: 'Error fetching market data',
       );
       throw DeviceException('Unexpected Error!\nPlease try again later');
     }

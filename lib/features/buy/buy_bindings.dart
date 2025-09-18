@@ -10,6 +10,7 @@ import 'domain/usecases/fetch_buy_history_usecase.dart';
 import 'domain/usecases/fetch_countries_usecase.dart';
 import 'domain/usecases/fetch_currencies_usecase.dart';
 import 'domain/usecases/fetch_listings_usecase.dart';
+import 'domain/usecases/fetch_market_data_usecase.dart';
 import 'domain/usecases/fetch_momo_list_usecase.dart';
 import 'domain/usecases/fetch_payment_modes_usecase.dart';
 import 'domain/usecases/fetch_tradable_usecase.dart';
@@ -45,6 +46,7 @@ class BuyBindings extends Bindings {
       ..lazyPut(() => FetchListingsUsecase(Get.find()))
       ..lazyPut(() => CreateBuyOrderUsecase(Get.find()))
       ..lazyPut(() => FetchCountriesUsecase(Get.find()))
+      ..lazyPut(() => FetchMarketDataUsecase(Get.find()))
       ..lazyPut(() => FetchBuyHistoryUsecase(Get.find()))
       ..lazyPut(() => FetchCurrenciesUsecase(Get.find()))
       ..lazyPut(() => FetchPaymentModesUsecase(Get.find()))
